@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Defensive Security Intro — TaldrynSec</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Taldryn<span>Sec</span></a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../fiches.html">Sheets</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Introduction to Cybersecurity</div>
+      <h1>Defensive Security Intro</h1>
+      <p>Threat Intelligence · SOC · DFIR · Malware Analysis · SIEM</p>
+    </div>
+
+    <!-- SOC -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Key Area</div>
+      <h2>Security Operations Center (SOC)</h2>
+      <p>A team of cybersecurity professionals that monitors the network and its systems to detect malicious events.</p>
+      <h3>Core Responsibilities</h3>
+      <ul>
+        <li><strong>Vulnerabilities</strong> — Discover and patch flaws before they are exploited (not always assigned to the SOC).</li>
+        <li><strong>Policy Violations</strong> — Detect actions that break security rules (e.g. uploading confidential data).</li>
+        <li><strong>Unauthorized Activity</strong> — Spot logins with stolen credentials or illegitimate access.</li>
+        <li><strong>Network Intrusions</strong> — Detect and block intrusions as fast as possible to limit damage.</li>
+      </ul>
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The SOC relies on a <strong>SIEM</strong> (Security Information and Event Management) to collect and aggregate logs from multiple sources and detect anomalies.</p>
+      </div>
+    </div>
+
+    <!-- THREAT INTEL -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Key Area</div>
+      <h2>Threat Intelligence</h2>
+      <p>Intelligence gathered about current and potential adversaries to help the company prepare its defenses.</p>
+      <h3>Intelligence Cycle</h3>
+      <ul>
+        <li><strong>Collect</strong> — Network logs, public sources, forums…</li>
+        <li><strong>Process</strong> — Structure the data into a usable format for analysis.</li>
+        <li><strong>Analyze</strong> — Identify the <em>threat actor</em> and predict their next moves.</li>
+        <li><strong>Recommend</strong> — Propose an adapted response strategy.</li>
+      </ul>
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Knowing the adversary's <strong>TTPs</strong> (Tactics, Techniques, and Procedures) allows you to anticipate attacks and adapt your defenses.</p>
+      </div>
+    </div>
+
+    <!-- DFIR -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Key Area</div>
+      <h2>Digital Forensics & Incident Response (DFIR)</h2>
+
+      <h3>Digital Forensics</h3>
+      <p>The application of science to investigate digital evidence related to a crime or attack.</p>
+      <ul>
+        <li><strong>File System</strong> — Analyze a disk image to find installed, created, deleted or encrypted files.</li>
+        <li><strong>System Memory</strong> — Dump RAM if the malware doesn't save itself to disk.</li>
+        <li><strong>System Logs</strong> — Logs reveal the history of events on the machine.</li>
+        <li><strong>Network Logs</strong> — Network packets show whether an attack is in progress.</li>
+      </ul>
+
+      <h3>Incident Response — 4 Phases</h3>
+      <div class="flow">
+        <div class="flow-step">1. Preparation</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Detection<br>& Analysis</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Containment<br>Eradication<br>& Recovery</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. Post-Incident<br>Activity</div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>It's a <strong>cycle</strong>: lessons learned (phase 4) feed back into preparation (phase 1) for future incidents.</p>
+      </div>
+    </div>
+
+    <!-- MALWARE -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — Key Area</div>
+      <h2>Malware Analysis</h2>
+      <p>The study of malicious software to understand how it works.</p>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Virus</div>
+          <div class="desc">Attaches to a program and spreads when executed. Can alter, delete or encrypt files.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Trojan Horse</div>
+          <div class="desc">Looks like a legitimate program but hides a malicious function underneath.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Ransomware</div>
+          <div class="desc">Encrypts the victim's files and demands a ransom to decrypt them.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Spyware</div>
+          <div class="desc">Silently monitors the user (keystrokes, screenshots…).</div>
+        </div>
+      </div>
+
+      <h3>Analysis Methods</h3>
+      <ul>
+        <li><strong>Static Analysis</strong> — Inspect the code without executing it (requires assembly knowledge).</li>
+        <li><strong>Dynamic Analysis</strong> — Run the malware in a controlled environment (sandbox) and observe its behavior.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it.</p>
+
+      <div class="quiz-item">
+        <div class="q">What do you call the team that monitors a network for malicious events?</div>
+        <div class="a hidden">Security Operations Center (SOC)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does DFIR stand for?</div>
+        <div class="a hidden">Digital Forensics and Incident Response</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which type of malware encrypts files and demands a ransom?</div>
+        <div class="a hidden">Ransomware</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the 4 phases of Incident Response?</div>
+        <div class="a hidden">Preparation → Detection & Analysis → Containment, Eradication & Recovery → Post-Incident Activity</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between static and dynamic malware analysis?</div>
+        <div class="a hidden">Static = inspect code without running it · Dynamic = run it in a sandbox</div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>TaldrynSec &copy; 2026 — Built with &#9749; and curiosity</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
