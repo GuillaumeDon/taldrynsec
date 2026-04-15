@@ -2,39 +2,18 @@
 
 Personal cybersecurity notes, resume, and blog.
 
-## Structure
+## How to add content
 
-```
-taldrynsec/
-├── index.html          ← Homepage
-├── notes.html          ← Notes listing (filterable by source + topic)
-├── resume.html         ← CV + Certifications
-├── blog.html           ← Blog listing
-├── .nojekyll           ← Required for GitHub Pages
-├── assets/
-│   ├── css/style.css   ← Global styles
-│   └── js/main.js      ← Global scripts + filter system
-├── notes/
-│   └── defensive-security.html
-├── blog/
-│   └── why-taldrynsec.html
-└── README.md
-```
+### New note:
+1. Create the HTML file in `notes/`
+2. Open `assets/js/main.js` and add an entry to the `NOTES` array
+3. `git add -A && git commit -m "New note: ..." && git push`
 
-## Adding content
+### New blog post:
+1. Create the HTML file in `blog/`
+2. Open `assets/js/main.js` and add an entry to the `BLOG_POSTS` array
+3. `git add -A && git commit -m "New post: ..." && git push`
 
-**New note:**
-1. Copy `notes/defensive-security.html` as template
-2. Add a card in `notes.html` with `data-source` and `data-topic` attributes
-3. Sources: `ynov`, `tryhackme`, `other`
-4. Topics: `blue-team`, `networking`, `linux`, `web-security`, `red-team`, `crypto`
-5. `git add . && git commit -m "New note: ..." && git push`
+That's it! The homepage, notes page, blog page, counters, and filters all update automatically.
 
-**New blog post:**
-1. Copy `blog/why-taldrynsec.html` as template
-2. Add a card in `blog.html`
-3. Push
-
-## Deploy
-
-Site is live at: https://guillaumedon.github.io/taldrynsec/
+## Site: https://guillaumedon.github.io/taldrynsec/

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,113 +7,32 @@
   <meta name="description" content="Revision notes, articles and cybersecurity resources by Taldryn.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body>
-
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">Taldryn<span>Sec</span></a>
-      <button class="nav-toggle" aria-label="Menu">☰</button>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="notes.html">Notes</a></li>
-        <li><a href="resume.html">Resume</a></li>
-        <li><a href="blog.html">Blog</a></li>
-      </ul>
-    </div>
-  </nav>
-
+  <nav class="nav"></nav>
   <main class="main">
-
     <section class="hero">
       <div class="hero-badge">↗ Learn · Document · Share</div>
       <h1>Welcome to<br><span class="accent">TaldrynSec</span></h1>
       <p>Cybersecurity notes from Ynov & TryHackMe, blog posts on infosec news, and my journey into the field.</p>
       <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="number">2</div>
-          <div class="label">Notes</div>
-        </div>
-        <div class="hero-stat">
-          <div class="number">1</div>
-          <div class="label">Posts</div>
-        </div>
-        <div class="hero-stat">
-          <div class="number">2026</div>
-          <div class="label">Launched</div>
-        </div>
+        <div class="hero-stat"><div class="number" id="stat-notes">0</div><div class="label">Notes</div></div>
+        <div class="hero-stat"><div class="number" id="stat-posts">0</div><div class="label">Posts</div></div>
+        <div class="hero-stat"><div class="number">2026</div><div class="label">Launched</div></div>
       </div>
     </section>
-
-    <!-- LATEST NOTES -->
     <section>
-      <div class="section-header">
-        <div class="overline">Latest notes</div>
-        <h2>Revision Notes</h2>
-      </div>
-      <div class="cards-grid">
-        <a href="notes/defensive-security.html" class="card" style="text-decoration:none;">
-          <div class="card-tag">TryHackMe — Intro</div>
-          <h3>Defensive Security Intro</h3>
-          <p>SOC, Threat Intelligence, DFIR, Malware Analysis — the fundamentals of defensive security.</p>
-          <div class="card-tags">
-            <span class="tag tag-source">TryHackMe</span>
-            <span class="tag tag-topic">Blue Team</span>
-          </div>
-          <div class="card-meta">
-            <span class="date">Apr 14, 2026</span>
-            <span class="arrow">→</span>
-          </div>
-        </a>
-
-        <a href="notes/offensive-security.html" class="card" style="text-decoration:none;" data-source="tryhackme"
-          data-topic="red-team">
-          <div class="card-tag">TryHackMe — Intro</div>
-          <h3>Offensive Security Intro</h3>
-          <p>Ethical hacking, GoBuster, career paths — the fundamentals of offensive security.</p>
-          <div class="card-tags">
-            <span class="tag tag-source">TryHackMe</span>
-            <span class="tag tag-topic">Red Team</span>
-          </div>
-          <div class="card-meta">
-            <span class="date">Apr 15, 2026</span>
-            <span class="arrow">→</span>
-          </div>
-        </a>
-      </div>
+      <div class="section-header"><div class="overline">Latest notes</div><h2>Revision Notes</h2></div>
+      <div class="cards-grid" id="home-notes-grid"></div>
     </section>
-
-    <!-- LATEST BLOG -->
     <section>
-      <div class="section-header">
-        <div class="overline">Blog</div>
-        <h2>Latest Posts</h2>
-      </div>
-      <div class="cards-grid">
-        <a href="blog/why-taldrynsec.html" class="card" style="text-decoration:none;">
-          <div class="card-tag">Personal</div>
-          <h3>Why I Created TaldrynSec</h3>
-          <p>The story behind this site, my cybersecurity journey and what you'll find here.</p>
-          <div class="card-meta">
-            <span class="date">Apr 14, 2026</span>
-            <span class="arrow">→</span>
-          </div>
-        </a>
-      </div>
+      <div class="section-header"><div class="overline">Blog</div><h2>Latest Posts</h2></div>
+      <div class="cards-grid" id="home-blog-grid"></div>
     </section>
-
   </main>
-
-  <footer class="site-footer">
-    <p>TaldrynSec &copy; 2026 — Built with &#9749; and curiosity</p>
-  </footer>
-
+  <footer class="site-footer"></footer>
   <script src="assets/js/main.js"></script>
 </body>
-
 </html>
