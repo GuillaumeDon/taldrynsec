@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offensive Security Intro — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Taldryn<span>Sec</span></a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../notes.html">Notes</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Introduction to Cyber Security</div>
+      <h1>Offensive Security Intro</h1>
+      <p>Hack your first website (legally) and experience an ethical hacker's job.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Red Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Big Picture</div>
+      <h2>What is Offensive Security?</h2>
+      <p><em>"To outsmart a hacker, you need to think like one."</em></p>
+      <p>This is the core of offensive security. It involves <strong>breaking into computer systems, exploiting software bugs, and finding loopholes in applications</strong> to gain unauthorized access. The goal is to understand hacker tactics and enhance our system defenses.</p>
+      <ul>
+        <li><strong>Offensive Security</strong> — The process where you simulate a hacker's actions to find vulnerabilities in a system.</li>
+        <li><strong>Defensive Security</strong> — The counterpart: investigating, monitoring, and responding to attacks.</li>
+      </ul>
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Offensive security is about <strong>finding and exploiting weaknesses before real attackers do</strong>. It's ethical because it's done with permission, in a legal and safe environment, to improve security.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Hands-On</div>
+      <h2>Hacking Your First Machine</h2>
+      <p>TryHackMe uses <strong>Virtual Machines (VMs)</strong> — simulated environments that serve as practical complements to lessons. In this room, you hack a fake bank application called <strong>FakeBank</strong>.</p>
+
+      <h3>The Scenario</h3>
+      <p>Most companies have admin portal pages giving staff access to basic admin controls (transfer money, manage client accounts). Due to human error or negligence, these pages are sometimes <strong>not made private</strong>, allowing attackers to find hidden pages that give access to admin controls or sensitive data.</p>
+
+      <h3>Step 1 — Open a Terminal</h3>
+      <p>A <strong>terminal</strong> (command line) lets you interact with a computer without using a graphical user interface. You'll use it to run GoBuster.</p>
+
+      <h3>Step 2 — Use GoBuster to Find Hidden Pages</h3>
+      <p><strong>GoBuster</strong> is a command-line application used to <strong>brute-force</strong> a website — it takes a list of potential page/directory names and tries accessing the website with each of them. If the page exists, it tells you.</p>
+
+      <p>The command used:</p>
+      <ul>
+        <li><code>gobuster -u http://fakebank.thm -w wordlist.txt dir</code></li>
+        <li><code>-u</code> — The target website URL to scan.</li>
+        <li><code>-w</code> — A wordlist: a text file containing a list of words to try as page names.</li>
+        <li><code>dir</code> — Directory/file brute-forcing mode.</li>
+      </ul>
+
+      <p>GoBuster scans the website with each word in the list and reports results with HTTP status codes:</p>
+      <ul>
+        <li><strong>Status 200</strong> — Page found and accessible.</li>
+        <li><strong>Status 301</strong> — Page found but redirects somewhere else.</li>
+      </ul>
+
+      <p>Results found:</p>
+      <ul>
+        <li><code>/images</code> (Status 301)</li>
+        <li><code>/bank-transfer</code> (Status 200) — this is the interesting one.</li>
+      </ul>
+
+      <h3>Step 3 — Hack the Bank</h3>
+      <p>The hidden page <code>/bank-transfer</code> is a secret page that allows <strong>transferring money between bank accounts</strong>. An attacker with this access could steal money from any account. As an ethical hacker, you find this vulnerability and report it to the bank so they fix it before a real attacker exploits it.</p>
+
+      <div class="flow">
+        <div class="flow-step">1. Open terminal</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Run GoBuster<br>with wordlist</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Discover<br>/bank-transfer</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. Access page<br>& transfer funds</div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>A hidden page is <strong>not a secure page</strong>. If it exists on the server, it can be found through brute-forcing. This is called <strong>security through obscurity</strong> — and it doesn't work. Real security requires proper access controls (authentication, authorization).</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Career Paths</div>
+      <h2>Careers in Cyber Security</h2>
+      <p>The advice: <strong>break it down, pick an area you're interested in, and practice regularly with hands-on exercises</strong>. Build a habit of learning a little bit each day.</p>
+
+      <h3>Offensive Security Roles</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Penetration Tester</div>
+          <div class="desc">Responsible for testing technology products for <strong>finding exploitable security vulnerabilities</strong>.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Red Teamer</div>
+          <div class="desc">Plays the role of an adversary, <strong>attacking an organization and providing feedback</strong> from an enemy's perspective.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Security Engineer</div>
+          <div class="desc">Designs, monitors, and maintains <strong>security controls, networks, and systems</strong> to help prevent cyberattacks.</div>
+        </div>
+      </div>
+
+      <h3>How to Start</h3>
+      <ul>
+        <li>Pick an area of cybersecurity you're interested in.</li>
+        <li>Practice regularly with hands-on exercises (TryHackMe, HackTheBox…).</li>
+        <li>Build a habit — a little bit every day adds up fast.</li>
+        <li>People come from all backgrounds (construction workers, music teachers, students). There's no single path in.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Consistency beats intensity.</strong> Practicing a little bit every day is more effective than cramming. The most important thing is to start and keep going.</p>
+      </div>
+    </div>
+
+    <!-- VOCABULARY -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Offensive Security</strong> — Simulating a hacker's actions to find vulnerabilities before attackers do.</li>
+        <li><strong>Ethical Hacking</strong> — Hacking with permission to improve security, not to cause harm.</li>
+        <li><strong>Red Team</strong> — The offensive team simulating real attacks on an organization.</li>
+        <li><strong>Blue Team</strong> — The defensive team detecting and responding to attacks.</li>
+        <li><strong>Penetration Testing</strong> — Authorized testing of systems for exploitable vulnerabilities.</li>
+        <li><strong>GoBuster</strong> — Command-line tool for brute-forcing website directories to discover hidden pages.</li>
+        <li><strong>Brute-Forcing</strong> — Trying many possibilities systematically until one works.</li>
+        <li><strong>Wordlist</strong> — A text file containing potential names to try during brute-forcing.</li>
+        <li><strong>HTTP Status 200</strong> — Page found and accessible.</li>
+        <li><strong>HTTP Status 301</strong> — Page found but redirects.</li>
+        <li><strong>Security through Obscurity</strong> — Relying on hiding something instead of properly securing it (bad practice).</li>
+        <li><strong>Virtual Machine (VM)</strong> — A simulated computer environment used for safe, practical exercises.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">Which process simulates a hacker's actions to find vulnerabilities?</div>
+        <div class="a hidden">Offensive Security</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What tool was used to find hidden pages on FakeBank?</div>
+        <div class="a hidden">GoBuster</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the -u flag do in the GoBuster command?</div>
+        <div class="a hidden">Specifies the target website URL to scan</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the -w flag do?</div>
+        <div class="a hidden">Specifies the wordlist file containing potential page names to try</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What HTTP status code means the page was found and is accessible?</div>
+        <div class="a hidden">200</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What hidden page did GoBuster discover on FakeBank?</div>
+        <div class="a hidden">/bank-transfer</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is "security through obscurity" a bad practice?</div>
+        <div class="a hidden">A hidden page is not a secure page — if it exists, it can be found. Real security requires proper access controls (authentication, authorization).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between a Pentester and a Red Teamer?</div>
+        <div class="a hidden">Pentester = tests products for specific vulnerabilities. Red Teamer = simulates a full real-world attack from an adversary's perspective.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What makes hacking "ethical"?</div>
+        <div class="a hidden">Done with authorization, in a legal environment, to improve security — not to cause harm.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What role designs and maintains security controls and systems?</div>
+        <div class="a hidden">Security Engineer</div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>TaldrynSec &copy; 2026 — Built with &#9749; and curiosity</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
