@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Networking? — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Network Fundamentals</div>
+      <h1>What is Networking?</h1>
+      <p>Begin learning the fundamentals of computer networking in this bite-sized and interactive module.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — WHAT IS NETWORKING -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Basics</div>
+      <h2>What is Networking?</h2>
+      <p>Networks are simply <strong>things connected</strong>. Your friendship circle is a network — people connected by shared interests. In computing, networking is the same idea applied to technological devices.</p>
+
+      <h3>Networks in Everyday Life</h3>
+      <ul>
+        <li>A city's public transportation system</li>
+        <li>The national power grid for electricity</li>
+        <li>Postal systems for sending letters and parcels</li>
+      </ul>
+
+      <p>In computing, a network can be formed by anywhere from <strong>2 devices to billions</strong>. These devices include everything from laptops and phones to security cameras, traffic lights, and even farming equipment.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>A <strong>network</strong> is the key term for devices connected together. Networks are so embedded in modern life that understanding them is essential for cybersecurity. They come in all shapes and sizes.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — WHAT IS THE INTERNET -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Big Network</div>
+      <h2>What is the Internet?</h2>
+      <p>The Internet is one <strong>giant network made up of many, many small networks within itself</strong>. Think of it as networks of networks all connected together.</p>
+
+      <h3>Brief History</h3>
+      <ul>
+        <li><strong>Late 1960s — ARPANET</strong> — The first iteration of the Internet. A project funded by the United States Defence Department and was the first documented network in action.</li>
+        <li><strong>1989 — World Wide Web (WWW)</strong> — Invented by <strong>Tim Berners-Lee</strong>. This is when the Internet started being used as a repository for storing and sharing information, just like it is today.</li>
+      </ul>
+
+      <h3>Private vs Public Networks</h3>
+      <ul>
+        <li><strong>Private network</strong> — A small network (e.g. your home, your company). Devices communicate internally.</li>
+        <li><strong>Public network</strong> — Networks connecting private networks together = the Internet.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The Internet is made up of many small <strong>private networks</strong> all joined together. The networks connecting those private networks are called <strong>public networks</strong> — or the Internet. Devices use labels to identify themselves on a network.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — IDENTIFYING DEVICES -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Identification</div>
+      <h2>Identifying Devices on a Network</h2>
+      <p>To communicate and maintain order, devices must be both <strong>identifying and identifiable</strong> on a network. Devices are similar to humans: we have fingerprints and names. Devices have two ways of being identified:</p>
+
+      <h3>IP Address</h3>
+      <p>An <strong>IP address</strong> (Internet Protocol address) can be used to identify a host on a network for a period of time. It's a set of numbers divided into <strong>four octets</strong>.</p>
+      <ul>
+        <li>Example: <code>192.168.1.1</code></li>
+        <li>Each octet ranges from <strong>0-255</strong></li>
+        <li>IP addresses can <strong>change</strong> from device to device (like changing your name) but are still an identity behind it</li>
+        <li>Devices can be on both a private and public network — depending on where, they have a <strong>public or private IP address</strong></li>
+      </ul>
+
+      <p><strong>Public IP addresses</strong> identify the device on the Internet, while <strong>private addresses</strong> identify devices amongst other local devices. Two devices on the same private network will share the same public IP address.</p>
+      <p>Public IP addresses are given by your <strong>Internet Service Provider (ISP)</strong> at a monthly cost.</p>
+
+      <h3>IPv4 vs IPv6</h3>
+      <ul>
+        <li><strong>IPv4</strong> — Current main addressing scheme. Uses a numbering system of 2^32 IP addresses (~4.29 billion). We're running out!</li>
+        <li><strong>IPv6</strong> — New iteration. Supports up to 2^128 addresses (340 trillion+). More efficient, resolves issues with IPv4.</li>
+      </ul>
+
+      <h3>MAC Address</h3>
+      <p>A <strong>MAC address</strong> (Media Access Control) is a <strong>twelve-character hexadecimal number</strong> unique to each device's physical network interface. It is set by the manufacturer and <strong>burned into the hardware</strong> — think of it like a serial number.</p>
+      <ul>
+        <li>Example: <code>a4:c3:f0:85:ac:2d</code></li>
+        <li>First 6 characters = <strong>vendor</strong> who made the network interface (e.g. Intel)</li>
+        <li>Last 6 characters = <strong>unique address</strong> of that specific interface</li>
+        <li>MAC addresses <strong>can be faked/spoofed</strong> — a process called <strong>spoofing</strong></li>
+      </ul>
+
+      <p>Spoofing occurs when a networked device pretends to identify as another by using its MAC address. This can break poorly implemented security designs that assume devices are trustworthy based on MAC address alone. If a device is pretending to "spoof" its MAC address, a firewall would incorrectly think it's receiving communication from the authorized device.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>IP address</strong> = logical address, can change, identifies a device on a network for a period of time. <strong>MAC address</strong> = physical address, burned into hardware, permanent (but can be spoofed). Both are needed to identify devices on a network.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — PING -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — First Tool</div>
+      <h2>Ping (ICMP)</h2>
+      <p><strong>Ping</strong> is one of the most fundamental network tools. It uses <strong>ICMP</strong> (Internet Control Message Protocol) packets to determine the performance of a connection between devices — for example, if the connection exists or is reliable.</p>
+
+      <h3>How Ping Works</h3>
+      <ul>
+        <li>Ping sends an <strong>ICMP echo packet</strong> to the target device</li>
+        <li>The target responds with an <strong>ICMP echo reply</strong></li>
+        <li>The time taken for this round trip is measured (in milliseconds)</li>
+      </ul>
+
+      <h3>Syntax</h3>
+      <ul>
+        <li><code>ping &lt;IP address or website URL&gt;</code></li>
+        <li>Example: <code>ping 192.168.1.254</code></li>
+        <li>Example: <code>ping 8.8.8.8</code> (Google's DNS)</li>
+      </ul>
+
+      <p>Ping is available on <strong>both Linux and Windows</strong>. It can be performed against devices on your home network or resources like websites.</p>
+
+      <h3>Reading Ping Output</h3>
+      <ul>
+        <li><strong>Bytes sent</strong> — Size of the ICMP packet (usually 56 or 64 bytes)</li>
+        <li><strong>icmp_seq</strong> — Sequence number of the packet</li>
+        <li><strong>ttl</strong> — Time to live (how many hops before the packet expires)</li>
+        <li><strong>time</strong> — Round trip time in milliseconds (lower = better)</li>
+        <li><strong>packet loss</strong> — 0% means all packets received (connection is reliable)</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Ping uses <strong>ICMP</strong> (not TCP or UDP). It's the simplest way to check if a device is reachable and how fast the connection is. Syntax: <code>ping &lt;target&gt;</code>. It's the first tool you'll use in any network troubleshooting scenario.</p>
+      </div>
+    </div>
+
+    <!-- VOCABULARY -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Network</strong> — Devices connected together.</li>
+        <li><strong>Internet</strong> — A giant network made up of many small networks connected together.</li>
+        <li><strong>ARPANET</strong> — The first documented network (late 1960s, US Defence Department).</li>
+        <li><strong>World Wide Web (WWW)</strong> — Invented by Tim Berners-Lee in 1989.</li>
+        <li><strong>Private Network</strong> — A local network (home, company).</li>
+        <li><strong>Public Network</strong> — Networks connecting private networks = the Internet.</li>
+        <li><strong>IP Address</strong> — Internet Protocol address. Logical address to identify a device on a network. Can change.</li>
+        <li><strong>IPv4</strong> — 4 octets (0-255), ~4.29 billion addresses. Running out.</li>
+        <li><strong>IPv6</strong> — 128-bit addresses, 340 trillion+ addresses. The future.</li>
+        <li><strong>ISP</strong> — Internet Service Provider. Assigns your public IP address.</li>
+        <li><strong>MAC Address</strong> — Media Access Control. 12-character hex number burned into hardware. Physical and (theoretically) permanent.</li>
+        <li><strong>Spoofing</strong> — Faking a MAC address to impersonate another device.</li>
+        <li><strong>Ping</strong> — Tool to test connectivity between devices.</li>
+        <li><strong>ICMP</strong> — Internet Control Message Protocol. Protocol used by ping.</li>
+        <li><strong>TTL</strong> — Time to Live. Number of hops before a packet expires.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the key term for devices connected together?</div>
+        <div class="a hidden">Network</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Who invented the World Wide Web?</div>
+        <div class="a hidden">Tim Berners-Lee</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between a private and public network?</div>
+        <div class="a hidden">Private = local network (home, company). Public = networks connecting private networks together (the Internet).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does IP stand for?</div>
+        <div class="a hidden">Internet Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many sections (octets) does an IPv4 address have?</div>
+        <div class="a hidden">4</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does MAC stand for?</div>
+        <div class="a hidden">Media Access Control</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between an IP address and a MAC address?</div>
+        <div class="a hidden">IP = logical, can change, identifies a device for a period of time. MAC = physical, burned into hardware, permanent (but can be spoofed).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is spoofing?</div>
+        <div class="a hidden">Faking a device's MAC address to impersonate another device on the network.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What protocol does ping use?</div>
+        <div class="a hidden">ICMP (Internet Control Message Protocol)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the syntax to ping 10.10.10.10?</div>
+        <div class="a hidden">ping 10.10.10.10</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is IPv6 needed?</div>
+        <div class="a hidden">IPv4 only supports ~4.29 billion addresses and we're running out. IPv6 supports 2^128 addresses (340 trillion+).</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -40,6 +40,15 @@ const NOTES = [
     topic: "careers",
     date: "Apr 15, 2026"
   },
+  {
+    slug: "what-is-networking",
+    title: "What is Networking?",
+    desc: "Networks, Internet, IP & MAC addresses, IPv4 vs IPv6, spoofing, and Ping (ICMP).",
+    tag: "TryHackMe — Network Fundamentals",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 15, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
