@@ -31,6 +31,15 @@ const NOTES = [
     topic: "red-team",
     date: "Apr 15, 2026"
   }
+  {
+    slug: "careers-in-cyber",
+    title: "Careers in Cyber",
+    desc: "The 7 cybersecurity roles: Security Analyst, Engineer, Incident Responder, Forensics, Malware Analyst, Pentester, Red Teamer.",
+    tag: "TryHackMe — Intro",
+    source: "tryhackme",
+    topic: "careers",
+    date: "Apr 15, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
