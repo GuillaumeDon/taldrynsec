@@ -26,57 +26,104 @@
 
   <main class="main">
     <div class="page-header">
-      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Introduction to Cybersecurity</div>
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Introduction to Cyber Security</div>
       <h1>Defensive Security Intro</h1>
       <p>Threat Intelligence · SOC · DFIR · Malware Analysis · SIEM</p>
-    </div>
-
-    <div class="fiche-section green">
-      <div class="fiche-num">01 — Key Area</div>
-      <h2>Security Operations Center (SOC)</h2>
-      <p>A team of cybersecurity professionals that monitors the network and its systems to detect malicious events.</p>
-      <h3>Core Responsibilities</h3>
-      <ul>
-        <li><strong>Vulnerabilities</strong> — Discover and patch flaws before they are exploited (not always assigned to the SOC).</li>
-        <li><strong>Policy Violations</strong> — Detect actions that break security rules (e.g. uploading confidential data).</li>
-        <li><strong>Unauthorized Activity</strong> — Spot logins with stolen credentials or illegitimate access.</li>
-        <li><strong>Network Intrusions</strong> — Detect and block intrusions as fast as possible to limit damage.</li>
-      </ul>
-      <div class="key-box">
-        <div class="lbl">Key Takeaway</div>
-        <p>The SOC relies on a <strong>SIEM</strong> (Security Information and Event Management) to collect and aggregate logs from multiple sources and detect anomalies.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
       </div>
     </div>
 
+    <!-- ============================================
+         TASK 1 — INTRODUCTION
+         ============================================ -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Big Picture</div>
+      <h2>What is Defensive Security?</h2>
+      <p>Offensive security is about breaking in. <strong>Defensive security is the opposite</strong> — it's about preventing intrusions from happening and detecting & responding to them when they do. Blue teams specialize in this.</p>
+
+      <h3>Core Tasks of Defensive Security</h3>
+      <ul>
+        <li><strong>User cyber security awareness</strong> — Training users to recognize threats targeting their systems (phishing, social engineering…).</li>
+        <li><strong>Documenting and managing assets</strong> — You can't protect what you don't know exists. Know your systems and devices.</li>
+        <li><strong>Updating and patching</strong> — Keep computers, servers, and network devices patched against known vulnerabilities.</li>
+        <li><strong>Preventative security devices</strong> — Set up <strong>firewalls</strong> (control what traffic goes in/out) and <strong>IPS</strong> (Intrusion Prevention Systems — block traffic matching attack signatures).</li>
+        <li><strong>Logging and monitoring</strong> — Proper network logging is essential to detect malicious activity and unauthorized devices.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Defensive security has two main goals: <strong>1) prevent intrusions</strong> and <strong>2) detect and respond</strong> when they happen. Everything else branches from these two.</p>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TASK 2 — SOC
+         ============================================ -->
     <div class="fiche-section blue">
       <div class="fiche-num">02 — Key Area</div>
-      <h2>Threat Intelligence</h2>
-      <p>Intelligence gathered about current and potential adversaries to help the company prepare its defenses.</p>
-      <h3>Intelligence Cycle</h3>
+      <h2>Security Operations Center (SOC)</h2>
+      <p>A team of cybersecurity professionals that <strong>monitors the network and its systems 24/7</strong> to detect malicious cyber security events.</p>
+
+      <h3>What a SOC Watches For</h3>
       <ul>
-        <li><strong>Collect</strong> — Network logs, public sources, forums…</li>
-        <li><strong>Process</strong> — Structure the data into a usable format for analysis.</li>
-        <li><strong>Analyze</strong> — Identify the <em>threat actor</em> and predict their next moves.</li>
-        <li><strong>Recommend</strong> — Propose an adapted response strategy.</li>
+        <li><strong>Vulnerabilities</strong> — Discovered when a system isn't updated. Must be fixed by installing the proper patch. Not always assigned to the SOC, but the SOC needs to know about them.</li>
+        <li><strong>Policy violations</strong> — Actions that break security rules. Example: uploading confidential company data to an online storage service.</li>
+        <li><strong>Unauthorized activity</strong> — Stolen login credentials used to access the network. The SOC must detect and block this.</li>
+        <li><strong>Network intrusions</strong> — An attacker gaining access to the network. The goal: detect and respond as fast as possible to limit damage.</li>
       </ul>
+
       <div class="key-box">
         <div class="lbl">Key Takeaway</div>
-        <p>Knowing the adversary's <strong>TTPs</strong> (Tactics, Techniques, and Procedures) allows you to anticipate attacks and adapt your defenses.</p>
+        <p>The SOC relies on a <strong>SIEM</strong> (Security Information and Event Management) — a tool that collects and aggregates logs from multiple sources across the network and uses rules to detect suspicious activity and trigger alerts.</p>
       </div>
     </div>
 
-    <div class="fiche-section pink">
+    <!-- ============================================
+         TASK 2 — THREAT INTELLIGENCE
+         ============================================ -->
+    <div class="fiche-section blue">
       <div class="fiche-num">03 — Key Area</div>
-      <h2>Digital Forensics & Incident Response (DFIR)</h2>
-      <h3>Digital Forensics</h3>
-      <p>The application of science to investigate digital evidence related to a crime or attack.</p>
+      <h2>Threat Intelligence</h2>
+      <p>Intelligence about actual and potential adversaries. The purpose: help the company achieve a <strong>threat-informed defense</strong>.</p>
+
+      <h3>How it Works</h3>
+      <p>Different adversaries have different motives: some want to steal data via a mobile operator, some want to halt production (refineries), some are nation-state cyber armies or ransomware groups acting for financial gain.</p>
       <ul>
-        <li><strong>File System</strong> — Analyze a disk image to find installed, created, deleted or encrypted files.</li>
-        <li><strong>System Memory</strong> — Dump RAM if the malware doesn't save itself to disk.</li>
-        <li><strong>System Logs</strong> — Logs reveal the history of events on the machine.</li>
-        <li><strong>Network Logs</strong> — Network packets show whether an attack is in progress.</li>
+        <li><strong>Collect</strong> — Data from network logs, public sources (forums, dark web…).</li>
+        <li><strong>Process</strong> — Organize raw data into a format suitable for analysis.</li>
+        <li><strong>Analyze</strong> — Identify the <em>threat actor</em> (adversary), their motives, and predict their actions.</li>
+        <li><strong>Recommend</strong> — Create actionable recommendations and a response strategy.</li>
       </ul>
-      <h3>Incident Response — 4 Phases</h3>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Learning the adversary's <strong>TTPs</strong> (Tactics, Techniques, and Procedures) lets you <strong>anticipate attacks</strong> instead of just reacting. Based on the company's threat landscape, you can expect certain types of adversaries.</p>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TASK 2 — DFIR
+         ============================================ -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">04 — Key Area</div>
+      <h2>Digital Forensics & Incident Response (DFIR)</h2>
+
+      <h3>Digital Forensics</h3>
+      <p>The application of science to investigate <strong>digital evidence</strong> — crimes, attacks, IP theft, cyber espionage, or unauthorized content.</p>
+      <ul>
+        <li><strong>File System</strong> — Analyze a low-level copy (image) of a system's storage. Reveals installed programs, created files, partially overwritten files, and deleted files.</li>
+        <li><strong>System Memory (RAM)</strong> — If the malware runs only in memory without saving to disk, you need a forensic image of the RAM to analyze it.</li>
+        <li><strong>System Logs</strong> — Each client and server maintains different log files about what happened on the system. Even if the attacker clears their traces, some logs will remain.</li>
+        <li><strong>Network Logs</strong> — Logs of network packets that have traversed a network help answer whether an attack is occurring and what it entails.</li>
+      </ul>
+
+      <h3>Incident Response</h3>
+      <p>A data breach or cyber attack can be anything: misconfiguration, intrusion attempt, policy violation, defacing a public website, or a data breach leaking company data. You need a <strong>methodology</strong> to handle it and reduce damage in the shortest time possible.</p>
+
+      <h3>The 4 Phases of Incident Response</h3>
       <div class="flow">
         <div class="flow-step">1. Preparation</div>
         <span class="flow-arrow">→</span>
@@ -86,46 +133,125 @@
         <span class="flow-arrow">→</span>
         <div class="flow-step">4. Post-Incident<br>Activity</div>
       </div>
+
+      <ul>
+        <li><strong>Preparation</strong> — Train the team, put measures in place to prevent incidents in the first place.</li>
+        <li><strong>Detection & Analysis</strong> — Have the resources to detect any incident. When detected, analyze severity and source.</li>
+        <li><strong>Containment, Eradication & Recovery</strong> — Stop the incident from spreading (e.g. isolate a virus-infected system), eliminate the threat, and recover affected systems.</li>
+        <li><strong>Post-Incident Activity</strong> — After successful recovery, produce a report and share lessons learned to prevent similar incidents in the future.</li>
+      </ul>
+
       <div class="key-box">
         <div class="lbl">Key Takeaway</div>
-        <p>It's a <strong>cycle</strong>: lessons learned (phase 4) feed back into preparation (phase 1) for future incidents.</p>
+        <p>It's a <strong>cycle</strong>, not a line: lessons learned in phase 4 feed back into better preparation in phase 1. Each incident makes your defenses stronger.</p>
       </div>
     </div>
 
+    <!-- ============================================
+         TASK 2 — MALWARE ANALYSIS
+         ============================================ -->
     <div class="fiche-section blue">
-      <div class="fiche-num">04 — Key Area</div>
+      <div class="fiche-num">05 — Key Area</div>
       <h2>Malware Analysis</h2>
-      <p>The study of malicious software to understand how it works.</p>
+      <p><strong>Malware</strong> = malicious software. Includes programs, documents, and files you can save on a disk or send over the network.</p>
+
+      <h3>Types of Malware</h3>
       <div class="mal-grid">
         <div class="mal-item">
           <div class="name">Virus</div>
-          <div class="desc">Attaches to a program and spreads when executed. Can alter, delete or encrypt files.</div>
+          <div class="desc">A piece of code that <strong>attaches itself to a program</strong>. Designed to spread from one computer to another by altering, overwriting, and deleting files.</div>
         </div>
         <div class="mal-item">
           <div class="name">Trojan Horse</div>
-          <div class="desc">Looks like a legitimate program but hides a malicious function underneath.</div>
+          <div class="desc">A program that <strong>looks like a desirable function but hides a malicious function</strong> underneath. Example: a victim downloads a video player from a shady website that gives the attacker control over their system.</div>
         </div>
         <div class="mal-item">
           <div class="name">Ransomware</div>
-          <div class="desc">Encrypts the victim's files and demands a ransom to decrypt them.</div>
-        </div>
-        <div class="mal-item">
-          <div class="name">Spyware</div>
-          <div class="desc">Silently monitors the user (keystrokes, screenshots…).</div>
+          <div class="desc"><strong>Encrypts the user's files</strong> and makes them unreadable without the decryption password. The attacker offers the password in exchange for payment ("ransom").</div>
         </div>
       </div>
+
       <h3>Analysis Methods</h3>
       <ul>
-        <li><strong>Static Analysis</strong> — Inspect the code without executing it (requires assembly knowledge).</li>
-        <li><strong>Dynamic Analysis</strong> — Run the malware in a controlled environment (sandbox) and observe its behavior.</li>
+        <li><strong>Static analysis</strong> — Inspect the malicious program <strong>without running it</strong>. Requires solid knowledge of assembly language (the processor's instruction set).</li>
+        <li><strong>Dynamic analysis</strong> — Run the malware in a <strong>controlled environment (sandbox)</strong> and monitor its activities. Lets you observe how it actually behaves when running.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Static = look at the code without executing. Dynamic = execute and observe. Both are complementary — static tells you what the code <em>can</em> do, dynamic tells you what it <em>does</em> do.</p>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TASK 3 — PRACTICAL EXAMPLE
+         ============================================ -->
+    <div class="fiche-section green">
+      <div class="fiche-num">06 — In Practice</div>
+      <h2>A Day as a SOC Analyst</h2>
+      <p>The room gives a practical scenario: you're a SOC analyst at a bank. Your SIEM collects security-related information from various sources and presents them in one dashboard. When something looks suspicious, an <strong>alert is generated</strong>.</p>
+
+      <h3>Types of Alerts You Might See</h3>
+      <ul>
+        <li><strong>Executed binary file</strong> — Someone ran a suspicious file (e.g. <code>image.jpg.exe</code> — double extension trick).</li>
+        <li><strong>Failed login attempts</strong> — A user with 5+ failed logins could mean brute force or a forgotten password.</li>
+        <li><strong>Login at unusual time</strong> — Someone logging in at 3AM when they normally work 9-5.</li>
+        <li><strong>Login from new location</strong> — An account accessed from an unexpected IP or country.</li>
+      </ul>
+
+      <h3>The Analyst's Job</h3>
+      <p><strong>Not all alerts are malicious.</strong> The analyst uses their expertise to investigate and determine which ones are real threats and which are false positives. Examples:</p>
+      <ul>
+        <li>Failed logins might just be a user who forgot their password.</li>
+        <li>Connections from unknown IPs could mean someone new is trying to connect — or unauthorized access.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>A SIEM generates alerts, but <strong>it takes a human analyst</strong> to triage them — distinguish real threats from noise, investigate context, and decide on the appropriate response. Judgment is what separates a good SOC analyst from an alert feed.</p>
+      </div>
+    </div>
+
+    <!-- ============================================
+         VOCAB RECAP
+         ============================================ -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms to Remember</h2>
+      <ul>
+        <li><strong>SOC</strong> — Security Operations Center: team monitoring for malicious events.</li>
+        <li><strong>SIEM</strong> — Security Information and Event Management: tool aggregating logs & generating alerts.</li>
+        <li><strong>IPS</strong> — Intrusion Prevention System: blocks traffic matching known attack signatures.</li>
+        <li><strong>Firewall</strong> — Controls what network traffic can enter and leave a network.</li>
+        <li><strong>DFIR</strong> — Digital Forensics and Incident Response.</li>
+        <li><strong>TTPs</strong> — Tactics, Techniques, and Procedures of an adversary.</li>
+        <li><strong>Threat Actor</strong> — The adversary (person or group) behind an attack.</li>
+        <li><strong>Sandbox</strong> — Controlled environment to safely run and analyze malware.</li>
+        <li><strong>Blue Team</strong> — The defensive security team (as opposed to Red Team = offensive).</li>
       </ul>
     </div>
 
+    <!-- ============================================
+         SELF-CHECK QUIZ
+         ============================================ -->
     <div class="quiz-section">
       <h2>Self-Check</h2>
-      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it.</p>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
       <div class="quiz-item">
-        <div class="q">What do you call the team that monitors a network for malicious events?</div>
+        <div class="q">Which team focuses on defensive security?</div>
+        <div class="a hidden">Blue Team</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the two main goals of defensive security?</div>
+        <div class="a hidden">1) Prevent intrusions 2) Detect and respond to intrusions</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does a SIEM do?</div>
+        <div class="a hidden">Collects and aggregates logs from multiple sources, uses rules to detect suspicious activity, and generates alerts</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What team monitors a network for malicious events?</div>
         <div class="a hidden">Security Operations Center (SOC)</div>
       </div>
       <div class="quiz-item">
@@ -133,16 +259,24 @@
         <div class="a hidden">Digital Forensics and Incident Response</div>
       </div>
       <div class="quiz-item">
-        <div class="q">Which type of malware encrypts files and demands a ransom?</div>
-        <div class="a hidden">Ransomware</div>
-      </div>
-      <div class="quiz-item">
-        <div class="q">What are the 4 phases of Incident Response?</div>
+        <div class="q">Name the 4 phases of Incident Response.</div>
         <div class="a hidden">Preparation → Detection & Analysis → Containment, Eradication & Recovery → Post-Incident Activity</div>
       </div>
       <div class="quiz-item">
-        <div class="q">What's the difference between static and dynamic malware analysis?</div>
-        <div class="a hidden">Static = inspect code without running it · Dynamic = run it in a sandbox</div>
+        <div class="q">What's the difference between a firewall and an IPS?</div>
+        <div class="a hidden">Firewall = controls what traffic goes in/out. IPS = blocks traffic matching known attack signatures.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which type of malware encrypts files and demands payment?</div>
+        <div class="a hidden">Ransomware</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Static vs Dynamic malware analysis?</div>
+        <div class="a hidden">Static = inspect code without running it (needs assembly knowledge). Dynamic = run it in a sandbox and observe behavior.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why can't a SIEM replace a human analyst?</div>
+        <div class="a hidden">A SIEM generates alerts, but not all alerts are real threats. It takes human judgment to triage, investigate context, and decide on the response.</div>
       </div>
     </div>
 
