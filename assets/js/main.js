@@ -30,7 +30,7 @@ const NOTES = [
     source: "tryhackme",
     topic: "red-team",
     date: "Apr 15, 2026"
-  }
+  },
   {
     slug: "careers-in-cyber",
     title: "Careers in Cyber",
