@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Taldryn<span>Sec</span></a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <h1>Notes</h1>
+      <p>All my revision notes from Ynov, TryHackMe, and other sources. Use the filters below to find what you need.</p>
+    </div>
+
+    <!-- FILTERS: SOURCE -->
+    <div class="filter-bar">
+      <div class="filter-label">Source</div>
+      <button class="filter-btn active" data-filter-type="source" data-filter="all">All</button>
+      <button class="filter-btn" data-filter-type="source" data-filter="ynov">Ynov</button>
+      <button class="filter-btn" data-filter-type="source" data-filter="tryhackme">TryHackMe</button>
+      <button class="filter-btn" data-filter-type="source" data-filter="other">Other</button>
+    </div>
+
+    <!-- FILTERS: TOPIC -->
+    <div class="filter-bar">
+      <div class="filter-label">Topic</div>
+      <button class="filter-btn active" data-filter-type="topic" data-filter="all">All</button>
+      <button class="filter-btn" data-filter-type="topic" data-filter="blue-team">Blue Team</button>
+      <button class="filter-btn" data-filter-type="topic" data-filter="networking">Networking</button>
+      <button class="filter-btn" data-filter-type="topic" data-filter="linux">Linux</button>
+      <button class="filter-btn" data-filter-type="topic" data-filter="web-security">Web Security</button>
+      <button class="filter-btn" data-filter-type="topic" data-filter="red-team">Red Team</button>
+      <button class="filter-btn" data-filter-type="topic" data-filter="crypto">Cryptography</button>
+    </div>
+
+    <!-- NOTES GRID -->
+    <div class="cards-grid">
+
+      <a href="notes/defensive-security.html" class="card" style="text-decoration:none;" data-source="tryhackme" data-topic="blue-team">
+        <div class="card-tag">TryHackMe — Intro</div>
+        <h3>Defensive Security Intro</h3>
+        <p>SOC, Threat Intelligence, DFIR, Malware Analysis — the fundamentals of defensive security.</p>
+        <div class="card-tags">
+          <span class="tag tag-source">TryHackMe</span>
+          <span class="tag tag-topic">Blue Team</span>
+        </div>
+        <div class="card-meta">
+          <span class="date">Apr 14, 2026</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <!-- 
+        ADD NEW NOTES HERE — copy this template:
+
+        <a href="notes/YOUR-NOTE.html" class="card" style="text-decoration:none;" data-source="ynov|tryhackme|other" data-topic="blue-team|networking|linux|web-security|red-team|crypto">
+          <div class="card-tag">SOURCE — MODULE</div>
+          <h3>Note Title</h3>
+          <p>Short description.</p>
+          <div class="card-tags">
+            <span class="tag tag-source">Source</span>
+            <span class="tag tag-topic">Topic</span>
+          </div>
+          <div class="card-meta">
+            <span class="date">Date</span>
+            <span class="arrow">→</span>
+          </div>
+        </a>
+      -->
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>TaldrynSec &copy; 2026 — Built with &#9749; and curiosity</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

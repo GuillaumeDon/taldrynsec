@@ -12,13 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
       links.classList.toggle('open');
       toggle.textContent = links.classList.contains('open') ? '✕' : '☰';
     });
-
-    // Close menu when clicking a link (mobile)
     links.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        links.classList.remove('open');
-        toggle.textContent = '☰';
-      });
+      a.addEventListener('click', () => { links.classList.remove('open'); toggle.textContent = '☰'; });
     });
   }
 
@@ -26,10 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
   document.querySelectorAll('.nav-links a').forEach(a => {
     const href = a.getAttribute('href').replace('../', '');
-    if (
-      path.endsWith(href) ||
-      (href === 'index.html' && (path.endsWith('/') || path.endsWith('index.html')))
-    ) {
+    if (path.endsWith(href) || (href === 'index.html' && (path.endsWith('/') || path.endsWith('index.html')))) {
       a.classList.add('active');
     }
   });
@@ -55,5 +47,35 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     ficheObserver.observe(el);
   });
+
+  // --- Notes filter system ---
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card[data-source][data-topic]');
+
+  if (filterBtns.length > 0 && cards.length > 0) {
+    let activeSource = 'all';
+    let activeTopic = 'all';
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterType = btn.dataset.filterType;
+        const filterValue = btn.dataset.filter;
+
+        // Toggle active state within same group
+        document.querySelectorAll(`.filter-btn[data-filter-type="${filterType}"]`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (filterType === 'source') activeSource = filterValue;
+        if (filterType === 'topic') activeTopic = filterValue;
+
+        // Filter cards
+        cards.forEach(card => {
+          const matchSource = activeSource === 'all' || card.dataset.source === activeSource;
+          const matchTopic = activeTopic === 'all' || card.dataset.topic === activeTopic;
+          card.style.display = (matchSource && matchTopic) ? '' : 'none';
+        });
+      });
+    });
+  }
 
 });

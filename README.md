@@ -1,89 +1,40 @@
 # TaldrynSec
 
-Personal cybersecurity revision sheets and blog.
+Personal cybersecurity notes, resume, and blog.
 
-## Project Structure
+## Structure
 
 ```
 taldrynsec/
-├── index.html                  ← Homepage
-├── fiches.html                 ← Sheets listing
-├── blog.html                   ← Blog listing
-├── about.html                  ← About / CV
+├── index.html          ← Homepage
+├── notes.html          ← Notes listing (filterable by source + topic)
+├── resume.html         ← CV + Certifications
+├── blog.html           ← Blog listing
+├── .nojekyll           ← Required for GitHub Pages
 ├── assets/
-│   ├── css/
-│   │   └── style.css           ← Global styles
-│   └── js/
-│       └── main.js             ← Global scripts
-├── fiches/
-│   └── defensive-security.html ← First revision sheet
+│   ├── css/style.css   ← Global styles
+│   └── js/main.js      ← Global scripts + filter system
+├── notes/
+│   └── defensive-security.html
 ├── blog/
-│   └── why-taldrynsec.html     ← First blog post
+│   └── why-taldrynsec.html
 └── README.md
 ```
 
-## Deploy to GitHub Pages
+## Adding content
 
-### 1. Create the GitHub repo
-
-1. Go to [github.com/new](https://github.com/new)
-2. Repo name: `taldrynsec` (or `yourusername.github.io` for a main site)
-3. Keep it **public**
-4. Do NOT check "Add a README" (we already have one)
-5. Click **Create repository**
-
-### 2. Push from VS Code
-
-Open a terminal in VS Code (`Ctrl+``) and run:
-
-```bash
-# Navigate to the project folder
-cd path/to/taldrynsec
-
-# Initialize git
-git init
-
-# Stage all files
-git add .
-
-# First commit
-git commit -m "Initial commit - TaldrynSec"
-
-# Connect to GitHub (replace YOURPSEUDO)
-git remote add origin https://github.com/YOURPSEUDO/taldrynsec.git
-
-# Push
-git branch -M main
-git push -u origin main
-```
-
-### 3. Enable GitHub Pages
-
-1. Go to your repo **Settings** on GitHub
-2. Sidebar → **Pages**
-3. Source: **Deploy from a branch**
-4. Branch: **main** / folder **/ (root)**
-5. Click **Save**
-
-Wait 1-2 minutes. Your site will be live at:
-**`https://YOURPSEUDO.github.io/taldrynsec/`**
-
-### 4. Adding content
-
-**New revision sheet:**
-1. Copy `fiches/defensive-security.html` as a template
-2. Edit the content
-3. Add a card in `fiches.html`
-4. Add a card in `index.html` (latest sheets section)
-5. `git add . && git commit -m "New sheet: ..." && git push`
+**New note:**
+1. Copy `notes/defensive-security.html` as template
+2. Add a card in `notes.html` with `data-source` and `data-topic` attributes
+3. Sources: `ynov`, `tryhackme`, `other`
+4. Topics: `blue-team`, `networking`, `linux`, `web-security`, `red-team`, `crypto`
+5. `git add . && git commit -m "New note: ..." && git push`
 
 **New blog post:**
-1. Copy `blog/why-taldrynsec.html` as a template
+1. Copy `blog/why-taldrynsec.html` as template
 2. Add a card in `blog.html`
 3. Push
 
-## Customize
+## Deploy
 
-- **about.html** → Replace placeholders (YOURPSEUDO, your@email.com, journey, skills)
-- **assets/css/style.css** → Edit colors in `:root` to change the theme
-- Update GitHub/THM/LinkedIn links in the About sidebar
+Site is live at: https://guillaumedon.github.io/taldrynsec/

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — TaldrynSec</title>
+  <title>Resume — TaldrynSec</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,41 +17,43 @@
       <button class="nav-toggle" aria-label="Menu">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="fiches.html">Sheets</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a href="resume.html">Resume</a></li>
         <li><a href="blog.html">Blog</a></li>
-        <li><a href="about.html">About</a></li>
       </ul>
     </div>
   </nav>
 
   <main class="main">
     <div class="page-header">
-      <h1>About</h1>
-      <p>The person behind TaldrynSec.</p>
+      <h1>Resume</h1>
+      <p>My background, skills, and certifications.</p>
     </div>
 
-    <div class="about-grid">
+    <div class="resume-grid">
 
-      <aside class="about-sidebar">
+      <!-- SIDEBAR -->
+      <aside class="resume-sidebar">
         <div class="avatar-placeholder">T</div>
         <h3>Taldryn</h3>
-        <p class="role">Cybersecurity Enthusiast</p>
+        <p class="role">Cybersecurity Student @ Ynov</p>
         <div class="links">
-          <a href="https://github.com/YOURPSEUDO" target="_blank">GitHub</a>
+          <a href="https://github.com/GuillaumeDon" target="_blank">GitHub</a>
           <a href="https://tryhackme.com/p/YOURPSEUDO" target="_blank">THM</a>
           <a href="https://linkedin.com/in/YOURPSEUDO" target="_blank">LinkedIn</a>
         </div>
       </aside>
 
-      <div class="about-content">
+      <!-- CONTENT -->
+      <div class="resume-content">
 
-        <h2>// Who am I</h2>
+        <h2>// About</h2>
         <p>
-          Hey! I'm Taldryn, a cybersecurity enthusiast. This website is my space to document what I learn, share revision sheets and write about topics that interest me in the infosec world.
+          Cybersecurity student at Ynov, passionate about defensive security, threat intelligence, and everything infosec. I built TaldrynSec to document my learning journey and share knowledge with the community.
         </p>
         <p>
-          <!-- Customize this paragraph with your real background -->
-          I mainly train on TryHackMe and HackTheBox alongside my studies. My goal: becoming a SOC analyst / pentester / [fill in yours].
+          <!-- Customize with your real story -->
+          Currently training on TryHackMe and HackTheBox alongside my studies. My goal: becoming a SOC analyst / pentester / [fill in yours].
         </p>
 
         <h2>// Skills</h2>
@@ -69,12 +71,17 @@
           <!-- Add / edit your skills -->
         </div>
 
-        <h2>// Journey</h2>
+        <h2>// Education & Experience</h2>
         <div class="timeline">
           <div class="timeline-item">
             <div class="period">2026 — Present</div>
-            <div class="title">Self-taught Cybersecurity</div>
-            <div class="desc">TryHackMe, HackTheBox, personal projects, building TaldrynSec.</div>
+            <div class="title">Ynov — Cybersecurity</div>
+            <div class="desc">Studying cybersecurity fundamentals: networking, system administration, offensive & defensive security.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="period">2026 — Present</div>
+            <div class="title">Self-taught — TryHackMe & HackTheBox</div>
+            <div class="desc">Hands-on labs, CTFs, and practical learning. Building TaldrynSec as a portfolio project.</div>
           </div>
           <div class="timeline-item">
             <div class="period">2025</div>
@@ -83,11 +90,36 @@
           </div>
         </div>
 
-        <h2>// Certifications & Goals</h2>
-        <p>
-          <!-- List your certs or goals -->
-          In progress: CompTIA Security+ / CEH / [fill in yours]
-        </p>
+        <h2>// Certifications</h2>
+        <div class="certs-grid">
+
+          <!-- EARNED CERTS — remove 'pending' class once obtained -->
+          <div class="cert-card pending">
+            <div class="cert-icon">🛡️</div>
+            <div class="cert-name">CompTIA Security+</div>
+            <div class="cert-issuer">CompTIA</div>
+            <div class="cert-date">Expected 2026</div>
+          </div>
+
+          <div class="cert-card pending">
+            <div class="cert-icon">🔍</div>
+            <div class="cert-name">CEH</div>
+            <div class="cert-issuer">EC-Council</div>
+            <div class="cert-date">Expected 2027</div>
+          </div>
+
+          <!--
+            ADD EARNED CERTS — copy this template:
+
+            <div class="cert-card">
+              <div class="cert-icon">🏆</div>
+              <div class="cert-name">Cert Name</div>
+              <div class="cert-issuer">Issuer</div>
+              <div class="cert-date">Obtained: Month 2026</div>
+            </div>
+          -->
+
+        </div>
 
         <h2>// Contact</h2>
         <p>
