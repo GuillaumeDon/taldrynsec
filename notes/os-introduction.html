@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating Systems: Introduction — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .os-stack { display:flex; flex-direction:column; gap:0; margin:1.2rem 0; max-width:360px; }
+    .os-layer {
+      display:flex; align-items:center; justify-content:center;
+      padding:0.7rem 1.2rem; border:1px solid var(--border);
+      font-family:var(--font-display); font-size:0.78rem; font-weight:700;
+      text-align:center; transition:transform 0.2s;
+    }
+    .os-layer:hover { transform:scale(1.03); }
+    .os-l1 { background:rgba(251,191,36,0.1); border-color:rgba(251,191,36,0.3); color:var(--accent4); border-radius:8px 8px 0 0; }
+    .os-l2 { background:rgba(0,180,216,0.1); border-color:rgba(0,180,216,0.3); color:var(--accent2); }
+    .os-l3 { background:rgba(0,229,160,0.1); border-color:rgba(0,229,160,0.3); color:var(--accent); }
+    .os-l4 { background:rgba(244,114,182,0.1); border-color:rgba(244,114,182,0.3); color:var(--accent3); border-radius:0 0 8px 8px; }
+    .os-label { font-size:0.58rem; color:var(--text-muted); text-align:center; margin-top:0.3rem; font-family:var(--font-display); letter-spacing:0.1em; text-transform:uppercase; }
+
+    .gui-cli { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .gui-cli { grid-template-columns:1fr; } }
+    .interface-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:1rem; }
+    .interface-box h4 { font-family:var(--font-display); font-size:0.8rem; margin-bottom:0.5rem; }
+    .interface-box p { font-size:0.75rem; color:var(--text-dim); }
+    .interface-box.gui-box { border-color:rgba(0,180,216,0.25); }
+    .interface-box.gui-box h4 { color:var(--accent2); }
+    .interface-box.cli-box { border-color:rgba(0,229,160,0.25); }
+    .interface-box.cli-box h4 { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Operating Systems Basics</div>
+      <h1>Operating Systems: Introduction</h1>
+      <p>Explore the basics of operating systems and the core features that power your computer.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Operating Systems</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Scenario</div>
+      <h2>Introduction</h2>
+      <p>Your friend just upgraded their computer and gave you their old machine. It's been sitting untouched for a while, and they can't remember much about it. Before you decide what to do with it, you need to figure out precisely what you're dealing with.</p>
+      <p>You turn on your phone or laptop every day, and everything just works: apps launch, files open, music plays. <strong>What makes all this possible?</strong> The invisible layer that ties it all together: the <strong>operating system</strong>, or <strong>OS</strong>.</p>
+
+      <h3>Learning Objectives</h3>
+      <ul>
+        <li>Understand what an OS is and the role it plays</li>
+        <li>Explain the core duties of an OS</li>
+        <li>Identify common OS types and their typical use cases</li>
+        <li>Practice interacting with an OS to gather system information</li>
+      </ul>
+    </div>
+
+    <!-- TASK 2 — THE INVISIBLE MANAGER -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — How an OS Works</div>
+      <h2>The Invisible Manager</h2>
+      <p>An <strong>operating system (OS)</strong> is the core software that coordinates everything happening on a computer. It sits between the user, applications, and the system's physical hardware, acting as the invisible manager that keeps the entire machine running as one unified system.</p>
+
+      <h3>The Computer Stack</h3>
+      <div class="os-stack">
+        <div class="os-layer os-l1">User</div>
+        <div class="os-layer os-l2">Applications</div>
+        <div class="os-layer os-l3">Operating System</div>
+        <div class="os-layer os-l4">Hardware</div>
+      </div>
+
+      <h3>The Airport Analogy</h3>
+      <ul>
+        <li>Your <strong>hardware</strong> (CPU, RAM, storage) = the runways, airplanes, fuel systems, radar, and other physical infrastructure</li>
+        <li>Your <strong>applications</strong> (web browser, game launcher) = the airlines and their passengers, all trying to take off, land, and request services</li>
+        <li>Your <strong>operating system</strong> (Windows, Linux, macOS) = the <strong>air traffic control system</strong>, directing all activity. It schedules resources, manages traffic, resolves conflicts, and ensures safety.</li>
+      </ul>
+      <p>Without an OS, each application would need direct control over the CPU, memory, files, devices, and security. This would quickly cause conflicts — the OS handles this by acting as the central organiser.</p>
+
+      <h3>System Privilege Layers</h3>
+      <ul>
+        <li><strong>Kernel space</strong> — The privileged, locked-down core of the OS. This is the kernel itself: it directly manages hardware and system resources. It has <strong>unrestricted access</strong> to CPU, memory, storage, and all hardware components.</li>
+        <li><strong>User space</strong> — Where all standard applications run. Applications here are <strong>deliberately prevented from accessing hardware directly</strong>. When they need to open a file, play a sound, or connect to Wi-Fi, they must make a <strong>system call</strong> and request the kernel to act on their behalf.</li>
+      </ul>
+      <p>In the airport analogy: the kernel is the <strong>control tower</strong> — a strictly secured area where only trusted air traffic controllers work. Applications in user space are like airlines on the ground. They can't enter the tower directly. Instead, they radio requests (system calls) to the tower, which handles them safely.</p>
+
+      <h3>OS Core Duties</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Process Management</div>
+          <div class="desc">Creates, schedules, prioritizes, and terminates programs. Decides how much CPU time each process gets — makes multitasking feel seamless.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Memory Management</div>
+          <div class="desc">Allocates RAM to processes, protects each app's memory from other processes, and reclaims memory when apps are closed. Uses <strong>virtual memory</strong> when RAM runs low.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">File System Management</div>
+          <div class="desc">Organizes files into directories, handles naming, paths, permissions, metadata (name, size, type, timestamps).</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">User Management</div>
+          <div class="desc">Handles multiple user accounts, authentication, and permissions to determine who can access what.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Device Management</div>
+          <div class="desc">Loads <strong>drivers</strong> and provides a universal interface (hardware abstraction layer), so apps can say "print this" without knowing the specific printer model.</div>
+        </div>
+      </div>
+
+      <h3>Operating System Security</h3>
+      <p>Every OS also acts as a <strong>security foundation</strong>. Before any antivirus, firewall, or security tool is introduced, the OS is already enforcing protections in the background:</p>
+      <ul>
+        <li><strong>Authentication</strong> — Verifies who you are through login passwords and biometrics.</li>
+        <li><strong>Permissions</strong> — Controls exactly what each user and app is allowed to read, write, or execute.</li>
+        <li><strong>Isolation</strong> — Keeps every process in its own protected box (kernel/user space separation).</li>
+        <li><strong>System Protection</strong> — Safeguards critical system files and settings from unauthorized changes.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The OS is the <strong>invisible manager</strong> between you and the hardware. <strong>Kernel space</strong> = control tower (full access, restricted). <strong>User space</strong> = ground (limited, must ask permission via system calls). Understanding this separation is crucial for cybersecurity.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — OS INTERACTION AND LANDSCAPE -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Types & Interfaces</div>
+      <h2>OS Interaction and Landscape</h2>
+
+      <h3>GUI vs CLI</h3>
+      <div class="gui-cli">
+        <div class="interface-box gui-box">
+          <h4>GUI — Graphical User Interface</h4>
+          <p>The visual part of the OS: windows, icons, menus. What you're most used to. Like using a <strong>navigation app</strong> — tap an icon, the app generates directions. Easy but less precise.</p>
+        </div>
+        <div class="interface-box cli-box">
+          <h4>CLI — Command-Line Interface</h4>
+          <p>Text-based: you type specific commands to control the system. Like entering the <strong>exact GPS coordinates</strong> of your destination. More precise, faster, more control — but requires knowing the commands.</p>
+        </div>
+      </div>
+      <p>Both GUI and CLI retrieve the same information — they're just different ways to interact. The GUI needs a few clicks for folder navigation; the CLI requires one command to list directory contents.</p>
+
+      <h3>The Operating System Landscape</h3>
+      <table style="width:100%;border-collapse:collapse;margin-top:0.8rem;font-size:0.75rem;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;text-transform:uppercase;">OS Type</th>
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;text-transform:uppercase;">Primary Use Case</th>
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;text-transform:uppercase;">Key Characteristics</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--text-dim);">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Desktop</td><td style="padding:0.5rem;">Personal computers, daily work, gaming</td><td style="padding:0.5rem;">Rich GUI, runs many apps at once, user-focused</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Server</td><td style="padding:0.5rem;">Web hosting, databases, cloud, back-end</td><td style="padding:0.5rem;">Headless (no GUI), maximum uptime, multi-user, remote access</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Mobile</td><td style="padding:0.5rem;">Smartphones and tablets</td><td style="padding:0.5rem;">Touch-based UI, power efficient, always connected</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Embedded</td><td style="padding:0.5rem;">Appliances, cars, IoT, routers</td><td style="padding:0.5rem;">Tiny footprint, runs on limited hardware</td></tr>
+          <tr><td style="padding:0.5rem;">Virtual / Cloud</td><td style="padding:0.5rem;">VMs, containers, cloud instances</td><td style="padding:0.5rem;">Lightweight, scalable, rapid deployment</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Real-World Operating Systems</h3>
+
+      <h4 style="color:var(--accent2);font-family:var(--font-display);font-size:0.78rem;margin-top:1rem;">Desktop</h4>
+      <ul>
+        <li><strong>Windows</strong> — Most widely used desktop OS. Versions: Windows 10 (end of life), Windows 11.</li>
+        <li><strong>macOS</strong> — Apple's desktop OS, known for polished GUI and integration with Apple devices. Versions: Sequoia, Sonoma.</li>
+        <li><strong>Linux</strong> — Not a single OS but a family of open-source systems called <strong>distributions</strong>. Examples: Ubuntu, Debian, Fedora.</li>
+      </ul>
+
+      <h4 style="color:var(--accent2);font-family:var(--font-display);font-size:0.78rem;margin-top:1rem;">Server</h4>
+      <ul>
+        <li><strong>Windows Server</strong> — Used in corporate environments. Versions: 2016, 2019, 2022, 2025.</li>
+        <li><strong>Linux</strong> — The vast majority of web servers. Distributions: Ubuntu Server, Debian, CentOS, Red Hat.</li>
+        <li><strong>Unix</strong> — Large enterprises, finance, telecom, government. Examples: IBM AIX, Oracle Solaris.</li>
+      </ul>
+
+      <h4 style="color:var(--accent2);font-family:var(--font-display);font-size:0.78rem;margin-top:1rem;">Mobile</h4>
+      <ul>
+        <li><strong>Android</strong> — Most widely used mobile OS. Runs on phones, tablets, smart devices.</li>
+        <li><strong>iOS</strong> — Apple's mobile OS for iPhones and iPads.</li>
+      </ul>
+
+      <h4 style="color:var(--accent2);font-family:var(--font-display);font-size:0.78rem;margin-top:1rem;">Embedded & IoT</h4>
+      <ul>
+        <li><strong>Embedded Linux</strong> — Specialized OS built into devices. Examples: OpenWrt, Ubuntu Core, Yocto Project.</li>
+        <li><strong>Real-Time OS</strong> — For apps needing guaranteed response times (aircraft controls). Examples: FreeRTOS, VxWorks, QNX.</li>
+      </ul>
+
+      <h4 style="color:var(--accent2);font-family:var(--font-display);font-size:0.78rem;margin-top:1rem;">Virtual & Cloud</h4>
+      <ul>
+        <li><strong>Cloud/VM</strong> — Massive data centers hosting websites, apps, streaming. Examples: Ubuntu LTS, Amazon Linux, Rocky Linux.</li>
+        <li><strong>Container-optimized</strong> — Lightweight alternatives to VMs. Examples: Alpine Linux, Bottlerocket AWS, Flatcar Linux.</li>
+      </ul>
+
+      <h3>Why So Many Operating Systems?</h3>
+      <p>Different devices require different capabilities. A laptop must be user-friendly; servers need stability and uptime; mobile devices need power efficiency; embedded systems use lightweight OS designed for a specialized purpose. <strong>No single OS is the perfect fit for every situation.</strong></p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>GUI</strong> = visual, easy, like using a nav app. <strong>CLI</strong> = text commands, precise, like entering GPS coordinates. Both access the same system — different interfaces, same power. And there are 5 major categories of OS: Desktop, Server, Mobile, Embedded, Virtual/Cloud.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — CONCLUSION -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — Recap</div>
+      <h2>Key Terminology</h2>
+      <ul>
+        <li><strong>Operating System (OS)</strong> — The core software that manages hardware, applications, and all system resources.</li>
+        <li><strong>Kernel space</strong> — The OS's highly privileged area with direct hardware access, home of the kernel which directly manages hardware and system resources.</li>
+        <li><strong>User space</strong> — The area where regular applications run with limited permissions for safety and system stability.</li>
+        <li><strong>GUI</strong> — Graphical User Interface. The visual part: windows, icons, menus. Interact through clicking and tapping.</li>
+        <li><strong>CLI</strong> — Command-Line Interface. A text-based interface where you type commands to control the system with precision and speed.</li>
+      </ul>
+      <p>Next rooms: <strong>Windows Basics</strong>, <strong>Linux CLI Basics</strong>, <strong>Windows CLI Basics</strong> — diving deeper into each OS.</p>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Operating System (OS)</strong> — Core software managing hardware, apps, and system resources.</li>
+        <li><strong>Kernel</strong> — The core of the OS with unrestricted hardware access.</li>
+        <li><strong>Kernel Space</strong> — Privileged area where the kernel runs. Like the control tower.</li>
+        <li><strong>User Space</strong> — Restricted area where applications run. Like the ground level.</li>
+        <li><strong>System Call</strong> — How apps in user space request services from the kernel.</li>
+        <li><strong>Process Management</strong> — OS duty: scheduling, prioritizing, and terminating programs.</li>
+        <li><strong>Memory Management</strong> — OS duty: allocating and protecting RAM for each process.</li>
+        <li><strong>Virtual Memory</strong> — Using disk space as extra RAM when physical RAM is full.</li>
+        <li><strong>File System Management</strong> — OS duty: organizing files, directories, permissions.</li>
+        <li><strong>User Management</strong> — OS duty: handling accounts, authentication, permissions.</li>
+        <li><strong>Device Management</strong> — OS duty: loading drivers, providing hardware abstraction.</li>
+        <li><strong>Driver</strong> — Software that lets the OS communicate with a specific hardware device.</li>
+        <li><strong>GUI</strong> — Graphical User Interface. Visual interaction (click, tap).</li>
+        <li><strong>CLI</strong> — Command-Line Interface. Text-based interaction (type commands).</li>
+        <li><strong>Authentication</strong> — Verifying user identity (passwords, biometrics).</li>
+        <li><strong>Permissions</strong> — Rules controlling what users/apps can read, write, or execute.</li>
+        <li><strong>Isolation</strong> — Keeping processes separated for security (kernel/user space).</li>
+        <li><strong>Distribution (distro)</strong> — A specific version/flavor of Linux (Ubuntu, Debian, Fedora).</li>
+        <li><strong>Real-Time OS</strong> — OS guaranteeing response times for critical systems.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is an operating system?</div>
+        <div class="a hidden">The core software that manages hardware, applications, and all system resources — the invisible manager between you and the hardware.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which OS space has unrestricted access to your computer's hardware?</div>
+        <div class="a hidden">Kernel space</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which OS responsibility manages user accounts, authentication, and permissions?</div>
+        <div class="a hidden">User Management</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">In the airport analogy, what is the kernel equivalent to?</div>
+        <div class="a hidden">The control tower — a strictly secured area where only trusted controllers work, directing all activity.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a system call?</div>
+        <div class="a hidden">How an application in user space requests the kernel to perform an action on its behalf (like opening a file or accessing hardware).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between GUI and CLI?</div>
+        <div class="a hidden">GUI = visual interface (windows, icons, clicking). CLI = text-based interface (typing commands). Both access the same system.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 core duties of an OS.</div>
+        <div class="a hidden">Process Management, Memory Management, File System Management, User Management, Device Management</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is virtual memory?</div>
+        <div class="a hidden">Using disk space as extra RAM when physical RAM is full — the OS allocates it to keep the system stable.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a driver?</div>
+        <div class="a hidden">Software that lets the OS communicate with a specific hardware device (printer, mouse, GPU, etc.).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 categories of operating systems.</div>
+        <div class="a hidden">Desktop, Server, Mobile, Embedded, Virtual/Cloud</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are 4 basic security protections an OS enforces?</div>
+        <div class="a hidden">Authentication, Permissions, Isolation (kernel/user space), System Protection</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a Linux distribution?</div>
+        <div class="a hidden">A specific version/flavor of Linux — Linux isn't one OS but a family. Examples: Ubuntu, Debian, Fedora, Red Hat.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is there no single "best" OS?</div>
+        <div class="a hidden">Different devices and environments require different capabilities. Laptops need user-friendliness, servers need uptime, mobile needs power efficiency, embedded needs tiny footprint.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

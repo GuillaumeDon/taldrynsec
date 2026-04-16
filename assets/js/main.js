@@ -112,6 +112,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "os-introduction",
+    title: "Operating Systems: Introduction",
+    desc: "What an OS is, kernel vs user space, the 5 core duties, GUI vs CLI, and the OS landscape (Desktop, Server, Mobile, Embedded, Cloud).",
+    tag: "TryHackMe — Operating Systems Basics",
+    source: "tryhackme",
+    topic: "os",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
