@@ -49,6 +49,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 15, 2026"
   },
+  {
+    slug: "inside-a-computer-system",
+    title: "Inside a Computer System",
+    desc: "Computer components (CPU, RAM, GPU, Motherboard...) and the 5-step boot process (UEFI, POST, bootloader).",
+    tag: "TryHackMe — Computer Fundamentals",
+    source: "tryhackme",
+    topic: "hardware",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

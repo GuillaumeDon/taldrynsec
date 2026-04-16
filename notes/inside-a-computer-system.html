@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inside a Computer System — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Computer Fundamentals</div>
+      <h1>Inside a Computer System</h1>
+      <p>The basic components of a computer system and what happens when you press the power button.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Hardware</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRODUCTION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Why This Matters</div>
+      <h2>Introduction</h2>
+      <p><em>Before protecting a castle, we need to know the layout of the castle: where the treasure room, the food storage, and the commander's quarters are. We also need to know who enters and how they enter the castle, and who can put or take treasure or food.</em></p>
+      <p>Before talking about security, we need to understand <strong>what we're securing</strong>. Trying to defend what you don't understand is like defending a castle you've never seen.</p>
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Understanding how a computer works — its components and how they boot — is the <strong>foundation</strong> of cybersecurity. The boot process in particular is often targeted by hackers.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — COMPONENTS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Building Blocks</div>
+      <h2>Inside a Computer System</h2>
+      <p>Nearly every computer system includes the same building blocks. Each part has its own job, and together they make the computer work. The room uses a <strong>human body analogy</strong> to explain each component.</p>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">CPU</div>
+          <div class="desc"><strong>The Brains.</strong> The Central Processing Unit executes instructions and does the thinking. Every operation passes through it.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Motherboard</div>
+          <div class="desc"><strong>The Skeleton and Nerves.</strong> Connects all components together and allows them to communicate. Everything plugs into it.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">RAM</div>
+          <div class="desc"><strong>Short-term Memory.</strong> Random Access Memory holds data the CPU is actively using. Fast but temporary — loses data when powered off.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">HDD / SSD</div>
+          <div class="desc"><strong>Long-term Memory.</strong> Hard Disk Drive / Solid State Drive store files, programs, and the operating system. Keep data when powered off.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">GPU</div>
+          <div class="desc"><strong>Visual Cortex.</strong> The Graphics Processing Unit handles rendering images, video, and 3D graphics. Critical for gaming and AI.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">PSU</div>
+          <div class="desc"><strong>Heart and Lungs.</strong> The Power Supply Unit delivers electricity to all components. Without it, nothing runs.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Memorize the analogy — it makes each component easy to remember. <strong>CPU = brain</strong>, <strong>RAM = short-term memory</strong>, <strong>HDD/SSD = long-term memory</strong>, <strong>Motherboard = skeleton</strong>, <strong>GPU = visual cortex</strong>, <strong>PSU = heart & lungs</strong>.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — BOOT PROCESS -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — The Boot Process</div>
+      <h2>What Happens When You Press the Start Button?</h2>
+      <p>Booting up a computer is like waking up in the morning — a quick check that everything is working before starting the day. The analogy continues from the previous task.</p>
+
+      <h3>The 5 Boot Steps</h3>
+      <div class="flow">
+        <div class="flow-step">1. Press Power<br>Button</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Firmware<br>Starts</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. POST</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. Select Boot<br>Device</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">5. Start<br>Bootloader</div>
+      </div>
+
+      <h3>Step 1 — Press the Power Button</h3>
+      <p>When you press the power button, a signal is sent to the <strong>PSU</strong> to allow power to flow. Like the body receiving oxygen when we wake up.</p>
+
+      <h3>Step 2 — Firmware Starts</h3>
+      <p>Core components are up and running, but the "brain" isn't yet conscious. A computer contains firmware that allows its components to start up. The central system managing this is the <strong>UEFI</strong> (Unified Extensible Firmware Interface).</p>
+      <ul>
+        <li><strong>UEFI</strong> — Modern firmware interface.</li>
+        <li><strong>BIOS</strong> — Basic Input/Output System. Old term still mentioned, but mostly replaced by UEFI. Does the same job.</li>
+      </ul>
+
+      <h3>Step 3 — POST (Power-On Self Test)</h3>
+      <p>UEFI runs the <strong>POST</strong>: a test that every required component is present, configured correctly, and functioning. If something is wrong, alarm signals (beeps) are triggered. Like the body checking if everything works before getting out of bed.</p>
+
+      <h3>Step 4 — Select Boot Device</h3>
+      <p>The system searches for the boot routine location. The <strong>UEFI holds an ordered list</strong> prioritizing which device to look at first for the boot routine for the Operating System.</p>
+
+      <h3>Step 5 — Initiate Bootloader</h3>
+      <p>On the selected boot device, the <strong>bootloader</strong> is initiated. The bootloader transfers the Operating System from the boot device to the <strong>RAM</strong>. Once the OS is loaded, the UEFI hands control over to the OS.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The boot process is a <strong>security-critical phase</strong> often targeted by hackers (bootkits, rootkits). Understanding it is essential for defense. Remember the order: <strong>Power → Firmware (UEFI) → POST → Boot Device → Bootloader → OS</strong>.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — CONCLUSION -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — Conclusion</div>
+      <h2>Why It All Matters</h2>
+      <p>We've covered the core components of a computer system and how it boots up. When learning cybersecurity concepts later on, you'll often need to <strong>recall the function of each component and how they interact</strong>.</p>
+      <p>The <strong>boot process</strong> is a very important concept — it's sometimes targeted by hackers (e.g. UEFI/BIOS rootkits, bootkit malware, Evil Maid attacks). Next room: <em>Computer Types</em> — different combinations and specializations of these components create diverse computer systems.</p>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>CPU</strong> — Central Processing Unit. The brain of the computer.</li>
+        <li><strong>Motherboard</strong> — The board connecting all components together.</li>
+        <li><strong>RAM</strong> — Random Access Memory. Fast, volatile, short-term memory.</li>
+        <li><strong>HDD</strong> — Hard Disk Drive. Long-term storage using spinning platters.</li>
+        <li><strong>SSD</strong> — Solid State Drive. Long-term storage using flash memory (faster than HDD).</li>
+        <li><strong>GPU</strong> — Graphics Processing Unit. Handles visual rendering.</li>
+        <li><strong>PSU</strong> — Power Supply Unit. Delivers electricity to components.</li>
+        <li><strong>Firmware</strong> — Low-level software that lets hardware components start up.</li>
+        <li><strong>UEFI</strong> — Unified Extensible Firmware Interface. Modern firmware managing the boot process.</li>
+        <li><strong>BIOS</strong> — Basic Input/Output System. Older term, largely replaced by UEFI.</li>
+        <li><strong>POST</strong> — Power-On Self Test. Verifies all components are working at boot.</li>
+        <li><strong>Bootloader</strong> — Small program that loads the OS from the boot device into RAM.</li>
+        <li><strong>OS</strong> — Operating System. Software that manages the computer (Windows, Linux, macOS).</li>
+        <li><strong>Boot Device</strong> — The storage device containing the OS (usually SSD or HDD).</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">Which component is "the brain" of the computer?</div>
+        <div class="a hidden">CPU (Central Processing Unit)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between RAM and HDD/SSD?</div>
+        <div class="a hidden">RAM = short-term, fast, volatile (loses data when powered off). HDD/SSD = long-term, slower, keeps data when powered off.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which component connects all others together?</div>
+        <div class="a hidden">Motherboard (the "skeleton and nerves")</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does PSU stand for and what does it do?</div>
+        <div class="a hidden">Power Supply Unit — delivers electricity to all components (the "heart and lungs")</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does UEFI stand for?</div>
+        <div class="a hidden">Unified Extensible Firmware Interface</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is BIOS and how does it relate to UEFI?</div>
+        <div class="a hidden">Basic Input/Output System. Older firmware term, does the same job as UEFI but has mostly been replaced by it.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does POST stand for and what's its purpose?</div>
+        <div class="a hidden">Power-On Self Test. Checks every required component is present, configured correctly, and functioning.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 boot steps in order.</div>
+        <div class="a hidden">1) Press Power Button → 2) Firmware Starts (UEFI) → 3) POST → 4) Select Boot Device → 5) Initiate Bootloader</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the bootloader do?</div>
+        <div class="a hidden">Transfers the Operating System from the boot device into RAM, then UEFI hands control to the OS.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is the boot process important for cybersecurity?</div>
+        <div class="a hidden">It's often targeted by hackers via bootkits, UEFI/BIOS rootkits, and similar attacks that run before the OS (making them very hard to detect).</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
