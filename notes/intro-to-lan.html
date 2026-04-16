@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intro to LAN — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Network Fundamentals</div>
+      <h1>Intro to LAN</h1>
+      <p>Technologies and designs that power private networks — topologies, subnetting, ARP, DHCP.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — TOPOLOGIES -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — How Networks are Shaped</div>
+      <h2>LAN Topologies</h2>
+      <p>A <strong>topology</strong> is the design or look of the network at hand. Each topology has its own advantages and disadvantages.</p>
+
+      <h3>Star Topology</h3>
+      <p>Devices are individually connected to a central networking device such as a <strong>switch or hub</strong>. <strong>Most commonly used today</strong> because of its reliability and scalability — simple the cost.</p>
+      <ul>
+        <li><strong>Pros</strong>: Easy to troubleshoot, any malfunctioning device doesn't affect the rest. Easy to add new devices.</li>
+        <li><strong>Cons</strong>: The more devices added, the harder maintenance becomes. Costs can rise due to extra equipment (cables, switches).</li>
+      </ul>
+
+      <h3>Bus Topology</h3>
+      <p>All devices share a <strong>single connection</strong> (a "backbone cable"). Similar to the leaf of a tree.</p>
+      <ul>
+        <li><strong>Pros</strong>: Cheap and easy to implement — requires less cable.</li>
+        <li><strong>Cons</strong>: Very difficult to troubleshoot. Data collisions are frequent (all devices use the same cable). If the backbone cable breaks, <strong>no device can transmit data</strong>.</li>
+      </ul>
+
+      <h3>Ring Topology</h3>
+      <p>Also known as "token topology". Devices are connected to each other in a <strong>loop</strong> — each device has exactly two neighbors.</p>
+      <ul>
+        <li><strong>Pros</strong>: Less strain on the network as data travels in one direction. Dedicated connections between each device.</li>
+        <li><strong>Cons</strong>: Not efficient (data can make a whole trip around the ring before arriving). If one cable or device fails, the whole network is affected (single point of failure).</li>
+      </ul>
+
+      <h3>Switch vs Router</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Switch</div>
+          <div class="desc"><strong>Connects devices within the same network.</strong> Keeps a record of MAC addresses of devices. Instead of sending packets to every port, only sends to the device it's intended for. More efficient than a hub.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Router</div>
+          <div class="desc"><strong>Connects different networks together.</strong> Its job is routing — finding the best path for data travelling across networks to reach its destination. Makes multiple networks successfully delivered.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Switch</strong> = within a network. <strong>Router</strong> = between networks. Star topology is the most common today. Bus is cheap but fragile. Ring has single points of failure.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — SUBNETTING -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Dividing Networks</div>
+      <h2>A Primer on Subnetting</h2>
+      <p><strong>Subnetting</strong> is the process of splitting up a network into smaller, miniature networks. Think of it like slicing a cake — one cake, but everyone wants a piece.</p>
+
+      <h3>Why Subnet?</h3>
+      <p>In a business, different departments need to talk to each other but also have specific network slices reserved for their own purposes (Accounting, Finance, Human Resources…).</p>
+      <ul>
+        <li><strong>Efficiency</strong> — Fewer devices per subnet = less congestion.</li>
+        <li><strong>Security</strong> — Isolate sensitive departments.</li>
+        <li><strong>Full control</strong> — Better management of network traffic.</li>
+      </ul>
+
+      <h3>The Subnet Mask</h3>
+      <p>Subnetting is achieved by splitting up the number of hosts that can fit within the network, represented by a number called a <strong>subnet mask</strong>.</p>
+      <ul>
+        <li>An IP address is 4 octets (<strong>32 bits</strong>), each octet from 0 to 255</li>
+        <li>A subnet mask is also 4 octets (32 bits)</li>
+        <li>Each octet has <strong>8 bits</strong> (0-255)</li>
+      </ul>
+
+      <h3>Three Types of Addresses</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Network Address</div>
+          <div class="desc">Identifies the <strong>start of the actual network</strong>. Used to identify a network's existence. Example: <code>192.168.1.0</code></div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Host Address</div>
+          <div class="desc">Used to <strong>identify a device on the subnet</strong>. Example: <code>192.168.1.100</code></div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Default Gateway</div>
+          <div class="desc">Special address assigned to a device on the network <strong>capable of sending information to another network</strong>. Data must go to this address to leave the subnet. Usually <strong>.1 or .254</strong> of the network.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Subnetting divides a network into smaller parts for efficiency, security, and control. Remember the three address types: <strong>Network</strong> (start), <strong>Host</strong> (devices), <strong>Default Gateway</strong> (exit door).</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — ARP -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Finding Devices</div>
+      <h2>ARP — Address Resolution Protocol</h2>
+      <p>Devices have two identifiers: a <strong>MAC address</strong> (physical) and an <strong>IP address</strong> (logical). <strong>ARP</strong> is the technology that links them together.</p>
+
+      <h3>What ARP Does</h3>
+      <p>ARP allows a device to associate its MAC address with an IP address on the network. Each device keeps a log (called a <strong>cache</strong>) of the MAC addresses associated with other devices on the network.</p>
+
+      <h3>How ARP Works — Two Message Types</h3>
+      <div class="flow">
+        <div class="flow-step">Device A:<br>"Who has<br>192.168.1.10?"</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">ARP Request<br>(broadcast to all)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Device B:<br>"I do! My MAC<br>is XX:XX:XX..."</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">ARP Reply<br>(cached)</div>
+      </div>
+
+      <ul>
+        <li><strong>ARP Request</strong> — A message is broadcast to the entire network asking "What is the MAC address that owns this IP address?"</li>
+        <li><strong>ARP Reply</strong> — Other devices receive the message. Only the device that owns that IP address responds with its MAC address.</li>
+      </ul>
+
+      <p>The requesting device now remembers the IP ↔ MAC mapping and stores it in its <strong>ARP cache</strong> for future use — no need to ask again.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>ARP = "Who has this IP?" → "I do, here's my MAC." Without ARP, devices couldn't communicate on a LAN because they need MAC addresses for physical delivery but know each other by IP.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — DHCP -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — Automatic IPs</div>
+      <h2>DHCP — Dynamic Host Configuration Protocol</h2>
+      <p>IP addresses can be assigned <strong>manually</strong> (you enter them by hand) or <strong>automatically via DHCP</strong> (most common). When a device connects to a network without a pre-assigned IP, it sends out a request.</p>
+
+      <h3>The 4-Step DHCP Handshake</h3>
+      <div class="flow">
+        <div class="flow-step">1. DHCP<br>Discover</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. DHCP<br>Offer</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. DHCP<br>Request</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. DHCP<br>ACK</div>
+      </div>
+
+      <ul>
+        <li><strong>DHCP Discover</strong> — "Hey, I'm new here. Is anyone who can give me an IP address?" (sent by the client to find any DHCP servers)</li>
+        <li><strong>DHCP Offer</strong> — The DHCP server replies: "Sure thing, you can have <code>192.168.1.10</code>."</li>
+        <li><strong>DHCP Request</strong> — The client accepts: "Yes, that would be brilliant! I'll start using <code>192.168.1.10</code>."</li>
+        <li><strong>DHCP ACK</strong> — The server confirms: "Okay, great. You can use that IP for the next 24 hours."</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Memorize <strong>DORA</strong>: <strong>D</strong>iscover → <strong>O</strong>ffer → <strong>R</strong>equest → <strong>ACK</strong>. Every time you connect to a new Wi-Fi network, this exchange happens behind the scenes in milliseconds.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>LAN</strong> — Local Area Network. A network of devices in a limited area (home, office).</li>
+        <li><strong>Topology</strong> — The design or shape of a network.</li>
+        <li><strong>Star Topology</strong> — All devices connect to a central switch/hub. Most common.</li>
+        <li><strong>Bus Topology</strong> — All devices share a single backbone cable. Cheap but fragile.</li>
+        <li><strong>Ring Topology</strong> — Devices connected in a loop. Data travels one direction.</li>
+        <li><strong>Switch</strong> — Connects devices within a network using MAC addresses.</li>
+        <li><strong>Router</strong> — Connects different networks together. Finds the best path for data.</li>
+        <li><strong>Subnetting</strong> — Dividing a network into smaller sub-networks.</li>
+        <li><strong>Subnet Mask</strong> — A number that defines how a network is divided (4 octets, 32 bits).</li>
+        <li><strong>Octet</strong> — One of the 4 sections of an IP address (8 bits, 0-255).</li>
+        <li><strong>Network Address</strong> — Identifies the start of a network.</li>
+        <li><strong>Host Address</strong> — Identifies a specific device on the network.</li>
+        <li><strong>Default Gateway</strong> — The device (usually the router) that sends data to other networks.</li>
+        <li><strong>ARP</strong> — Address Resolution Protocol. Maps IP addresses to MAC addresses.</li>
+        <li><strong>ARP Request</strong> — Broadcast asking "Who has this IP?"</li>
+        <li><strong>ARP Reply</strong> — Response from the device that owns the IP, with its MAC.</li>
+        <li><strong>ARP Cache</strong> — Local storage of IP ↔ MAC mappings.</li>
+        <li><strong>DHCP</strong> — Dynamic Host Configuration Protocol. Automatically assigns IPs.</li>
+        <li><strong>DORA</strong> — DHCP handshake: Discover, Offer, Request, ACK.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What device is used to centrally connect multiple devices on the same LAN and transmit data to the correct location?</div>
+        <div class="a hidden">Switch</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the key job of a router?</div>
+        <div class="a hidden">Routing — finding the best path for data to travel between different networks</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which topology is most efficient and commonly used today?</div>
+        <div class="a hidden">Star topology</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which topology is the most expensive to set up and maintain?</div>
+        <div class="a hidden">Star topology (requires more cabling and equipment like switches)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the technical term for dividing a network into smaller pieces?</div>
+        <div class="a hidden">Subnetting</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many bits are in a subnet mask?</div>
+        <div class="a hidden">32 bits</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the range of a section (octet) of a subnet mask?</div>
+        <div class="a hidden">0 to 255</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What address is used to identify the start of a network?</div>
+        <div class="a hidden">Network address</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What address is used to identify devices within a network?</div>
+        <div class="a hidden">Host address</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the name used to identify the device responsible for sending data to another network?</div>
+        <div class="a hidden">Default Gateway</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does ARP stand for?</div>
+        <div class="a hidden">Address Resolution Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What category of ARP packet asks a device whether or not it has a specific IP address?</div>
+        <div class="a hidden">ARP Request</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What address is used as a physical identifier for a device on a network?</div>
+        <div class="a hidden">MAC address</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What address is used as a logical identifier for a device on a network?</div>
+        <div class="a hidden">IP address</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of DHCP packet is used by a device to retrieve an IP address?</div>
+        <div class="a hidden">DHCP Discover</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of DHCP packet does a device send once it has been offered an IP address?</div>
+        <div class="a hidden">DHCP Request</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the last DHCP packet sent from a DHCP server?</div>
+        <div class="a hidden">DHCP ACK (Acknowledgement)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 4 steps of DHCP in order.</div>
+        <div class="a hidden">DORA: Discover → Offer → Request → ACK</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

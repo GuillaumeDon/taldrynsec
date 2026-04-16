@@ -67,6 +67,15 @@ const NOTES = [
     topic: "cloud",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "intro-to-lan",
+    title: "Intro to LAN",
+    desc: "LAN topologies (Star/Bus/Ring), switches vs routers, subnetting, ARP and DHCP (DORA).",
+    tag: "TryHackMe — Network Fundamentals",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
