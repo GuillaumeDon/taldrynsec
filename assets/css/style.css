@@ -778,6 +778,10 @@ body::after {
 .cards-grid .card:nth-child(4) { animation: fadeUp 0.5s ease-out 0.26s backwards; }
 .cards-grid .card:nth-child(5) { animation: fadeUp 0.5s ease-out 0.33s backwards; }
 .cards-grid .card:nth-child(6) { animation: fadeUp 0.5s ease-out 0.40s backwards; }
+/* Cert card image hover */
+.cert-card:hover img {
+  opacity: 1;
+}
 
 /* PRINT */
 @media print {
