@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Types — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Computer Fundamentals</div>
+      <h1>Computer Types</h1>
+      <p>Explore the different types of computers, from laptops to the tiny chips inside your coffee machine.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Hardware</span>
+        <span style="font-family:var(--font-design);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRODUCTION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Story</div>
+      <h2>Computers Are Everywhere</h2>
+      <p>Sophia was trying to connect a new device to her home's WiFi when she noticed something unexpected: <em>"NexusCool Fridge X17"</em>. Her neighbor had bought a smart refrigerator — a fridge with a built-in computer capable of connecting to the Internet.</p>
+      <p>Computers are no longer just laptops and phones. They're quietly infiltrating everyday objects: kitchen appliances, doorbells, traffic lights, coffee machines. The summer internship would teach her what those machines actually are.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Not all computers look like computers. Understanding the <strong>different types</strong> — laptops, servers, IoT devices, embedded systems — is essential for cybersecurity because <strong>each type has its own attack surface and defenses</strong>.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — MONTH 1 — VISIBLE COMPUTERS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Visible Computers</div>
+      <h2>The Computers You Sit in Front Of</h2>
+      <p>During her first month, Sophia learned two important lessons:</p>
+      <ul>
+        <li><strong>Not all computers are meant to move.</strong></li>
+        <li><strong>Not all computers are meant for people to sit in front of.</strong></li>
+      </ul>
+
+      <h3>Four Types of Visible Computers</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Laptop</div>
+          <div class="desc"><strong>Portable everyday computing.</strong> Built for mobility with a battery. Great for emails and documents. Slows down under long intense tasks because staying cool in a small, battery-powered device is difficult.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Desktop</div>
+          <div class="desc"><strong>Sustained performance at a fixed location.</strong> Stays in one place, uses wall power, has better cooling. Runs intense tasks smoothly for much longer. Built for consistency rather than mobility.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Workstation</div>
+          <div class="desc"><strong>Precision and reliability for professional tasks.</strong> Looks like a desktop but built differently. Used for simulations, 3D models. Specialized components reduce errors during long or complex computations.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Server</div>
+          <div class="desc"><strong>Provides services to many users over a network.</strong> No dedicated screen or keyboard. Runs continuously, answering requests from multiple users simultaneously. You use servers every day without touching them.</div>
+        </div>
+      </div>
+
+      <h3>At a Glance</h3>
+      <table style="width:100%;border-collapse:collapse;margin-top:0.8rem;font-size:0.8rem;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.65rem;text-transform:uppercase;">Type</th>
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.65rem;text-transform:uppercase;">Screen & Keyboard</th>
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.65rem;text-transform:uppercase;">Main Purpose</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--text-dim);">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Laptop</td><td style="padding:0.5rem;">Yes</td><td style="padding:0.5rem;">Portable everyday computing</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Desktop</td><td style="padding:0.5rem;">Yes</td><td style="padding:0.5rem;">Sustained performance at a fixed location</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Workstation</td><td style="padding:0.5rem;">Yes</td><td style="padding:0.5rem;">Precision & reliability for pro tasks</td></tr>
+          <tr><td style="padding:0.5rem;">Server</td><td style="padding:0.5rem;">No</td><td style="padding:0.5rem;">Serves many users over a network</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TASK 3 — MONTH 2 — HIDDEN COMPUTERS -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Hidden Computers</div>
+      <h2>Sophia's Second Month — Hidden Computers</h2>
+      <p>The most powerful computer most people own fits in their pocket — but millions more hide inside everyday objects: doors, lamps, coffee machines. Sophia walked through automatic doors every day and never realized a tiny computer inside the door frame was detecting her movement.</p>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Smartphone</div>
+          <div class="desc">Pocket-sized computer <strong>optimized for battery life and connectivity</strong>. Examples: iPhone, Android phone.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Tablet</div>
+          <div class="desc"><strong>Touch-first computer</strong> with a larger screen than a phone. Examples: iPad, drawing tablet.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">IoT Device</div>
+          <div class="desc"><strong>Network-connected device with a single purpose.</strong> Examples: thermostat, smart doorbell, fitness tracker.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Embedded Computer</div>
+          <div class="desc">Computer <strong>built into another device</strong>. Examples: coffee maker controller, automatic door sensor, lamp dimmer chip.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">IoT vs Embedded — Critical Distinction</div>
+        <p>Both can be small and single-purpose. <strong>The difference is connectivity.</strong> IoT devices <strong>connect to a network</strong> to report data or receive commands. Embedded computers might not connect to anything — they do their job inside the machine, often for years without anyone knowing they exist.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — WHY DIFFERENT FLAVORS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — The "Why"</div>
+      <h2>Why Computers Come in Different Flavors</h2>
+      <p>Sophia asked: <em>"Why not just build one computer that does everything?"</em></p>
+      <p>Gabriel's answer: <strong>"Because every design is a trade-off."</strong></p>
+
+      <h3>The Trade-Offs</h3>
+      <ul>
+        <li><strong>Mobility costs power</strong> — Smaller, portable computers must sacrifice sustained performance.</li>
+        <li><strong>Reliability costs money</strong> — Servers and critical systems use redundancy (extra power supplies, extra disks) to avoid failure.</li>
+        <li><strong>Purpose shapes everything</strong> — You touch a phone. You ask a server for information. An IoT device works quietly without demanding attention.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>There is <strong>no best computer</strong>. There is only the <strong>right tool for the job</strong>. A laptop will never beat a server at serving millions of users. A server will never fit in your pocket. Each design optimizes for specific constraints.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — SUMMARY -->
+    <div class="fiche-section green">
+      <div class="fiche-num">05 — Recap</div>
+      <h2>All Computer Types at a Glance</h2>
+
+      <h3>Visible (Sit in front of)</h3>
+      <ul>
+        <li><strong>Laptop</strong> — Portable, battery-powered.</li>
+        <li><strong>Desktop</strong> — Fixed location, wall power, better cooling.</li>
+        <li><strong>Workstation</strong> — Professional precision for simulations, 3D, etc.</li>
+        <li><strong>Server</strong> — Serves many users, no dedicated screen/keyboard.</li>
+      </ul>
+
+      <h3>Hidden (Everywhere else)</h3>
+      <ul>
+        <li><strong>Smartphone</strong> — Pocket computer focused on battery and connectivity.</li>
+        <li><strong>Tablet</strong> — Touch-first device with larger screen.</li>
+        <li><strong>IoT Device</strong> — Network-connected, single-purpose.</li>
+        <li><strong>Embedded Computer</strong> — Built into another device, often offline.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Why It Matters in Cybersecurity</div>
+        <p>Each computer type has a different <strong>attack surface</strong>. IoT devices are notoriously vulnerable (weak default passwords, rare firmware updates). Servers are prime targets for attackers. Embedded systems are often overlooked. Knowing the types helps you understand where threats come from.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Laptop</strong> — Portable battery-powered computer with screen and keyboard.</li>
+        <li><strong>Desktop</strong> — Stationary computer optimized for sustained performance.</li>
+        <li><strong>Workstation</strong> — High-precision computer for professional tasks (3D, simulations, CAD).</li>
+        <li><strong>Server</strong> — Computer that provides services to many users over a network, no dedicated screen/keyboard.</li>
+        <li><strong>Smartphone</strong> — Pocket computer optimized for battery and connectivity.</li>
+        <li><strong>Tablet</strong> — Touch-first computer with larger screen.</li>
+        <li><strong>IoT (Internet of Things)</strong> — Network-connected device with a single purpose.</li>
+        <li><strong>Embedded Computer</strong> — Computer built into another device, usually offline.</li>
+        <li><strong>Redundancy</strong> — Duplicate components (power supplies, disks) to prevent single-point failures.</li>
+        <li><strong>Attack Surface</strong> — The total set of points where an attacker can try to enter a system. Different computer types = different attack surfaces.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">Which computer type usually runs without a dedicated screen and keyboard?</div>
+        <div class="a hidden">Server</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What kind of computer with specialized components would one buy to carry out precision work?</div>
+        <div class="a hidden">Workstation</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the main trade-off of a laptop compared to a desktop?</div>
+        <div class="a hidden">Mobility costs power — laptops slow down under sustained heavy load because staying cool in a battery-powered device is hard.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the currently most popular pocket-sized computer?</div>
+        <div class="a hidden">Smartphone</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What kind of computer would you expect to find in a coffee machine?</div>
+        <div class="a hidden">Embedded computer</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the key difference between an IoT device and an embedded computer?</div>
+        <div class="a hidden">Connectivity. IoT devices connect to a network to report data or receive commands. Embedded computers might not connect to anything — they work inside the device.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Give an example of an IoT device.</div>
+        <div class="a hidden">Smart thermostat, smart doorbell, fitness tracker, smart fridge</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why do servers use redundancy?</div>
+        <div class="a hidden">To avoid failure. Extra power supplies and disks ensure the server keeps running even if one component fails.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why isn't there one "best" computer?</div>
+        <div class="a hidden">Every design is a trade-off. Each computer type optimizes for specific constraints (mobility, performance, reliability, size). There's only the right tool for the job.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 4 visible computer types and the 4 hidden ones.</div>
+        <div class="a hidden">Visible: Laptop, Desktop, Workstation, Server. Hidden: Smartphone, Tablet, IoT device, Embedded computer.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

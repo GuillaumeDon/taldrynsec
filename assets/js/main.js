@@ -76,6 +76,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "computer-types",
+    title: "Computer Types",
+    desc: "Laptops, desktops, workstations, servers, smartphones, tablets, IoT devices, and embedded computers.",
+    tag: "TryHackMe — Computer Fundamentals",
+    source: "tryhackme",
+    topic: "hardware",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
