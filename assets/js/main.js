@@ -85,6 +85,15 @@ const NOTES = [
     topic: "hardware",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "client-server-basics",
+    title: "Client-Server Basics",
+    desc: "The client-server model, HTTP methods, DNS, ports, protocols, and the pizza delivery analogy.",
+    tag: "TryHackMe — Computer Fundamentals",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
