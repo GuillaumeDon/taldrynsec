@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSI Model — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .osi-stack { display:flex; flex-direction:column; gap:0; margin:1.5rem 0; max-width:500px; }
+    .osi-layer {
+      display:flex; align-items:center; gap:1rem;
+      padding:0.6rem 1rem; border:1px solid var(--border);
+      font-family:var(--font-display); font-size:0.75rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .osi-layer:hover { transform:translateX(6px); border-color:var(--accent-glow); }
+    .osi-layer .num { font-weight:700; min-width:1.5rem; text-align:center; }
+    .osi-layer .name { font-weight:700; color:#fff; min-width:110px; }
+    .osi-layer .hint { color:var(--text-dim); font-size:0.68rem; }
+    .osi-7 { background:rgba(0,229,160,0.08); border-color:rgba(0,229,160,0.25); }
+    .osi-7 .num, .osi-7 .name { color:var(--accent); }
+    .osi-6 { background:rgba(0,229,160,0.06); border-color:rgba(0,229,160,0.2); }
+    .osi-6 .num, .osi-6 .name { color:#4ade80; }
+    .osi-5 { background:rgba(0,180,216,0.08); border-color:rgba(0,180,216,0.25); }
+    .osi-5 .num, .osi-5 .name { color:var(--accent2); }
+    .osi-4 { background:rgba(0,180,216,0.06); border-color:rgba(0,180,216,0.2); }
+    .osi-4 .num, .osi-4 .name { color:#38bdf8; }
+    .osi-3 { background:rgba(244,114,182,0.08); border-color:rgba(244,114,182,0.25); }
+    .osi-3 .num, .osi-3 .name { color:var(--accent3); }
+    .osi-2 { background:rgba(244,114,182,0.06); border-color:rgba(244,114,182,0.2); }
+    .osi-2 .num, .osi-2 .name { color:#f9a8d4; }
+    .osi-1 { background:rgba(251,191,36,0.08); border-color:rgba(251,191,36,0.25); }
+    .osi-1 .num, .osi-1 .name { color:var(--accent4); }
+
+    .tcp-udp-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .tcp-udp-grid { grid-template-columns:1fr; } }
+    .proto-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:1rem; }
+    .proto-box h4 { font-family:var(--font-display); font-size:0.8rem; margin-bottom:0.5rem; }
+    .proto-box ul { list-style:none; padding:0; }
+    .proto-box li { padding-left:1rem; position:relative; font-size:0.75rem; color:var(--text-dim); margin-bottom:0.3rem; }
+    .proto-box li::before { content:'▸'; position:absolute; left:0; font-weight:700; }
+    .proto-box.tcp { border-color:rgba(0,229,160,0.25); }
+    .proto-box.tcp h4 { color:var(--accent); }
+    .proto-box.tcp li::before { color:var(--accent); }
+    .proto-box.udp { border-color:rgba(244,114,182,0.25); }
+    .proto-box.udp h4 { color:var(--accent3); }
+    .proto-box.udp li::before { color:var(--accent3); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Network Fundamentals</div>
+      <h1>OSI Model</h1>
+      <p>The fundamental networking framework that determines how data is handled across a network — 7 layers.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — OVERVIEW -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Framework</div>
+      <h2>What is the OSI Model?</h2>
+      <p>The <strong>OSI model</strong> (Open Systems Interconnection) is an essential framework dictating how all networked devices will send, receive, and interpret data. It has <strong>7 layers</strong>, from Layer 7 (top) to Layer 1 (bottom).</p>
+      <p>One of its main benefits: devices can have different functions and designs on a network while still communicating with other devices, because everyone follows the same model.</p>
+      <p>At every layer that data travels through, specific processes take place and pieces of information are added. This process is called <strong>encapsulation</strong>.</p>
+
+      <h3>The 7 Layers — Visual</h3>
+      <div class="osi-stack">
+        <div class="osi-layer osi-7"><span class="num">7</span><span class="name">Application</span><span class="hint">GUI & protocols (HTTP, DNS, FTP)</span></div>
+        <div class="osi-layer osi-6"><span class="num">6</span><span class="name">Presentation</span><span class="hint">Translation, encryption (HTTPS)</span></div>
+        <div class="osi-layer osi-5"><span class="num">5</span><span class="name">Session</span><span class="hint">Connections & sessions</span></div>
+        <div class="osi-layer osi-4"><span class="num">4</span><span class="name">Transport</span><span class="hint">TCP / UDP</span></div>
+        <div class="osi-layer osi-3"><span class="num">3</span><span class="name">Network</span><span class="hint">IP addresses, routing (OSPF, RIP)</span></div>
+        <div class="osi-layer osi-2"><span class="num">2</span><span class="name">Data Link</span><span class="hint">MAC addresses, NIC</span></div>
+        <div class="osi-layer osi-1"><span class="num">1</span><span class="name">Physical</span><span class="hint">Cables, binary (1s and 0s)</span></div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Mnemonic — Top Down</div>
+        <p><strong>A</strong>ll <strong>P</strong>eople <strong>S</strong>eem <strong>T</strong>o <strong>N</strong>eed <strong>D</strong>ata <strong>P</strong>rocessing → Application, Presentation, Session, Transport, Network, Data Link, Physical</p>
+      </div>
+    </div>
+
+    <!-- LAYER 1 — PHYSICAL -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Layer 1</div>
+      <h2>Physical</h2>
+      <p>The lowest and one of the easiest layers to grasp. This layer references the <strong>physical components of the hardware</strong> used in networking. Devices use <strong>electrical signals</strong> to transfer data between each other in a <strong>binary numbering system</strong> (1s and 0s).</p>
+      <p>Examples: <strong>ethernet cables</strong> connecting devices, fiber optic cables, Wi-Fi radio waves.</p>
+    </div>
+
+    <!-- LAYER 2 — DATA LINK -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Layer 2</div>
+      <h2>Data Link</h2>
+      <p>Focuses on the <strong>physical addressing</strong> of the transmission. It receives a packet from the network layer and adds the physical <strong>MAC address</strong> of the receiving endpoint.</p>
+      <p>Inside every network-enabled computer is a <strong>NIC</strong> (Network Interface Card) which comes with a unique MAC address to identify it.</p>
+      <p>MAC addresses are set by the manufacturer and <strong>literally burnt into the card</strong>. They can't be changed — although they can be <strong>spoofed</strong>.</p>
+      <p>It's also the Data Link layer's job to present the data in a <strong>format suitable for transmission</strong>.</p>
+    </div>
+
+    <!-- LAYER 3 — NETWORK -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">Layer 3</div>
+      <h2>Network</h2>
+      <p>Where the magic of <strong>routing and re-assembly of data</strong> takes place. Routing determines the most optimal path for data to travel. Protocols at this layer include:</p>
+      <ul>
+        <li><strong>OSPF</strong> — Open Shortest Path First</li>
+        <li><strong>RIP</strong> — Routing Information Protocol</li>
+      </ul>
+      <p>Factors that decide the route:</p>
+      <ul>
+        <li>What path is the <strong>shortest</strong>? (fewest devices to travel across)</li>
+        <li>What path is the <strong>most reliable</strong>? (fewest packets lost before?)</li>
+        <li>Which path has the <strong>faster physical connection</strong>? (copper vs fibre)</li>
+      </ul>
+      <p>Everything is dealt with via <strong>IP addresses</strong> at this layer. Devices like <strong>routers</strong> are Layer 3 devices because they deliver packets using IP addresses.</p>
+    </div>
+
+    <!-- LAYER 4 — TRANSPORT -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Layer 4</div>
+      <h2>Transport</h2>
+      <p>Plays a vital part in transmitting data and follows one of two protocols: <strong>TCP</strong> or <strong>UDP</strong>.</p>
+
+      <div class="tcp-udp-grid">
+        <div class="proto-box tcp">
+          <h4>TCP — Transmission Control Protocol</h4>
+          <ul>
+            <li>Designed for <strong>reliability</strong> and guarantee</li>
+            <li>Reserves a <strong>constant connection</strong> between devices</li>
+            <li>Incorporates <strong>error checking</strong> — data is reassembled in the correct order</li>
+            <li>If one small chunk is missing, <strong>the entire chunk cannot be used</strong></li>
+            <li>Significantly <strong>slower</strong> than UDP</li>
+            <li>Used for: file sharing, browsing, email</li>
+          </ul>
+        </div>
+        <div class="proto-box udp">
+          <h4>UDP — User Datagram Protocol</h4>
+          <ul>
+            <li>Not as advanced as TCP — <strong>no error checking, no guarantee</strong></li>
+            <li>No constant connection — data is sent <strong>whether it arrives or not</strong></li>
+            <li><strong>Much faster</strong> than TCP</li>
+            <li>Flexible for developers (app layer decides control)</li>
+            <li>Unstable connections = terrible experience</li>
+            <li>Used for: video streaming, ARP, DHCP</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">TCP vs UDP — Quick Rule</div>
+        <p>Need <strong>accuracy</strong> (files, emails, web pages)? → <strong>TCP</strong>. Need <strong>speed</strong> and can tolerate lost data (video stream, voice call)? → <strong>UDP</strong>.</p>
+      </div>
+    </div>
+
+    <!-- LAYER 5 — SESSION -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">Layer 5</div>
+      <h2>Session</h2>
+      <p>Once data has been correctly translated (Layer 6), the session layer will <strong>create and maintain the connection</strong> to the other computer. When a connection is established, a <strong>session</strong> is created.</p>
+      <ul>
+        <li>Responsible for <strong>closing the connection</strong> if idle or lost</li>
+        <li>Sessions can contain <strong>"checkpoints"</strong> — if data is lost, only the newest pieces need resending (saves bandwidth)</li>
+        <li>Sessions are <strong>unique</strong> — data cannot travel over different sessions, only across each session</li>
+      </ul>
+    </div>
+
+    <!-- LAYER 6 — PRESENTATION -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Layer 6</div>
+      <h2>Presentation</h2>
+      <p>The layer where <strong>standardisation</strong> starts. Software developers can develop differently, but data still needs to be handled the same way — no matter how the software works.</p>
+      <p>This layer acts as a <strong>translator</strong> for data to and from the application layer. The receiving computer will understand data sent in one format even if it's destined for another format.</p>
+      <p>Security features such as <strong>data encryption</strong> (like HTTPS when visiting a secure site) occur at this layer.</p>
+    </div>
+
+    <!-- LAYER 7 — APPLICATION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Layer 7</div>
+      <h2>Application</h2>
+      <p>The layer you're most familiar with. This is where <strong>protocols and rules</strong> are in place to determine how the user should interact with data sent or received.</p>
+      <p>Everyday applications such as email clients, browsers, or file server browsing software like FileZilla provide a friendly <strong>GUI</strong> (Graphical User Interface) for users to interact with data.</p>
+      <p>Protocols at this layer include <strong>DNS</strong> (Domain Name System) — how website addresses are translated into IP addresses.</p>
+    </div>
+
+    <!-- SUMMARY DIAGRAM -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Summary</div>
+      <h2>Encapsulation Flow</h2>
+      <p>When data is sent, it travels <strong>down</strong> the layers (7 → 1), with each layer adding its own information (headers, addresses). This is <strong>encapsulation</strong>. When received, data travels <strong>up</strong> (1 → 7), with each layer stripping its information. This is <strong>de-encapsulation</strong>.</p>
+
+      <div class="flow">
+        <div class="flow-step">App Data<br>(L7-6-5)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">+ TCP/UDP<br>header (L4)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">+ IP header<br>(L3)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">+ MAC<br>header (L2)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Binary<br>signals (L1)</div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The OSI model is <strong>the language cybersecurity professionals use</strong> to discuss where attacks happen. "Layer 3 attack" = targeting IP/routing. "Layer 7 attack" = targeting the application (e.g. SQL injection, XSS). Knowing the layers = knowing where to look.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>OSI</strong> — Open Systems Interconnection. 7-layer networking framework.</li>
+        <li><strong>Encapsulation</strong> — Process of adding information at each layer as data travels down the stack.</li>
+        <li><strong>De-encapsulation</strong> — Reverse process: stripping information at each layer going up.</li>
+        <li><strong>Layer 1 — Physical</strong> — Hardware, cables, binary signals (1s and 0s), ethernet cables.</li>
+        <li><strong>Layer 2 — Data Link</strong> — MAC addresses, NIC (Network Interface Card), physical addressing.</li>
+        <li><strong>Layer 3 — Network</strong> — IP addresses, routing (OSPF, RIP). Routers operate here.</li>
+        <li><strong>Layer 4 — Transport</strong> — TCP (reliable, slow) vs UDP (fast, no guarantee).</li>
+        <li><strong>Layer 5 — Session</strong> — Creates, maintains, closes connections. Checkpoints.</li>
+        <li><strong>Layer 6 — Presentation</strong> — Translation, standardisation, encryption (HTTPS).</li>
+        <li><strong>Layer 7 — Application</strong> — User-facing protocols (HTTP, DNS, FTP). GUI.</li>
+        <li><strong>TCP</strong> — Transmission Control Protocol. Reliable, error-checked, ordered.</li>
+        <li><strong>UDP</strong> — User Datagram Protocol. Fast, no error checking, no guarantee.</li>
+        <li><strong>OSPF</strong> — Open Shortest Path First (routing protocol).</li>
+        <li><strong>RIP</strong> — Routing Information Protocol.</li>
+        <li><strong>NIC</strong> — Network Interface Card. Hardware with unique MAC address.</li>
+        <li><strong>GUI</strong> — Graphical User Interface.</li>
+        <li><strong>Binary</strong> — Numbering system using 0s and 1s.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What does OSI stand for?</div>
+        <div class="a hidden">Open Systems Interconnection</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many layers does the OSI model have?</div>
+        <div class="a hidden">7</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the key term for when pieces of information are added to data at each layer?</div>
+        <div class="a hidden">Encapsulation</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name all 7 layers from top (7) to bottom (1).</div>
+        <div class="a hidden">Application, Presentation, Session, Transport, Network, Data Link, Physical</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What numbering system does Layer 1 use?</div>
+        <div class="a hidden">Binary (1s and 0s)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the cables used to connect devices at Layer 1?</div>
+        <div class="a hidden">Ethernet Cables</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the name of the piece of hardware that all networked devices come with?</div>
+        <div class="a hidden">Network Interface Card (NIC)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of addresses are dealt with at Layer 3?</div>
+        <div class="a hidden">IP Addresses</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does OSPF stand for?</div>
+        <div class="a hidden">Open Shortest Path First</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does RIP stand for?</div>
+        <div class="a hidden">Routing Information Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does TCP stand for?</div>
+        <div class="a hidden">Transmission Control Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does UDP stand for?</div>
+        <div class="a hidden">User Datagram Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which protocol guarantees the accuracy of data?</div>
+        <div class="a hidden">TCP</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which protocol doesn't care if data is received or not?</div>
+        <div class="a hidden">UDP</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">An email client would use TCP or UDP?</div>
+        <div class="a hidden">TCP (accuracy is critical)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">A video streaming app would use TCP or UDP?</div>
+        <div class="a hidden">UDP (speed matters more, lost pixels are acceptable)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the technical term for when a connection is successfully established (Layer 5)?</div>
+        <div class="a hidden">Session</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the main purpose of Layer 6 (Presentation)?</div>
+        <div class="a hidden">Translator — standardises data format and handles encryption (like HTTPS)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the technical term for the software that users interact with at Layer 7?</div>
+        <div class="a hidden">Graphical User Interface (GUI)</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -103,6 +103,15 @@ const NOTES = [
     topic: "cloud",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "osi-model",
+    title: "OSI Model",
+    desc: "The 7 layers of the OSI model, encapsulation, TCP vs UDP, routing protocols (OSPF, RIP).",
+    tag: "TryHackMe — Network Fundamentals",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
