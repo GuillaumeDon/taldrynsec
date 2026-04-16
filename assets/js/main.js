@@ -58,6 +58,15 @@ const NOTES = [
     topic: "hardware",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "cloud-computing-fundamentals",
+    title: "Cloud Computing Fundamentals",
+    desc: "Cloud types (Public/Private/Hybrid), service models (IaaS/PaaS/SaaS), AWS basics, and EC2 instances.",
+    tag: "TryHackMe — Computer Fundamentals",
+    source: "tryhackme",
+    topic: "cloud",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Computing Fundamentals — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Computer Fundamentals</div>
+      <h1>Cloud Computing Fundamentals</h1>
+      <p>Discover how cloud computing helps businesses move faster, do more, and scale with less effort.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Cloud</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRODUCTION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Problem Cloud Solves</div>
+      <h2>Why Cloud Computing?</h2>
+      <p>Imagine you have a fantastic idea for an app that helps students practice cybersecurity, and you host it on your own computer. Problems arise quickly:</p>
+      <ul>
+        <li>Users from other parts of the world experience lag</li>
+        <li>Many users connecting at once overwhelm your machine</li>
+        <li>If your computer is off, the app is down</li>
+      </ul>
+      <p>These limits make it hard for the app to grow. <strong>That's when cloud computing solves these problems.</strong></p>
+
+      <h3>What This Room Covers</h3>
+      <ul>
+        <li>What is cloud computing</li>
+        <li>Service models: <strong>IaaS, PaaS, SaaS</strong></li>
+        <li>Cloud types: <strong>Private, Public, Hybrid</strong></li>
+        <li>Benefits of cloud computing</li>
+        <li>How big companies use the cloud</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The cloud is built on top of <strong>virtualization and containers</strong>. These technologies run many applications efficiently on shared infrastructure, and allow quick creation/modification of environments on demand.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — OVERVIEW -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Concepts</div>
+      <h2>Cloud Computing Overview</h2>
+
+      <h3>Evolution to the Cloud</h3>
+      <p>Cloud computing didn't appear suddenly — it's the result of many years of change:</p>
+      <ul>
+        <li><strong>Physical Servers Era (1960s–early 2000s)</strong> — Physical servers in company buildings. One server = one job. Expensive, slow to scale.</li>
+        <li><strong>Virtualization (1999–2006)</strong> — Multiple virtual servers on one machine. Better hardware utilization, faster provisioning.</li>
+        <li><strong>Automation & Remote Management (2000–2006)</strong> — Servers managed over the Internet. Early automation. Flexible infrastructure.</li>
+        <li><strong>Cloud Computing (AWS Launch, 2006)</strong> — Rent virtual computers & storage on demand. No hardware ownership. Elastic scaling in minutes.</li>
+        <li><strong>Modern Cloud Era (2015+)</strong> — AWS, Azure, Google Cloud. Containers. Focus on apps, not servers. Global-scale platforms.</li>
+      </ul>
+
+      <h3>Cloud Benefits & Characteristics</h3>
+      <ul>
+        <li><strong>Scalability</strong> — Easily scale up or down as the company's needs change.</li>
+        <li><strong>On-demand self-service</strong> — Create or remove servers and storage instantly, without waiting for hardware.</li>
+        <li><strong>Pay only for what you use</strong> — Charged based on usage, not upfront costs.</li>
+        <li><strong>Security</strong> — Cloud providers protect the infrastructure with strong security measures.</li>
+        <li><strong>High availability</strong> — Applications keep running even if part of the system fails.</li>
+        <li><strong>Global access</strong> — IT resources can be accessed by users anywhere in the world.</li>
+      </ul>
+
+      <h3>Types of Cloud (Deployment Models)</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Public Cloud</div>
+          <div class="desc">Used by startups, websites, and global apps. <strong>Affordable, easy to scale, no infrastructure management</strong>. Preferable for nearly every use case.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Private Cloud</div>
+          <div class="desc">Used by banks, healthcare, and government. <strong>Greater control, customization, and compliance</strong> for sensitive data.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Hybrid Cloud</div>
+          <div class="desc">Used by companies like e-commerce platforms that need to <strong>keep sensitive data private</strong> while scaling publicly during high demand.</div>
+        </div>
+      </div>
+
+      <h3>Cloud Service Models — IaaS, PaaS, SaaS</h3>
+      <p>Think of these like different ways of <strong>renting a place to live</strong>:</p>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">IaaS — Infrastructure as a Service</div>
+          <div class="desc"><strong>Renting an empty apartment.</strong> You rent basic computing resources (virtual servers, storage, networking). You manage the OS and your apps. The provider manages the physical hardware.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">PaaS — Platform as a Service</div>
+          <div class="desc"><strong>Renting a semi-furnished apartment.</strong> The cloud provider manages the infrastructure AND the OS. You focus on building, deploying, and running your app — no server worries.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">SaaS — Software as a Service</div>
+          <div class="desc"><strong>Staying in a hotel.</strong> Complete application over the Internet. The provider manages everything. You just use it via a browser or app (Gmail, Zoom).</div>
+        </div>
+      </div>
+
+      <h3>Major Cloud Vendors</h3>
+      <ul>
+        <li><strong>AWS (Amazon Web Services)</strong> — Industry leader with the most extensive offerings and global reach.</li>
+        <li><strong>Microsoft Azure</strong> — Strong competitor, especially in enterprise and hybrid cloud environments.</li>
+        <li><strong>Google Cloud Platform (GCP)</strong> — Known for data analytics, AI, and machine learning tools.</li>
+        <li><strong>Alibaba Cloud</strong> — A major player in Asia, offering competitive cloud services globally.</li>
+        <li><strong>IBM Cloud</strong> — Focuses on hybrid cloud and AI-driven solutions for businesses.</li>
+        <li><strong>Oracle Cloud</strong> — Focuses on enterprise applications and databases.</li>
+      </ul>
+
+      <h3>Real-World Examples</h3>
+      <ul>
+        <li><strong>Netflix</strong> — Runs its entire platform on AWS to scale globally and stream reliably to millions.</li>
+        <li><strong>Spotify</strong> — Uses the cloud to handle millions of songs and users, scaling during new releases.</li>
+        <li><strong>Instagram</strong> — Stores and delivers massive amounts of photos and videos.</li>
+        <li><strong>Online stores</strong> — Handle traffic spikes during Black Friday without permanent infrastructure.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Remember the <strong>apartment analogy</strong> for service models: IaaS = empty apartment, PaaS = semi-furnished, SaaS = hotel. And the <strong>3 deployment types</strong>: Public (shared, cheap), Private (dedicated, secure), Hybrid (mix of both).</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — DEPLOYING -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Hands-On</div>
+      <h2>Deploying a Cloud Instance</h2>
+      <p>This task simulates deploying a cybersecurity training app in a <strong>simulated AWS environment</strong>. The goal is to memorize key buttons and understand how cloud resources are created and managed in real-world use.</p>
+
+      <h3>Basic Cloud Terminology (AWS)</h3>
+      <ul>
+        <li><strong>EC2 (Elastic Compute Cloud)</strong> — AWS's virtual computers in the cloud. Like having a CPU and memory (RAM) you can rent and use remotely.</li>
+        <li><strong>Instance Type</strong> — Describes the essential characteristics of a virtual computer. Bigger instance = more power = higher cost. Example: <code>t1.micro</code>, <code>m1.large</code>.</li>
+        <li><strong>Region</strong> — A geographical location where AWS resources live (e.g. Europe, North America).</li>
+      </ul>
+
+      <h3>The Typical Workflow</h3>
+      <div class="flow">
+        <div class="flow-step">1. Pick a<br>Region</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Create<br>Virtual Machines</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Monitor<br>Billing</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. Stop unused<br>instances</div>
+      </div>
+
+      <h3>Key Actions</h3>
+      <ul>
+        <li><strong>Create Virtual Machines</strong> — Launch new instances (e.g. <code>application-interface</code>, <code>m1.large</code>).</li>
+        <li><strong>Start / Stop Instances</strong> — Control when you pay. Stopped instances cost 0 credits.</li>
+        <li><strong>Billing Analysis</strong> — Navigate to the Billing tab to see how much each instance costs per month.</li>
+        <li><strong>Cost Optimization</strong> — Stop unused VMs to reduce the bill. This is a real-world skill.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>In the cloud, <strong>you pay for what you use</strong>. Forgetting to stop instances = a big bill. Part of cloud security and management is <strong>resource hygiene</strong> — knowing what's running and why.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — CONCLUSION -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — Recap</div>
+      <h2>Key Terminology Recap</h2>
+
+      <h3>Cloud Types</h3>
+      <ul>
+        <li><strong>Public Cloud</strong> — Cloud services you access over the Internet that many people and companies share.</li>
+        <li><strong>Private Cloud</strong> — A cloud built just for one company, for more control and security.</li>
+        <li><strong>Hybrid Cloud</strong> — A mix of public and private clouds that can work together and share data.</li>
+      </ul>
+
+      <h3>Service Models</h3>
+      <ul>
+        <li><strong>IaaS</strong> — Rent basic computer parts like servers and storage from the cloud.</li>
+        <li><strong>PaaS</strong> — A ready-to-use environment to build and run apps without managing servers.</li>
+        <li><strong>SaaS</strong> — Software you use online without installing anything (Gmail, Zoom).</li>
+      </ul>
+
+      <h3>AWS-Specific</h3>
+      <ul>
+        <li><strong>EC2</strong> — Amazon's cloud computers you can quickly create, use, and resize.</li>
+      </ul>
+
+      <h3>Key Benefits</h3>
+      <ul>
+        <li>Scalability</li>
+        <li>On-demand self-service</li>
+        <li>Pay only for what you use</li>
+        <li>Security</li>
+        <li>High availability</li>
+        <li>Global access</li>
+      </ul>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Cloud Computing</strong> — Delivery of computing resources (servers, storage, apps) over the Internet.</li>
+        <li><strong>Virtualization</strong> — Technology that creates virtual versions of hardware, allowing multiple virtual servers on one physical machine.</li>
+        <li><strong>Containers</strong> — Lightweight way to package apps with their dependencies, for fast deployment.</li>
+        <li><strong>Public Cloud</strong> — Shared cloud services (AWS, Azure, GCP).</li>
+        <li><strong>Private Cloud</strong> — Dedicated cloud for a single organization.</li>
+        <li><strong>Hybrid Cloud</strong> — Mix of public and private clouds.</li>
+        <li><strong>IaaS</strong> — Infrastructure as a Service. Rent raw computing resources.</li>
+        <li><strong>PaaS</strong> — Platform as a Service. Rent a development/runtime environment.</li>
+        <li><strong>SaaS</strong> — Software as a Service. Use software over the Internet.</li>
+        <li><strong>AWS</strong> — Amazon Web Services. Industry-leading cloud provider.</li>
+        <li><strong>EC2</strong> — Elastic Compute Cloud. AWS's virtual computers service.</li>
+        <li><strong>Instance</strong> — A virtual machine in the cloud.</li>
+        <li><strong>Instance Type</strong> — The specs of a VM (CPU, RAM). Bigger = more expensive.</li>
+        <li><strong>Region</strong> — Geographical location of cloud resources.</li>
+        <li><strong>Scalability</strong> — Ability to grow or shrink resources based on demand.</li>
+        <li><strong>High Availability</strong> — Systems keep running even if parts fail.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What are the two technologies the cloud is built on top of?</div>
+        <div class="a hidden">Virtualization and containers</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What characteristic enables cloud to handle an unexpected increase in access to your application?</div>
+        <div class="a hidden">Scalability</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the 3 types of cloud (deployment models)?</div>
+        <div class="a hidden">Public, Private, Hybrid</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the most common type of cloud deployment?</div>
+        <div class="a hidden">Public Cloud</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the 3 cloud service models?</div>
+        <div class="a hidden">IaaS, PaaS, SaaS</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Using the apartment analogy, explain IaaS, PaaS, and SaaS.</div>
+        <div class="a hidden">IaaS = empty apartment (you manage most things). PaaS = semi-furnished (you focus on the app). SaaS = hotel (everything managed, just use it).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">If you want to focus only on app development and leave infrastructure to others, which service model is best?</div>
+        <div class="a hidden">PaaS (Platform as a Service)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does EC2 stand for?</div>
+        <div class="a hidden">Elastic Compute Cloud (AWS's virtual computers)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 6 key benefits of cloud computing.</div>
+        <div class="a hidden">Scalability, On-demand self-service, Pay only for what you use, Security, High availability, Global access</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why do banks and healthcare organizations typically use private clouds?</div>
+        <div class="a hidden">Greater control, customization, and compliance — they need to keep sensitive data protected and meet regulatory requirements.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Who is the industry leader in cloud computing?</div>
+        <div class="a hidden">AWS (Amazon Web Services)</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
