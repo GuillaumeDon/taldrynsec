@@ -94,6 +94,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "virtualisation-basics",
+    title: "Virtualisation Basics",
+    desc: "Hypervisors (Type 1 vs 2), virtual machines, containers, Docker, and the building analogy.",
+    tag: "TryHackMe — Computer Fundamentals",
+    source: "tryhackme",
+    topic: "cloud",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

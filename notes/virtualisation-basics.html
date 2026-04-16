@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtualisation Basics — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Computer Fundamentals</div>
+      <h1>Virtualisation Basics</h1>
+      <p>Learn why virtualisation powers modern IT, improving efficiency and safely isolating environments.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Cloud</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Problem</div>
+      <h2>Why Virtualisation?</h2>
+      <p>Imagine every piece of software or every website required its own physical server. That would be incredibly expensive and inefficient. <strong>Virtualisation was created to solve exactly this problem.</strong></p>
+      <p>Your manager asked for help improving the hardware utilization of a computer that hosts a website. This room explores the concept of virtualisation.</p>
+
+      <h3>Learning Objectives</h3>
+      <ul>
+        <li>Why managing applications on individual physical servers is inefficient</li>
+        <li>How virtualisation addresses utilization and scalability challenges</li>
+        <li>Components of a virtual machine</li>
+        <li>How containers have further optimized hardware utilization</li>
+      </ul>
+    </div>
+
+    <!-- TASK 2 — OVERVIEW -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Old Way vs The New Way</div>
+      <h2>Virtualisation Overview</h2>
+
+      <h3>Before Virtualisation</h3>
+      <p>The old rule of thumb: <strong>"One server = one application."</strong> Digital services ran on physical machines, each with a single purpose (hosting a website, storing data, etc.). The problems were obvious:</p>
+      <ul>
+        <li><strong>High cost</strong> — Not just hardware, but electricity, cooling, maintenance, and data center space.</li>
+        <li><strong>Low utilization</strong> — Most apps don't use the server's full capacity. Many servers sat at 5-20% usage, wasting CPU, memory, and storage.</li>
+        <li><strong>Slow deployment</strong> — Setting up new physical servers could take days or weeks.</li>
+        <li><strong>Hard to scale</strong> — Need more resources? Buy another physical server.</li>
+      </ul>
+
+      <h3>The Building Analogy</h3>
+      <p>Imagine one person living alone in an entire 10-floor building. They use one floor but must maintain the entire building: electricity, cleaning, water, security. <strong>Expensive, inefficient, and wasteful.</strong></p>
+      <p>Now imagine dividing the building into <strong>separate apartments</strong>: each has its own door, walls, kitchen, and privacy. Different people live independently. They all share the building's main structure, making it <strong>cheaper and more efficient</strong> for everyone.</p>
+
+      <ul>
+        <li><strong>The building</strong> = the physical server</li>
+        <li><strong>The apartments</strong> = virtual machines</li>
+        <li><strong>The tenants</strong> = applications or operating systems</li>
+        <li><strong>The building manager</strong> = the hypervisor (the software that divides the building safely)</li>
+      </ul>
+
+      <p>Each virtual computer, known as a <strong>Virtual Machine (VM)</strong>, acts as an independent system with its own OS, apps, and settings, even though they all share the same physical hardware underneath.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Virtualisation enables multiple applications to <strong>share a physical server</strong> safely and efficiently. The <strong>hypervisor</strong> is the software that manages the resources for each virtual machine.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — COMPONENTS -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — The Building Blocks</div>
+      <h2>Virtualisation Components</h2>
+
+      <h3>Hypervisor (The Building Manager)</h3>
+      <p>The <strong>hypervisor</strong> is the core technology behind virtualisation. It's the software that creates and manages virtual machines. It:</p>
+      <ul>
+        <li>Divides a physical computer into multiple virtual ones</li>
+        <li>Gives each VM its own share of CPU, memory, and storage</li>
+        <li>Keeps everything isolated and safe</li>
+        <li>Manages the lifecycle of VMs (start, stop, pause, clone, delete)</li>
+      </ul>
+
+      <h3>Type 1 vs Type 2 Hypervisors</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Type 1 (Bare-Metal)</div>
+          <div class="desc">Runs <strong>directly on physical hardware</strong>. Fast, efficient, ideal for servers and professional environments (data centers, production servers, database servers).</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Type 2 (Hosted)</div>
+          <div class="desc">Runs <strong>within an existing OS</strong>. Easier to install, ideal for learning, testing, and small setups (testing malware, running Kali Linux, software testing).</div>
+        </div>
+      </div>
+
+      <h3>Use Case Guide</h3>
+      <table style="width:100%;border-collapse:collapse;margin-top:0.8rem;font-size:0.78rem;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;text-transform:uppercase;">Use Case</th>
+            <th style="text-align:center;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;text-transform:uppercase;">Type 1</th>
+            <th style="text-align:center;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;text-transform:uppercase;">Type 2</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--text-dim);">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Test malicious files</td><td style="text-align:center;padding:0.5rem;"></td><td style="text-align:center;padding:0.5rem;">✓</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Production server</td><td style="text-align:center;padding:0.5rem;">✓</td><td style="text-align:center;padding:0.5rem;"></td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Database server</td><td style="text-align:center;padding:0.5rem;">✓</td><td style="text-align:center;padding:0.5rem;"></td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Software testing</td><td style="text-align:center;padding:0.5rem;"></td><td style="text-align:center;padding:0.5rem;">✓</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;">Kali Linux lab</td><td style="text-align:center;padding:0.5rem;"></td><td style="text-align:center;padding:0.5rem;">✓</td></tr>
+          <tr><td style="padding:0.5rem;">Data center</td><td style="text-align:center;padding:0.5rem;">✓</td><td style="text-align:center;padding:0.5rem;"></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Virtual Machines (The Apartments)</h3>
+      <p>A <strong>VM</strong> is a virtual computer created by the hypervisor. Even though it's virtual, it behaves as a real machine:</p>
+      <ul>
+        <li>Has its own virtual CPU, RAM, storage, and network</li>
+        <li>Can run any operating system (Windows, Linux, etc.)</li>
+        <li><strong>Completely isolated</strong> from other VMs — if one breaks, the others continue to work</li>
+      </ul>
+      <p>You can deploy VMs on your own computer using tools like <strong>Oracle VirtualBox</strong> and <strong>VMware Workstation</strong> (Type 2 hypervisors).</p>
+
+      <h3>Containers (The Rooms Inside the Apartment)</h3>
+      <p>A <strong>container</strong> is a lightweight, isolated environment that runs a single application and all its dependencies. Instead of bringing a whole separate OS, a container <strong>borrows the kernel of the host system</strong>.</p>
+
+      <ul>
+        <li>They package the application and its dependencies (libraries, tools, versions)</li>
+        <li>They share the host's OS kernel, so they <strong>start almost instantly</strong></li>
+        <li>They remain isolated from each other — a misbehaving container doesn't affect others</li>
+        <li>They run consistently on any machine — perfect for development, testing, and scalable deployments</li>
+      </ul>
+
+      <p>The easiest way to deploy containers is using <strong>Docker</strong> — an open-source platform for building, deploying, and running applications using containerization.</p>
+
+      <p><strong>Important limitation:</strong> containers share the host's kernel, so they must match the host system's type. You can't run a Windows container on a Linux machine.</p>
+
+      <h3>The Hierarchy</h3>
+      <div class="flow">
+        <div class="flow-step">Physical<br>Server</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Hypervisor</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Virtual<br>Machines</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Containers<br>(inside VMs)</div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">VM vs Container — Key Difference</div>
+        <p><strong>VMs</strong> = full apartments with maximum separation and flexibility (own OS, own everything). <strong>Containers</strong> = rooms inside apartments — lightweight, fast to deploy, share the kernel, ideal for scalable applications.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — MANAGING VMs -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — Hands-On</div>
+      <h2>Managing Virtual Machines</h2>
+      <p>This task simulates managing VMs in a professional environment at AutoCloud, a company that has recently started using virtual machines.</p>
+
+      <h3>VM States</h3>
+      <ul>
+        <li><strong>Summary</strong> — General view of the state of the environment.</li>
+        <li><strong>Virtual Machines</strong> — Details of VMs (start, stop, actions).</li>
+        <li><strong>Node</strong> — Displays usage and performance details for each physical server.</li>
+      </ul>
+
+      <h3>Key Actions</h3>
+      <ul>
+        <li><strong>Analyze VM states</strong> — Check if VMs are running, stopped, or in error. Restart errored VMs.</li>
+        <li><strong>Create new VMs</strong> — Choose name, instance type (size), and launch.</li>
+        <li><strong>Analyze hardware usage</strong> — Check physical server utilization (CPU, memory). Identify which servers are overloaded and which have capacity.</li>
+      </ul>
+
+      <h3>Reading Hardware Utilization</h3>
+      <ul>
+        <li><strong>cn-runlab-01</strong> at 40% CPU, 65% memory → Still has capacity to host more VMs</li>
+        <li><strong>cn-PROD-01</strong> at 100% CPU → Already at maximum, might need to rebalance</li>
+        <li><strong>cn-backup-01</strong> at 0% → The server is not running</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Managing VMs in production means <strong>monitoring states, creating resources on demand, and keeping an eye on hardware utilization</strong>. Over-provisioning wastes money, under-provisioning causes outages. It's a balancing act.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — CONCLUSION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">05 — Recap</div>
+      <h2>Key Terminology</h2>
+      <ul>
+        <li><strong>Virtualization</strong> — Enables a single physical computer to act like multiple separate computers.</li>
+        <li><strong>Hypervisor</strong> — The "manager" software that makes and runs the virtual computers.</li>
+        <li><strong>Virtual Machine (VM)</strong> — A whole virtual computer inside the real one, with its own system.</li>
+        <li><strong>Container</strong> — A small, isolated box for one app that shares the same system as the host.</li>
+        <li><strong>Container Image</strong> — A pre-packed recipe/template used to create containers.</li>
+        <li><strong>Network Ports</strong> — Special numbered entry points that apps use to talk over the network.</li>
+      </ul>
+
+      <h3>Key Benefits of Virtualisation</h3>
+      <ul>
+        <li>Cost savings</li>
+        <li>Better resource usage</li>
+        <li>Safe testing for cyber security</li>
+        <li>Faster deployment</li>
+        <li>Flexibility</li>
+        <li>Portability</li>
+        <li>Scalability</li>
+        <li>Centralized management</li>
+      </ul>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Virtualisation</strong> — Running multiple virtual computers on a single physical machine.</li>
+        <li><strong>Hypervisor</strong> — Software that creates and manages VMs. The "building manager".</li>
+        <li><strong>Type 1 (Bare-Metal)</strong> — Hypervisor running directly on hardware. For production/data centers.</li>
+        <li><strong>Type 2 (Hosted)</strong> — Hypervisor running within an existing OS. For learning/testing.</li>
+        <li><strong>VM (Virtual Machine)</strong> — A full virtual computer with its own OS, CPU, RAM, storage.</li>
+        <li><strong>Container</strong> — Lightweight isolated environment sharing the host's kernel. Fast to start.</li>
+        <li><strong>Docker</strong> — Open-source platform for building and running containers.</li>
+        <li><strong>Container Image</strong> — Template/recipe used to create containers.</li>
+        <li><strong>Kernel</strong> — The core of an OS that communicates with hardware and manages resources.</li>
+        <li><strong>VirtualBox</strong> — Free Type 2 hypervisor by Oracle.</li>
+        <li><strong>VMware Workstation</strong> — Commercial Type 2 hypervisor.</li>
+        <li><strong>Host</strong> — The physical machine running the hypervisor.</li>
+        <li><strong>Guest</strong> — The virtual machine running on the host.</li>
+        <li><strong>Isolation</strong> — VMs and containers are separated from each other for safety.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What does virtualization enable multiple applications to share?</div>
+        <div class="a hidden">A physical server</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the name of the software that manages the resources for each virtual machine?</div>
+        <div class="a hidden">Hypervisor</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between Type 1 and Type 2 hypervisors?</div>
+        <div class="a hidden">Type 1 runs directly on physical hardware (bare-metal, for production). Type 2 runs within an existing OS (hosted, for testing/learning).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which type of hypervisor would you use for a cybersecurity lab on your laptop?</div>
+        <div class="a hidden">Type 2 (e.g. VirtualBox or VMware Workstation)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the key difference between a VM and a container?</div>
+        <div class="a hidden">A VM has its own full OS (like a complete apartment). A container shares the host's kernel (like a room inside an apartment) — lighter and faster to start.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What should a company use to host multiple small applications in the same virtual machine?</div>
+        <div class="a hidden">Containers</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Docker?</div>
+        <div class="a hidden">An open-source platform for building, deploying, and running applications using containerization.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why can't you run a Windows container on a Linux machine?</div>
+        <div class="a hidden">Containers share the host's kernel, so they must match the host system's type.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Using the building analogy: what are the building, apartments, tenants, and manager?</div>
+        <div class="a hidden">Building = physical server. Apartments = VMs. Tenants = apps or operating systems. Manager = hypervisor.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name 4 benefits of virtualisation.</div>
+        <div class="a hidden">Cost savings, better resource usage, safe testing for cybersecurity, faster deployment, flexibility, portability, scalability, centralized management (any 4).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What was the old rule of thumb before virtualisation?</div>
+        <div class="a hidden">"One server = one application"</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
