@@ -121,6 +121,15 @@ const NOTES = [
     topic: "os",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "packets-and-frames",
+    title: "Packets & Frames",
+    desc: "Packets vs frames, TCP three-way handshake (SYN/ACK), UDP, and the 6 essential ports (21, 22, 80, 443, 445, 3389).",
+    tag: "TryHackMe — Network Fundamentals",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 16, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

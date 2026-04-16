@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Packets & Frames — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .handshake { display:flex; flex-direction:column; align-items:center; gap:0; margin:1.2rem 0; max-width:420px; }
+    .hs-parties { display:flex; justify-content:space-between; width:100%; margin-bottom:0.6rem; }
+    .hs-party { font-family:var(--font-display); font-size:0.75rem; font-weight:700; color:#fff; text-align:center; padding:0.4rem 1.2rem; background:var(--bg-deep); border:1px solid var(--border); border-radius:6px; }
+    .hs-arrow { display:flex; align-items:center; width:100%; padding:0.3rem 0; gap:0.5rem; }
+    .hs-arrow .line { flex:1; height:2px; position:relative; }
+    .hs-arrow .line::after { content:''; position:absolute; right:-2px; top:-4px; border:5px solid transparent; }
+    .hs-arrow.right .line { background:var(--accent); }
+    .hs-arrow.right .line::after { border-left-color:var(--accent); right:-8px; }
+    .hs-arrow.left .line { background:var(--accent2); }
+    .hs-arrow.left .line::before { content:''; position:absolute; left:-8px; top:-4px; border:5px solid transparent; border-right-color:var(--accent2); }
+    .hs-label { font-family:var(--font-display); font-size:0.68rem; font-weight:700; white-space:nowrap; min-width:80px; }
+    .hs-desc { font-size:0.62rem; color:var(--text-dim); }
+
+    .port-table { width:100%; border-collapse:collapse; margin-top:0.8rem; font-size:0.75rem; }
+    .port-table th { text-align:left; padding:0.5rem; color:var(--accent); font-family:var(--font-display); font-size:0.62rem; text-transform:uppercase; border-bottom:1px solid var(--border); }
+    .port-table td { padding:0.5rem; color:var(--text-dim); border-bottom:1px solid var(--border); }
+    .port-table .port-num { font-family:var(--font-display); font-weight:700; color:var(--accent2); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Network Fundamentals</div>
+      <h1>Packets & Frames</h1>
+      <p>How data is divided into smaller pieces and transmitted across a network to another device.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — PACKETS VS FRAMES -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Building Blocks of Data</div>
+      <h2>What are Packets and Frames?</h2>
+      <p>Packets and frames are small pieces of data that, when forming together, make a larger piece of information or message. They are <strong>two different things in the OSI model</strong>.</p>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Packet (Layer 3 — Network)</div>
+          <div class="desc">A piece of data containing information such as an <strong>IP header and payload</strong>. When we talk about anything involving IP addresses, we're talking about packets.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Frame (Layer 2 — Data Link)</div>
+          <div class="desc">Encapsulates the packet and adds additional information such as <strong>MAC addresses</strong>. When the encapsulating information is stripped away, we're talking about the frame itself.</div>
+        </div>
+      </div>
+
+      <p>Think of it like <strong>mailing a letter</strong>: the packet is the letter (contents), the frame is the envelope (used to move the letter to another place). Once the recipient opens the envelope (frame), they know how to forward the letter (packet) itself.</p>
+
+      <p>Data is exchanged in small pieces rather than as a whole — this is more efficient and reduces bottlenecking on the network. For example, when loading an image from a website, it's not sent as a whole but rather in small pieces that are reconstructed on your computer.</p>
+
+      <h3>Key Packet Headers (Internet Protocol)</h3>
+      <ul>
+        <li><strong>Time to Live (TTL)</strong> — An expiry timer for the packet so it doesn't clog up your network if it never reaches its destination.</li>
+        <li><strong>Checksum</strong> — Provides integrity checking for protocols such as TCP/IP. If any data is changed, this value will be different from what was expected → data is corrupt.</li>
+        <li><strong>Source Address</strong> — The IP address of the device the packet is being sent <strong>from</strong>, so data knows where to return to.</li>
+        <li><strong>Destination Address</strong> — The IP address the packet is being sent <strong>to</strong>, so data knows where to travel next.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Packet</strong> = has IP addressing info (Layer 3). <strong>Frame</strong> = does NOT have IP addressing info, has MAC addresses instead (Layer 2). The frame wraps around the packet like an envelope wraps a letter.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — TCP/IP THREE-WAY HANDSHAKE -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Establishing Trust</div>
+      <h2>TCP/IP (The Three-Way Handshake)</h2>
+      <p><strong>TCP</strong> (Transmission Control Protocol) is similar to the OSI model but consists of <strong>four layers</strong> and is arguably just a summarized version of the OSI model:</p>
+      <ul>
+        <li>Application</li>
+        <li>Transport</li>
+        <li>Internet</li>
+        <li>Network Interface</li>
+      </ul>
+      <p>The defining feature of TCP is that it's <strong>connection-based</strong>: TCP must establish a connection between both a client and a device acting as a server <strong>before</strong> data is sent. This guarantee means any data sent <strong>will</strong> be received on the other end.</p>
+
+      <h3>TCP Headers</h3>
+      <ul>
+        <li><strong>Source Port</strong> — The port opened by the sender to send the TCP packet from. Chosen randomly from ports not already in use (0-65535).</li>
+        <li><strong>Destination Port</strong> — The port number that an application or service is running on the remote host (e.g. a webserver on port 80).</li>
+        <li><strong>Sequence Number</strong> — When a connection occurs, the first piece of data transmitted is given a random number. We'll explore this in depth further.</li>
+        <li><strong>Acknowledgement Number</strong> — After data has been given a sequence number, the number for the next piece of data will have the sequence number + 1.</li>
+        <li><strong>Checksum</strong> — Integrity check. A mathematical calculation ensures that the output is the same. If different from what was sent → data is corrupt.</li>
+        <li><strong>Data</strong> — The header is where the data (bytes of a file) that is being transmitted is stored.</li>
+        <li><strong>Flag</strong> — Determines how the packet should be handled during the handshake process. Specific flags will determine specific behaviours.</li>
+      </ul>
+
+      <h3>The Three-Way Handshake</h3>
+      <p>Before data can be sent, TCP must establish a connection. This is done through a process called the <strong>three-way handshake</strong>:</p>
+
+      <table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.78rem;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;">Step</th>
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;">Message</th>
+            <th style="text-align:left;padding:0.5rem;color:var(--accent);font-family:var(--font-display);font-size:0.62rem;">Description</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--text-dim);">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;font-weight:700;color:#fff;">1</td><td style="padding:0.5rem;font-family:var(--font-display);color:var(--accent);">SYN</td><td style="padding:0.5rem;">Initial packet sent by a client during the handshake. Used to initiate a connection and synchronize the two devices together.</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;font-weight:700;color:#fff;">2</td><td style="padding:0.5rem;font-family:var(--font-display);color:var(--accent2);">SYN/ACK</td><td style="padding:0.5rem;">Sent by the receiving device to acknowledge the synchronization attempt from the client.</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;font-weight:700;color:#fff;">3</td><td style="padding:0.5rem;font-family:var(--font-display);color:var(--accent);">ACK</td><td style="padding:0.5rem;">Acknowledgement packet used by either client or server to acknowledge that messages have been successfully received.</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;font-weight:700;color:#fff;">4</td><td style="padding:0.5rem;font-family:var(--font-display);color:var(--accent3);">DATA</td><td style="padding:0.5rem;">Once a connection has been established, data (such as bytes of a file) is sent via the "DATA" message.</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem;font-weight:700;color:#fff;">5</td><td style="padding:0.5rem;font-family:var(--font-display);color:var(--accent4);">FIN</td><td style="padding:0.5rem;">Used to cleanly (properly) close the connection after it has been complete.</td></tr>
+          <tr><td style="padding:0.5rem;font-weight:700;color:#fff;">6</td><td style="padding:0.5rem;font-family:var(--font-display);color:var(--red);">RST</td><td style="padding:0.5rem;">Abruptly ends all communication. This is the last resort and indicates there was some problem during the process.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Opening a Connection — Visual</h3>
+      <div class="flow">
+        <div class="flow-step">Alice<br>(Client)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--accent);">SYN</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Bob<br>(Server)</div>
+      </div>
+      <div class="flow">
+        <div class="flow-step">Alice</div>
+        <span class="flow-arrow">←</span>
+        <div class="flow-step" style="background:rgba(0,180,216,0.1);border-color:rgba(0,180,216,0.3);color:var(--accent2);">SYN/ACK</div>
+        <span class="flow-arrow">←</span>
+        <div class="flow-step">Bob</div>
+      </div>
+      <div class="flow">
+        <div class="flow-step">Alice</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--accent);">ACK</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Bob</div>
+      </div>
+
+      <h3>Closing a Connection</h3>
+      <p>To properly close a TCP connection, devices use <strong>FIN</strong> packets. Both sides must send and acknowledge a FIN. Alice sends FIN → Bob sends ACK + FIN → Alice sends ACK. The connection is now closed. Both know it's over and can release the connection state cleanly.</p>
+
+      <h3>Sequence Numbers</h3>
+      <p>Any sent data is given a random initial sequence number (ISN) and is communicated using that number sequence, incrementing by 1:</p>
+      <ul>
+        <li>SYN — Client sends ISN (e.g. 0)</li>
+        <li>SYN/ACK — Server sends its own ISN (e.g. 5,000) and ACKs the client's: 0+1 = 1</li>
+        <li>ACK — Client ACKs the server's: 5,000+1 = 5,001. Data is now ISN+1 (= 1).</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The three-way handshake is <strong>SYN → SYN/ACK → ACK</strong>. Think of it as: "Can you hear me?" → "Yes, can you hear me?" → "Yes!" Now the connection is open. This is fundamental to how the web works — every HTTP connection starts with this.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — UDP/IP -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — The Fast Alternative</div>
+      <h2>UDP/IP</h2>
+      <p>The <strong>User Datagram Protocol (UDP)</strong> is a <strong>stateless</strong> protocol used to communicate data between devices. Unlike TCP, it doesn't require a constant connection, no three-way handshake occurs, and there is no synchronization between devices.</p>
+
+      <h3>UDP Advantages & Disadvantages</h3>
+      <div class="mal-grid">
+        <div class="mal-item" style="border-color:rgba(0,229,160,0.25);">
+          <div class="name" style="color:var(--accent);">Advantages</div>
+          <div class="desc">Much faster than TCP. Flexible for developers (app decides control). Doesn't reserve a continuous connection on a device.</div>
+        </div>
+        <div class="mal-item" style="border-color:rgba(239,68,68,0.25);">
+          <div class="name" style="color:var(--red);">Disadvantages</div>
+          <div class="desc">Doesn't care if data is received. Unstable connections = terrible experience. No built-in safeguards like data integrity.</div>
+        </div>
+      </div>
+
+      <h3>UDP Headers</h3>
+      <ul>
+        <li><strong>Time to Live (TTL)</strong> — Expiry timer so the packet doesn't clog the network.</li>
+        <li><strong>Source Address</strong> — IP of the sending device.</li>
+        <li><strong>Destination Address</strong> — IP of the receiving device.</li>
+        <li><strong>Source Port</strong> — Randomly chosen port opened by the sender (0-65535, not already in use).</li>
+        <li><strong>Destination Port</strong> — Port of the application/service on the remote host (e.g. webserver on port 80). Unlike source port, this is <strong>not chosen at random</strong>.</li>
+        <li><strong>Data</strong> — Where the actual bytes of the file being transmitted are stored.</li>
+      </ul>
+
+      <p>UDP packets are much simpler than TCP and have fewer headers. No acknowledgement is sent during a UDP connection — data is just fired and forgotten.</p>
+
+      <h3>UDP Connection — Visual</h3>
+      <p>Alice simply sends requests, Bob sends responses. No handshake, no ACK, no guarantee of delivery.</p>
+
+      <div class="key-box">
+        <div class="lbl">TCP vs UDP — Final Rule</div>
+        <p><strong>Need a file transferred completely?</strong> → TCP. <strong>Need a video call?</strong> → UDP. TCP checks everything; UDP just sends and hopes for the best.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — PORTS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — The Doors to Services</div>
+      <h2>Ports 101</h2>
+      <p>Ports are an essential point in which data can be exchanged. Think of a <strong>harbour and port</strong>: ships must dock at a port compatible with their dimensions and facilities. A cruise liner cannot dock at a port made for a fishing vessel.</p>
+      <p>In computing, ports enforce strict rules when communicating. When a connection has been established, any data sent or received by a device will be sent through these ports. Ports are a numerical value between <strong>0 and 65535</strong> (65,535 total).</p>
+
+      <h3>Common vs Custom Ports</h3>
+      <p>Any port within <strong>0 and 1024</strong> (1,024) is known as a <strong>common port</strong>. These protocols only follow the standards — you can run a web server on port 8080 instead of 80, but you'll have to specify the port with a colon (<code>:8080</code>).</p>
+
+      <h3>Common Ports to Memorize</h3>
+      <table class="port-table">
+        <thead>
+          <tr>
+            <th>Protocol</th>
+            <th>Port</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>FTP</strong> (File Transfer Protocol)</td><td class="port-num">21</td><td>File-sharing application built on client-server model. Download files from a central location.</td></tr>
+          <tr><td><strong>SSH</strong> (Secure Shell)</td><td class="port-num">22</td><td>Securely login to systems via a text-based interface for remote management.</td></tr>
+          <tr><td><strong>HTTP</strong> (HyperText Transfer Protocol)</td><td class="port-num">80</td><td>Powers the World Wide Web. Browser uses this to download text, images, and videos of web pages.</td></tr>
+          <tr><td><strong>HTTPS</strong> (HTTP Secure)</td><td class="port-num">443</td><td>Exact same as HTTP, but securely using <strong>encryption</strong>.</td></tr>
+          <tr><td><strong>SMB</strong> (Server Message Block)</td><td class="port-num">445</td><td>Similar to FTP, but also allows sharing devices like printers.</td></tr>
+          <tr><td><strong>RDP</strong> (Remote Desktop Protocol)</td><td class="port-num">3389</td><td>Securely log in to a system using a <strong>visual desktop interface</strong> (as opposed to SSH's text-based).</td></tr>
+        </tbody>
+      </table>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Memorize these 6 ports — they come up <strong>constantly</strong> in cybersecurity: <strong>21</strong> (FTP), <strong>22</strong> (SSH), <strong>80</strong> (HTTP), <strong>443</strong> (HTTPS), <strong>445</strong> (SMB), <strong>3389</strong> (RDP). Ports 0-1024 are "common ports" with standard assignments.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Packet</strong> — Data with IP addressing (Layer 3, Network).</li>
+        <li><strong>Frame</strong> — Data with MAC addressing (Layer 2, Data Link). Wraps the packet.</li>
+        <li><strong>Encapsulation</strong> — Adding headers at each layer as data moves down the OSI stack.</li>
+        <li><strong>TCP</strong> — Transmission Control Protocol. Connection-based, reliable, ordered.</li>
+        <li><strong>UDP</strong> — User Datagram Protocol. Stateless, fast, no guarantee.</li>
+        <li><strong>Three-Way Handshake</strong> — SYN → SYN/ACK → ACK. How TCP establishes a connection.</li>
+        <li><strong>SYN</strong> — Synchronize. Initial connection request.</li>
+        <li><strong>SYN/ACK</strong> — Synchronize + Acknowledge. Server's response.</li>
+        <li><strong>ACK</strong> — Acknowledge. Confirms receipt.</li>
+        <li><strong>FIN</strong> — Finish. Cleanly closes a connection.</li>
+        <li><strong>RST</strong> — Reset. Abruptly ends all communication (last resort).</li>
+        <li><strong>ISN</strong> — Initial Sequence Number. Random number assigned to first data piece.</li>
+        <li><strong>TTL</strong> — Time to Live. Expiry timer for packets.</li>
+        <li><strong>Checksum</strong> — Integrity check ensuring data hasn't been corrupted.</li>
+        <li><strong>Port</strong> — Numbered entry point (0-65535) identifying a service on a device.</li>
+        <li><strong>Common Port</strong> — Ports 0-1024 with standard protocol assignments.</li>
+        <li><strong>FTP</strong> — File Transfer Protocol (port 21).</li>
+        <li><strong>SSH</strong> — Secure Shell (port 22).</li>
+        <li><strong>HTTP</strong> — HyperText Transfer Protocol (port 80).</li>
+        <li><strong>HTTPS</strong> — HTTP Secure (port 443).</li>
+        <li><strong>SMB</strong> — Server Message Block (port 445).</li>
+        <li><strong>RDP</strong> — Remote Desktop Protocol (port 3389).</li>
+        <li><strong>Stateless</strong> — No connection maintained between messages (UDP).</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the name for a piece of data when it DOES have IP addressing information?</div>
+        <div class="a hidden">Packet</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the name for a piece of data when it does NOT have IP addressing information?</div>
+        <div class="a hidden">Frame</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the header in a TCP packet that ensures the integrity of data?</div>
+        <div class="a hidden">Checksum</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 3 steps of the TCP three-way handshake.</div>
+        <div class="a hidden">SYN → SYN/ACK → ACK</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does SYN stand for?</div>
+        <div class="a hidden">Synchronize</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What message is used to cleanly close a TCP connection?</div>
+        <div class="a hidden">FIN (Finish)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What message abruptly ends all communication?</div>
+        <div class="a hidden">RST (Reset)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does UDP stand for?</div>
+        <div class="a hidden">User Datagram Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of connection is UDP?</div>
+        <div class="a hidden">Stateless</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What protocol would you use to transfer a file?</div>
+        <div class="a hidden">TCP (accuracy is critical for files)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What protocol would you use for a video call?</div>
+        <div class="a hidden">UDP (speed over accuracy)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the port range in computing?</div>
+        <div class="a hidden">0 to 65535</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What range is considered "common ports"?</div>
+        <div class="a hidden">0 to 1024</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What port does FTP use?</div>
+        <div class="a hidden">21</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What port does SSH use?</div>
+        <div class="a hidden">22</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What port does HTTP use?</div>
+        <div class="a hidden">80</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What port does HTTPS use?</div>
+        <div class="a hidden">443</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What port does SMB use?</div>
+        <div class="a hidden">445</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What port does RDP use?</div>
+        <div class="a hidden">3389</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between SSH (22) and RDP (3389)?</div>
+        <div class="a hidden">SSH = text-based remote login. RDP = visual desktop remote login. Both are remote access, different interfaces.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
