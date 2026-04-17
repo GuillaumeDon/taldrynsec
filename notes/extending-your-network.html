@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extending Your Network — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">TryHackMe · Pre Security · Network Fundamentals</div>
+      <h1>Extending Your Network</h1>
+      <p>Technologies used to extend networks out onto the Internet — port forwarding, firewalls, VPNs, and LAN devices.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.25);color:var(--accent2);">TryHackMe</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — PORT FORWARDING -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Opening the Door</div>
+      <h2>Introduction to Port Forwarding</h2>
+      <p>Port forwarding is an essential component in connecting applications and services to the Internet. Without it, applications and services such as web servers are <strong>only available to devices within the same direct network</strong> (this is known as an <strong>intranet</strong>).</p>
+
+      <h3>How It Works</h3>
+      <p>A server with IP <code>192.168.1.10</code> runs a webserver on port 80. Without port forwarding, only the two other computers on this network can access it. With port forwarding configured on the router, Network #2 can access the webserver using the <strong>public IP address</strong> of Network #1 (e.g. <code>82.62.51.70</code>).</p>
+
+      <div class="flow">
+        <div class="flow-step">Server<br>192.168.1.10<br>Port 80</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Router<br>(port forward<br>configured)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Public IP<br>82.62.51.70<br>Port 80</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">The Internet<br>Anyone can<br>access it</div>
+      </div>
+
+      <h3>Port Forwarding vs Firewall</h3>
+      <p>Easy to confuse but very different: <strong>port forwarding opens specific ports</strong> (tells the router where to send incoming packets). <strong>Firewalls determine if traffic can travel across those ports</strong> (even if they're open by port forwarding).</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Port forwarding is configured at the <strong>router</strong>. It maps a public port to an internal IP + port, making internal services accessible from the Internet. Without it, your services stay trapped on the intranet.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — FIREWALLS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Border Guard</div>
+      <h2>Firewalls 101</h2>
+      <p>A <strong>firewall</strong> is a device within a network responsible for determining what traffic is allowed to enter and exit. Think of it as <strong>border security</strong> for a network. An administrator configures a firewall to <strong>permit or deny</strong> traffic based on:</p>
+      <ul>
+        <li>Where the traffic is <strong>coming from</strong>? (source network/IP)</li>
+        <li>Where is the traffic <strong>going to</strong>? (destination network/IP)</li>
+        <li>What <strong>port</strong> is the traffic for?</li>
+        <li>What <strong>protocol</strong> is the traffic using? (UDP, TCP, or both?)</li>
+      </ul>
+      <p>Firewalls perform <strong>packet inspection</strong> to determine the answers. They come in all shapes and sizes — from dedicated hardware in large networks to software like Snort on residential routers. They operate at <strong>Layers 3 & 4</strong> of the OSI model.</p>
+
+      <h3>Stateful vs Stateless Firewalls</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Stateful</div>
+          <div class="desc">Uses the <strong>entire information from a connection</strong> — not just individual packets, but the <strong>behaviour of the whole connection</strong>. Dynamic decision making. Resource-intensive. Example: a firewall could allow the first parts of a TCP handshake but block if it would later fail. If a connection from a host is bad, it <strong>blocks the entire device</strong>.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Stateless</div>
+          <div class="desc">Uses a <strong>static set of rules</strong> to determine if <strong>individual packets</strong> are acceptable. A bad packet from a device won't necessarily block the entire device. Uses <strong>much fewer resources</strong> but is "dumber" — only effective for the rules defined within them. Great against <strong>DDoS attacks</strong> (large amounts of traffic from many hosts).</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Stateful</strong> = inspects the entire connection (smarter, heavier). <strong>Stateless</strong> = inspects individual packets against static rules (faster, simpler). Both operate at <strong>OSI Layers 3 & 4</strong>.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — VPN -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Secure Tunnels</div>
+      <h2>VPN Basics</h2>
+      <p>A <strong>Virtual Private Network (VPN)</strong> allows devices on separate networks to communicate securely by creating a <strong>dedicated path between each other over the Internet</strong> (known as a <strong>tunnel</strong>). Devices connected within this tunnel form their own private network.</p>
+
+      <h3>VPN Benefits</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Connect Remote Networks</div>
+          <div class="desc">A business with multiple offices can connect them. Resources like servers and infrastructure can be <strong>accessed from another office</strong>.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Privacy</div>
+          <div class="desc">VPN uses <strong>encryption</strong> to protect data. Only understood between the devices it was being sent from and to. Useful on <strong>public WiFi</strong> where no encryption is provided by the network.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Anonymity</div>
+          <div class="desc">Journalists and activists use VPNs in countries where freedom of speech is controlled. Your traffic is normally viewable by your <strong>ISP</strong> and can be tracked. Note: a VPN that logs all your data/history is essentially the same as not using a VPN.</div>
+        </div>
+      </div>
+
+      <h3>VPN Technologies</h3>
+      <ul>
+        <li><strong>PPP</strong> — Used by PPTP to allow authentication and provide encryption. Uses a private key & public certificate to match. Technology is <strong>not capable of leaving a network by itself</strong> (non-routable).</li>
+        <li><strong>PPTP</strong> (Point-to-Point Tunneling Protocol) — The technology that allows data from PPP to travel and leave a network. Very easy to set up and supported by most devices. However, <strong>weakly encrypted</strong> compared to alternatives.</li>
+        <li><strong>IPSec</strong> (Internet Protocol Security) — Encrypts data using the existing <strong>IP framework</strong>. Difficult to set up but boasts <strong>strong encryption</strong> and is supported on many devices.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>VPN = encrypted tunnel over the Internet. <strong>PPP</strong> = only encrypts, can't leave the network. <strong>PPTP</strong> = easy but weak encryption. <strong>IPSec</strong> = hard to set up but strong encryption. Always check if your VPN provider <strong>logs your data</strong> — if they do, it defeats the purpose.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — LAN DEVICES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — The Network Hardware</div>
+      <h2>LAN Networking Devices</h2>
+
+      <h3>What is a Router?</h3>
+      <p>A router's job is to <strong>connect networks and pass data between them</strong> using <strong>routing</strong> (hence the name). Routers operate at <strong>Layer 3</strong> of the OSI model. They often feature an interactive interface (website or console) for administrators to configure rules like port forwarding or firewalling.</p>
+      <p>Routing is useful when devices are connected by many paths — the most optimal path is chosen based on: shortest path, most reliable path, and fastest physical medium (copper vs fibre).</p>
+      <p>Routers are <strong>dedicated devices</strong> and do not perform the same functions as switches.</p>
+
+      <h3>What is a Switch?</h3>
+      <p>A switch is a dedicated networking device responsible for providing a means of <strong>connecting multiple devices</strong> (from 3 to 63) using <strong>Ethernet cables</strong>.</p>
+
+      <h3>Layer 2 Switch vs Layer 3 Switch</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Layer 2 Switch</div>
+          <div class="desc">Forwards <strong>frames</strong> (remember: frames have MAC addresses, not IP) to the connected devices using their <strong>MAC address</strong>. Solely responsible for sending frames to the correct device. <strong>Cannot operate at Layer 3</strong> (no IP routing).</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Layer 3 Switch</div>
+          <div class="desc">More sophisticated. Can perform <strong>some responsibilities of a router</strong>: send frames to devices (like Layer 2) AND <strong>route packets to other devices using the IP protocol</strong>.</div>
+        </div>
+      </div>
+
+      <h3>VLANs (Virtual Local Area Network)</h3>
+      <p>A technology called <strong>VLAN</strong> allows specific devices within a network to be <strong>virtually split up</strong>. This split means they can all benefit from the same Internet connection but are <strong>treated separately</strong>. This network separation provides security because it means that rules determine how specific devices communicate with each other.</p>
+      <p>Example: a Layer 3 switch with two VLANs — Sales Department (VLAN 1, <code>192.168.1.1</code>) and Accounting Department (VLAN 2, <code>192.168.2.1</code>). Both can access the Internet, but <strong>cannot communicate with each other</strong> even though they're connected to the same switch.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Router</strong> = connects networks (Layer 3). <strong>Switch</strong> = connects devices within a network. <strong>Layer 2 switch</strong> = uses MAC addresses only. <strong>Layer 3 switch</strong> = uses MAC + IP (can do some routing). <strong>VLAN</strong> = virtual separation on the same physical switch for security.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Port Forwarding</strong> — Configuring the router to direct incoming traffic on a specific port to an internal device.</li>
+        <li><strong>Intranet</strong> — A private network accessible only to devices within the same direct network.</li>
+        <li><strong>Firewall</strong> — Device that permits or denies traffic based on rules (source, destination, port, protocol).</li>
+        <li><strong>Packet Inspection</strong> — Examining packets to decide if they should be allowed or blocked.</li>
+        <li><strong>Stateful Firewall</strong> — Inspects entire connection behaviour. Smarter, more resource-intensive.</li>
+        <li><strong>Stateless Firewall</strong> — Inspects individual packets against static rules. Faster, less resource-intensive.</li>
+        <li><strong>DDoS</strong> — Distributed Denial-of-Service. Attack using large amounts of traffic from many hosts.</li>
+        <li><strong>VPN</strong> — Virtual Private Network. Encrypted tunnel over the Internet between devices.</li>
+        <li><strong>Tunnel</strong> — The dedicated encrypted path created by a VPN.</li>
+        <li><strong>PPP</strong> — Point-to-Point Protocol. Provides authentication and encryption. Non-routable alone.</li>
+        <li><strong>PPTP</strong> — Point-to-Point Tunneling Protocol. Easy to set up, weak encryption.</li>
+        <li><strong>IPSec</strong> — Internet Protocol Security. Strong encryption, harder to set up.</li>
+        <li><strong>Router</strong> — Connects different networks. Operates at Layer 3. Performs routing.</li>
+        <li><strong>Routing</strong> — Finding the best path for data to travel between networks.</li>
+        <li><strong>Switch</strong> — Connects multiple devices within a network using Ethernet cables.</li>
+        <li><strong>Layer 2 Switch</strong> — Forwards frames using MAC addresses only.</li>
+        <li><strong>Layer 3 Switch</strong> — Forwards frames (MAC) AND routes packets (IP). Can do some router work.</li>
+        <li><strong>VLAN</strong> — Virtual Local Area Network. Virtually splits devices on the same switch for security and isolation.</li>
+        <li><strong>Snort</strong> — Open-source software firewall / intrusion detection system.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the name of the device that is used to configure port forwarding?</div>
+        <div class="a hidden">Router</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between port forwarding and a firewall?</div>
+        <div class="a hidden">Port forwarding opens specific ports (tells the router where to send traffic). Firewalls determine if traffic can travel across those ports (even if open).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What layers of the OSI model do firewalls operate at?</div>
+        <div class="a hidden">Layers 3 & 4</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What category of firewall inspects the entire connection?</div>
+        <div class="a hidden">Stateful</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What category of firewall inspects individual packets?</div>
+        <div class="a hidden">Stateless</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which firewall type is better against DDoS attacks?</div>
+        <div class="a hidden">Stateless (faster, handles large volumes of traffic from many hosts)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What VPN technology only encrypts & provides authentication but can't leave a network?</div>
+        <div class="a hidden">PPP</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What VPN technology uses the IP framework for strong encryption?</div>
+        <div class="a hidden">IPSec</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the 3 benefits of a VPN?</div>
+        <div class="a hidden">Connect remote networks, Privacy (encryption), Anonymity</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the verb for the action that a router does?</div>
+        <div class="a hidden">Routing</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the two different layers of switches?</div>
+        <div class="a hidden">Layer 2 and Layer 3</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between a Layer 2 and Layer 3 switch?</div>
+        <div class="a hidden">Layer 2 = forwards frames using MAC only. Layer 3 = forwards frames (MAC) AND routes packets (IP), can do some router work.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a VLAN and why is it useful?</div>
+        <div class="a hidden">Virtual Local Area Network — virtually splits devices on the same switch into separate networks for security and isolation, even though they share the same Internet connection.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is an intranet?</div>
+        <div class="a hidden">A private network only accessible to devices within the same direct network (not exposed to the Internet).</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

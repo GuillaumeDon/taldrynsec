@@ -130,6 +130,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 16, 2026"
   },
+  {
+    slug: "extending-your-network",
+    title: "Extending Your Network",
+    desc: "Port forwarding, firewalls (stateful vs stateless), VPN (PPP/PPTP/IPSec), routers, L2 vs L3 switches, VLANs.",
+    tag: "TryHackMe — Network Fundamentals",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 17, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
