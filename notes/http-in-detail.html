@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTTP in Detail — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .status-table { width:100%; border-collapse:collapse; margin:0.8rem 0; font-size:0.75rem; }
+    .status-table th { text-align:left; padding:0.5rem; color:var(--accent); font-family:var(--font-display); font-size:0.62rem; text-transform:uppercase; border-bottom:1px solid var(--border); }
+    .status-table td { padding:0.5rem; color:var(--text-dim); border-bottom:1px solid var(--border); }
+    .status-table .code { font-family:var(--font-display); font-weight:700; }
+    .s1xx .code { color:var(--text-dim); }
+    .s2xx .code { color:var(--accent); }
+    .s3xx .code { color:var(--accent2); }
+    .s4xx .code { color:var(--accent4); }
+    .s5xx .code { color:var(--red); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">How The Web Works</div>
+      <h1>HTTP in Detail</h1>
+      <p>Learn how you request content from a web server using the HTTP protocol.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — HTTP vs HTTPS -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Protocol of the Web</div>
+      <h2>What is HTTP(S)?</h2>
+      <p><strong>HTTP</strong> (HyperText Transfer Protocol) is used whenever you view a website. Developed by Tim Berners-Lee and his team between 1989-1991, HTTP is the set of rules used for communicating with web servers for the transmitting of webpage data — HTML, images, videos, etc.</p>
+      <p><strong>HTTPS</strong> (HyperText Transfer Protocol Secure) is the secure version of HTTP. HTTPS data is <strong>encrypted</strong> so it not only stops people from seeing the data you are receiving and sending, but it also gives you assurances that you're talking to the correct web server and not something impersonating it.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>HTTP</strong> = data in plain text (anyone can read it). <strong>HTTPS</strong> = data encrypted (private + verified server identity). The "S" stands for <strong>Secure</strong>. Always look for the padlock icon in your browser.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — REQUESTS AND RESPONSES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — How Communication Works</div>
+      <h2>Requests and Responses</h2>
+
+      <h3>What is a URL? (Uniform Resource Locator)</h3>
+      <p>A URL is predominantly an instruction on how to access a resource on the Internet. Here's what a full URL looks like with all its features:</p>
+
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:1rem 0;font-family:var(--font-display);font-size:0.72rem;overflow-x:auto;">
+        <span style="color:var(--accent);">http</span>://<span style="color:var(--accent4);">user:password</span>@<span style="color:var(--accent2);">tryhackme.com</span>:<span style="color:var(--accent3);">80</span><span style="color:#fff;">/</span><span style="color:var(--accent);">view-room</span><span style="color:var(--text-dim);">?id=1</span><span style="color:var(--accent4);">#task3</span>
+      </div>
+
+      <ul>
+        <li><strong>Scheme</strong> — What protocol to use: <code>HTTP</code>, <code>HTTPS</code>, <code>FTP</code> (File Transfer Protocol).</li>
+        <li><strong>User</strong> — Some services require authentication. You can put a username and password into the URL to log in.</li>
+        <li><strong>Host</strong> — The domain name or IP address of the server you wish to access.</li>
+        <li><strong>Port</strong> — The port to connect to, usually 80 for HTTP and 443 for HTTPS. Can be any port between 1-65535.</li>
+        <li><strong>Path</strong> — The file name or location of the resource you are trying to access.</li>
+        <li><strong>Query String</strong> — Extra bits of information sent to the requested path. For example, <code>/blog?id=1</code> would tell the blog path to receive the article with id 1.</li>
+        <li><strong>Fragment</strong> — A reference to a location on the actual page requested. Commonly used for pages with long content to link directly to a certain part of the page.</li>
+      </ul>
+
+      <h3>Making a Request</h3>
+      <p>A request can be made with just one line: <code>GET / HTTP/1.1</code>. But for a richer experience, you'll need headers too.</p>
+
+      <h3>Example Request</h3>
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:0.8rem;margin:0.8rem 0;font-family:var(--font-display);font-size:0.68rem;color:var(--text-dim);line-height:1.8;">
+        <span style="color:var(--accent);">GET / HTTP/1.1</span><br>
+        <span style="color:var(--accent4);">Host:</span> tryhackme.com<br>
+        <span style="color:var(--accent4);">User-Agent:</span> Mozilla/5.0 Firefox/87.0<br>
+        <span style="color:var(--accent4);">Referer:</span> https://tryhackme.com/<br>
+        <br>
+      </div>
+      <ul>
+        <li><strong>Line 1</strong> — GET method, requesting the home page <code>/</code>, using HTTP protocol version 1.1.</li>
+        <li><strong>Line 2</strong> — Which website we want (Host).</li>
+        <li><strong>Line 3</strong> — What browser we're using.</li>
+        <li><strong>Line 4</strong> — The web page that referred us.</li>
+        <li><strong>Line 5</strong> — Blank line to inform the server the request has finished.</li>
+      </ul>
+
+      <h3>Example Response</h3>
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:0.8rem;margin:0.8rem 0;font-family:var(--font-display);font-size:0.68rem;color:var(--text-dim);line-height:1.8;">
+        <span style="color:var(--accent);">HTTP/1.1 200 OK</span><br>
+        <span style="color:var(--accent4);">Server:</span> nginx/1.15.8<br>
+        <span style="color:var(--accent4);">Date:</span> Fri, 09 Apr 2021 13:34:03 GMT<br>
+        <span style="color:var(--accent4);">Content-Type:</span> text/html<br>
+        <span style="color:var(--accent4);">Content-Length:</span> 98<br>
+        <br>
+        <span style="color:var(--accent3);">&lt;html&gt;...page content...&lt;/html&gt;</span>
+      </div>
+      <ul>
+        <li><strong>Line 1</strong> — HTTP version 1.1 + Status Code <code>200 OK</code> (request completed successfully).</li>
+        <li><strong>Line 2</strong> — Web server software and version number.</li>
+        <li><strong>Line 3</strong> — Current date, time and timezone.</li>
+        <li><strong>Line 4</strong> — Content-Type tells the client what sort of information is going to be sent (HTML, images, PDF, etc.).</li>
+        <li><strong>Line 5</strong> — Content-Length tells the client how long the response is, so we can confirm no data is missing.</li>
+        <li><strong>Line 6</strong> — Blank line to confirm the end of the response headers.</li>
+        <li><strong>Lines 7+</strong> — The actual requested content (the HTML page).</li>
+      </ul>
+    </div>
+
+    <!-- TASK 3 — HTTP METHODS -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — The Verbs</div>
+      <h2>HTTP Methods</h2>
+      <p>HTTP methods are a way for the client to show their <strong>intended action</strong> when making a request. The most common ones:</p>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">GET</div>
+          <div class="desc">Used for <strong>getting information</strong> from a web server. Reading a page, viewing an article.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">POST</div>
+          <div class="desc">Used for <strong>submitting data</strong> to the web server and potentially <strong>creating new records</strong>. Creating a user account, submitting a form.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">PUT</div>
+          <div class="desc">Used for <strong>submitting data to update information</strong>. Updating your email address, changing a profile.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">DELETE</div>
+          <div class="desc">Used for <strong>deleting information/records</strong> from a web server. Removing a picture, deleting an account.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Quick Rule</div>
+        <p><strong>GET</strong> = read. <strong>POST</strong> = create. <strong>PUT</strong> = update. <strong>DELETE</strong> = delete. This maps to <strong>CRUD</strong> operations (Create, Read, Update, Delete) — a fundamental concept in web development and APIs.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — STATUS CODES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — The Server's Answer</div>
+      <h2>HTTP Status Codes</h2>
+      <p>The first line of an HTTP response always contains a status code informing the client of the outcome. Status codes are broken into <strong>5 ranges</strong>:</p>
+
+      <table class="status-table">
+        <thead><tr><th>Range</th><th>Category</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr class="s1xx"><td class="code">100-199</td><td>Information</td><td>First part of request accepted, continue sending. No longer very common.</td></tr>
+          <tr class="s2xx"><td class="code">200-299</td><td>Success</td><td>Request was successful.</td></tr>
+          <tr class="s3xx"><td class="code">300-399</td><td>Redirection</td><td>Redirect the client to another resource (different page or website).</td></tr>
+          <tr class="s4xx"><td class="code">400-499</td><td>Client Errors</td><td>There was an error with the client's request.</td></tr>
+          <tr class="s5xx"><td class="code">500-599</td><td>Server Errors</td><td>Errors on the server-side. Usually indicates a major problem.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Common Status Codes to Memorize</h3>
+      <table class="status-table">
+        <thead><tr><th>Code</th><th>Name</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr class="s2xx"><td class="code">200</td><td>OK</td><td>Request completed successfully.</td></tr>
+          <tr class="s2xx"><td class="code">201</td><td>Created</td><td>A resource has been created (e.g. a new user or blog post).</td></tr>
+          <tr class="s3xx"><td class="code">301</td><td>Moved Permanently</td><td>Redirects the browser to a new URL permanently. Search engines update their links.</td></tr>
+          <tr class="s3xx"><td class="code">302</td><td>Found</td><td>Temporary redirect. The change may revert in the near future.</td></tr>
+          <tr class="s4xx"><td class="code">400</td><td>Bad Request</td><td>Something was wrong or missing in the client's request.</td></tr>
+          <tr class="s4xx"><td class="code">401</td><td>Not Authorised</td><td>Not currently allowed to view this resource until you have authorised (logged in).</td></tr>
+          <tr class="s4xx"><td class="code">403</td><td>Forbidden</td><td>You do not have permission to view this resource whether you're logged in or not.</td></tr>
+          <tr class="s4xx"><td class="code">404</td><td>Page Not Found</td><td>The page/resource you requested does not exist.</td></tr>
+          <tr class="s4xx"><td class="code">405</td><td>Method Not Allowed</td><td>The resource doesn't allow this method (e.g. you sent a GET but it expects a POST).</td></tr>
+          <tr class="s5xx"><td class="code">500</td><td>Internal Service Error</td><td>The server encountered an error it doesn't know how to handle.</td></tr>
+          <tr class="s5xx"><td class="code">503</td><td>Service Unavailable</td><td>Server cannot handle the request — overloaded or down for maintenance.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Remember the ranges: <strong>2xx = good</strong>, <strong>3xx = redirect</strong>, <strong>4xx = your fault</strong>, <strong>5xx = server's fault</strong>. The most important to memorize: 200, 301, 302, 400, 401, 403, 404, 500, 503.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — HEADERS -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">05 — Extra Information</div>
+      <h2>Headers</h2>
+      <p>Headers are additional bits of data you can send to the web server when making requests. Although no headers are strictly required, you'll find it difficult to view a website properly without them.</p>
+
+      <h3>Common Request Headers (Client → Server)</h3>
+      <ul>
+        <li><strong>Host</strong> — Which website you require. Some servers host multiple sites, so this tells them which one.</li>
+        <li><strong>User-Agent</strong> — Your browser software and version. Helps the server format the website properly for your browser.</li>
+        <li><strong>Content-Length</strong> — How much data the client is sending (e.g. in a form submission). So the server knows it isn't missing any data.</li>
+        <li><strong>Accept-Encoding</strong> — What compression methods the browser supports so data can be made smaller for transmission.</li>
+        <li><strong>Cookie</strong> — Data sent to the server to help remember your information (see Cookies task).</li>
+      </ul>
+
+      <h3>Common Response Headers (Server → Client)</h3>
+      <ul>
+        <li><strong>Set-Cookie</strong> — Information to store which gets sent back to the web server on each subsequent request.</li>
+        <li><strong>Cache-Control</strong> — How long to store the content of the response in the browser's cache before requesting it again.</li>
+        <li><strong>Content-Type</strong> — What type of data is being returned (HTML, CSS, JavaScript, Images, PDF, Video, etc.). The browser uses this to know how to process the data.</li>
+        <li><strong>Content-Encoding</strong> — What compression method has been used to make the data smaller when sending over the Internet.</li>
+      </ul>
+    </div>
+
+    <!-- TASK 6 — COOKIES -->
+    <div class="fiche-section green">
+      <div class="fiche-num">06 — Remembering You</div>
+      <h2>Cookies</h2>
+      <p>Cookies are <strong>small pieces of data stored on your computer</strong>. They are saved when you receive a <strong>"Set-Cookie" header</strong> from a web server. Then every further request you make, you'll send the cookie data back to the web server.</p>
+
+      <h3>Why Cookies Exist</h3>
+      <p>Because HTTP is <strong>stateless</strong> (doesn't keep track of your previous requests), cookies can be used to remind the web server who you are, your personal settings, or whether you've been to the website before.</p>
+
+      <h3>The Cookie Flow</h3>
+      <div class="flow">
+        <div class="flow-step">1. Client<br>requests page</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Server responds<br>with Set-Cookie</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Client stores<br>cookie locally</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. Every future<br>request includes<br>the cookie</div>
+      </div>
+
+      <p>Cookie values won't usually be a clear-text string like a password — instead, it's a <strong>token</strong> (unique secret code that isn't easily humanly guessable).</p>
+
+      <h3>Viewing Cookies</h3>
+      <p>You can view cookies your browser is sending by using the <strong>Developer Tools</strong> in your browser (F12 → Network tab → click on a request → Cookies tab).</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Cookies add <strong>statefulness to the stateless HTTP protocol</strong>. The header <strong>Set-Cookie</strong> saves cookies to your computer. On every subsequent request, the <strong>Cookie</strong> header sends them back. Cookies are used for authentication, preferences, and tracking — and are a major topic in web security (cookie theft, session hijacking).</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>HTTP</strong> — HyperText Transfer Protocol. Rules for web communication. Data in plain text.</li>
+        <li><strong>HTTPS</strong> — HTTP Secure. Encrypted version. The "S" = Secure.</li>
+        <li><strong>URL</strong> — Uniform Resource Locator. The full address to access a resource on the Internet.</li>
+        <li><strong>Scheme</strong> — The protocol part of a URL (http, https, ftp).</li>
+        <li><strong>Host</strong> — The domain name or IP in the URL.</li>
+        <li><strong>Port</strong> — The door to connect to (80 for HTTP, 443 for HTTPS).</li>
+        <li><strong>Path</strong> — The specific resource/page being requested.</li>
+        <li><strong>Query String</strong> — Extra parameters after <code>?</code> in the URL (e.g. <code>?id=1</code>).</li>
+        <li><strong>Fragment</strong> — Reference to a specific location on the page (after <code>#</code>).</li>
+        <li><strong>GET</strong> — Retrieve information (read).</li>
+        <li><strong>POST</strong> — Submit data / create new records.</li>
+        <li><strong>PUT</strong> — Update existing information.</li>
+        <li><strong>DELETE</strong> — Remove information/records.</li>
+        <li><strong>CRUD</strong> — Create (POST), Read (GET), Update (PUT), Delete (DELETE).</li>
+        <li><strong>Status Code</strong> — Numerical code in the response indicating success or failure.</li>
+        <li><strong>2xx</strong> — Success. <strong>3xx</strong> — Redirection. <strong>4xx</strong> — Client error. <strong>5xx</strong> — Server error.</li>
+        <li><strong>Headers</strong> — Additional metadata sent with requests and responses.</li>
+        <li><strong>User-Agent</strong> — Header identifying the browser software.</li>
+        <li><strong>Content-Type</strong> — Header identifying the type of data being returned.</li>
+        <li><strong>Cookie</strong> — Small piece of data stored on the client, sent back with every request.</li>
+        <li><strong>Set-Cookie</strong> — Response header that tells the browser to save a cookie.</li>
+        <li><strong>Token</strong> — A unique secret code used as a cookie value instead of plain text passwords.</li>
+        <li><strong>Stateless</strong> — HTTP doesn't remember previous requests by default. Cookies fix this.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What does HTTP stand for?</div>
+        <div class="a hidden">HyperText Transfer Protocol</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the S in HTTPS stand for?</div>
+        <div class="a hidden">Secure</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What HTTP protocol is being used in this example: HTTP/1.1?</div>
+        <div class="a hidden">HTTP version 1.1</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What response header tells the browser how much data to expect?</div>
+        <div class="a hidden">Content-Length</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What method would be used to create a new user account?</div>
+        <div class="a hidden">POST</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What method would be used to update your email address?</div>
+        <div class="a hidden">PUT</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What method would be used to remove a picture you've uploaded?</div>
+        <div class="a hidden">DELETE</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What method would be used to view a news article?</div>
+        <div class="a hidden">GET</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What response code would you receive if you've created a new user or blog post?</div>
+        <div class="a hidden">201 (Created)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What response code would you receive if you tried to access a page that doesn't exist?</div>
+        <div class="a hidden">404 (Page Not Found)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What response code would you receive if the web server crashes?</div>
+        <div class="a hidden">500 (Internal Service Error)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What response code would you receive if you try to edit your profile without logging in first?</div>
+        <div class="a hidden">401 (Not Authorised)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between 401 and 403?</div>
+        <div class="a hidden">401 = not logged in yet (might get access after login). 403 = you don't have permission whether logged in or not.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What header tells the web server what browser is being used?</div>
+        <div class="a hidden">User-Agent</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What header tells the browser what type of data is being returned?</div>
+        <div class="a hidden">Content-Type</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What header tells the web server which website is being requested?</div>
+        <div class="a hidden">Host</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which header is used to save cookies to your computer?</div>
+        <div class="a hidden">Set-Cookie</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why do cookies exist?</div>
+        <div class="a hidden">Because HTTP is stateless — cookies add statefulness by remembering who you are, your settings, and whether you've visited before.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 status code ranges and what they mean.</div>
+        <div class="a hidden">1xx = Information, 2xx = Success, 3xx = Redirection, 4xx = Client Error, 5xx = Server Error</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 7 parts of a URL.</div>
+        <div class="a hidden">Scheme, User, Host, Port, Path, Query String, Fragment</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

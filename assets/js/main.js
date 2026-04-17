@@ -148,6 +148,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 17, 2026"
   },
+  {
+    slug: "http-in-detail",
+    title: "HTTP in Detail",
+    desc: "HTTP vs HTTPS, URL anatomy, HTTP methods (GET/POST/PUT/DELETE), status codes, headers, and cookies.",
+    tag: "How The Web Works",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 17, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
