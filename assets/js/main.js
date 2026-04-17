@@ -17,7 +17,7 @@ const NOTES = [
     slug: "defensive-security",
     title: "Defensive Security Intro",
     desc: "SOC, Threat Intelligence, DFIR, Malware Analysis — the fundamentals of defensive security.",
-    tag: "TryHackMe — Intro",
+    tag: "Intro",
     source: "tryhackme",
     topic: "blue-team",
     date: "Apr 14, 2026"
@@ -26,7 +26,7 @@ const NOTES = [
     slug: "offensive-security",
     title: "Offensive Security Intro",
     desc: "Ethical hacking, GoBuster, career paths — the fundamentals of offensive security.",
-    tag: "TryHackMe — Intro",
+    tag: "Intro",
     source: "tryhackme",
     topic: "red-team",
     date: "Apr 15, 2026"
@@ -35,7 +35,7 @@ const NOTES = [
     slug: "careers-in-cyber",
     title: "Careers in Cyber",
     desc: "The 7 cybersecurity roles: Security Analyst, Engineer, Incident Responder, Forensics, Malware Analyst, Pentester, Red Teamer.",
-    tag: "TryHackMe — Intro",
+    tag: "Intro",
     source: "tryhackme",
     topic: "careers",
     date: "Apr 15, 2026"
@@ -44,7 +44,7 @@ const NOTES = [
     slug: "what-is-networking",
     title: "What is Networking?",
     desc: "Networks, Internet, IP & MAC addresses, IPv4 vs IPv6, spoofing, and Ping (ICMP).",
-    tag: "TryHackMe — Network Fundamentals",
+    tag: "Network Fundamentals",
     source: "tryhackme",
     topic: "networking",
     date: "Apr 15, 2026"
@@ -53,7 +53,7 @@ const NOTES = [
     slug: "inside-a-computer-system",
     title: "Inside a Computer System",
     desc: "Computer components (CPU, RAM, GPU, Motherboard...) and the 5-step boot process (UEFI, POST, bootloader).",
-    tag: "TryHackMe — Computer Fundamentals",
+    tag: "Computer Fundamentals",
     source: "tryhackme",
     topic: "hardware",
     date: "Apr 16, 2026"
@@ -62,7 +62,7 @@ const NOTES = [
     slug: "cloud-computing-fundamentals",
     title: "Cloud Computing Fundamentals",
     desc: "Cloud types (Public/Private/Hybrid), service models (IaaS/PaaS/SaaS), AWS basics, and EC2 instances.",
-    tag: "TryHackMe — Computer Fundamentals",
+    tag: "Computer Fundamentals",
     source: "tryhackme",
     topic: "cloud",
     date: "Apr 16, 2026"
@@ -71,7 +71,7 @@ const NOTES = [
     slug: "intro-to-lan",
     title: "Intro to LAN",
     desc: "LAN topologies (Star/Bus/Ring), switches vs routers, subnetting, ARP and DHCP (DORA).",
-    tag: "TryHackMe — Network Fundamentals",
+    tag: "Network Fundamentals",
     source: "tryhackme",
     topic: "networking",
     date: "Apr 16, 2026"
@@ -80,7 +80,7 @@ const NOTES = [
     slug: "computer-types",
     title: "Computer Types",
     desc: "Laptops, desktops, workstations, servers, smartphones, tablets, IoT devices, and embedded computers.",
-    tag: "TryHackMe — Computer Fundamentals",
+    tag: "Computer Fundamentals",
     source: "tryhackme",
     topic: "hardware",
     date: "Apr 16, 2026"
@@ -89,7 +89,7 @@ const NOTES = [
     slug: "client-server-basics",
     title: "Client-Server Basics",
     desc: "The client-server model, HTTP methods, DNS, ports, protocols, and the pizza delivery analogy.",
-    tag: "TryHackMe — Computer Fundamentals",
+    tag: "Computer Fundamentals",
     source: "tryhackme",
     topic: "networking",
     date: "Apr 16, 2026"
@@ -98,7 +98,7 @@ const NOTES = [
     slug: "virtualisation-basics",
     title: "Virtualisation Basics",
     desc: "Hypervisors (Type 1 vs 2), virtual machines, containers, Docker, and the building analogy.",
-    tag: "TryHackMe — Computer Fundamentals",
+    tag: "Computer Fundamentals",
     source: "tryhackme",
     topic: "cloud",
     date: "Apr 16, 2026"
@@ -107,7 +107,7 @@ const NOTES = [
     slug: "osi-model",
     title: "OSI Model",
     desc: "The 7 layers of the OSI model, encapsulation, TCP vs UDP, routing protocols (OSPF, RIP).",
-    tag: "TryHackMe — Network Fundamentals",
+    tag: "Network Fundamentals",
     source: "tryhackme",
     topic: "networking",
     date: "Apr 16, 2026"
@@ -116,7 +116,7 @@ const NOTES = [
     slug: "os-introduction",
     title: "Operating Systems: Introduction",
     desc: "What an OS is, kernel vs user space, the 5 core duties, GUI vs CLI, and the OS landscape (Desktop, Server, Mobile, Embedded, Cloud).",
-    tag: "TryHackMe — Operating Systems Basics",
+    tag: "Operating Systems Basics",
     source: "tryhackme",
     topic: "os",
     date: "Apr 16, 2026"
@@ -125,7 +125,7 @@ const NOTES = [
     slug: "packets-and-frames",
     title: "Packets & Frames",
     desc: "Packets vs frames, TCP three-way handshake (SYN/ACK), UDP, and the 6 essential ports (21, 22, 80, 443, 445, 3389).",
-    tag: "TryHackMe — Network Fundamentals",
+    tag: "Network Fundamentals",
     source: "tryhackme",
     topic: "networking",
     date: "Apr 16, 2026"
@@ -134,7 +134,7 @@ const NOTES = [
     slug: "extending-your-network",
     title: "Extending Your Network",
     desc: "Port forwarding, firewalls (stateful vs stateless), VPN (PPP/PPTP/IPSec), routers, L2 vs L3 switches, VLANs.",
-    tag: "TryHackMe — Network Fundamentals",
+    tag: "Network Fundamentals",
     source: "tryhackme",
     topic: "networking",
     date: "Apr 17, 2026"
@@ -242,7 +242,6 @@ function noteCardHTML(n) {
     <h3>${n.title}</h3>
     <p>${n.desc}</p>
     <div class="card-tags">
-      <span class="tag tag-source">${sourceLabel(n.source)}</span>
       <span class="tag tag-topic">${topicLabel(n.topic)}</span>
     </div>
     <div class="card-meta">
