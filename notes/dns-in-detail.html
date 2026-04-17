@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNS in Detail — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">How The Web Works</div>
+      <h1>DNS in Detail</h1>
+      <p>Learn how DNS works and how it helps you access internet services.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — WHAT IS DNS -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Phone Book of the Internet</div>
+      <h2>What is DNS?</h2>
+      <p><strong>DNS</strong> (Domain Name System) provides a simple way for us to communicate with devices on the Internet <strong>without remembering complex numbers</strong>.</p>
+      <p>Much like every house has a unique address for sending mail, every computer on the Internet has its own unique address to communicate with — an <strong>IP address</strong> (e.g. <code>104.26.10.229</code>). Remembering that for every website isn't convenient, so DNS lets you remember <code>tryhackme.com</code> instead.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>DNS = <strong>translates domain names into IP addresses</strong>. It's like a phone book: you look up a name, you get the number. Without DNS, you'd need to memorize the IP address of every website you visit.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — DOMAIN HIERARCHY -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — How Domains Are Structured</div>
+      <h2>Domain Hierarchy</h2>
+
+      <h3>The Tree Structure</h3>
+      <div class="flow">
+        <div class="flow-step">Root Domain<br><code>.</code></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">TLD<br><code>.com</code> <code>.edu</code><br><code>.gov</code> <code>.mil</code></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Second-Level<br><code>google</code><br><code>tryhackme</code></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Subdomain<br><code>admin</code><br><code>store</code></div>
+      </div>
+
+      <h3>TLD — Top-Level Domain</h3>
+      <p>The most righthand part of a domain name. For example, the TLD of <code>tryhackme.com</code> is <code>.com</code>. There are two types:</p>
+      <ul>
+        <li><strong>gTLD</strong> (Generic Top Level) — Originally meant to tell the user the domain's purpose: <code>.com</code> for commercial, <code>.org</code> for organisation, <code>.edu</code> for education. Due to high demand, there's now an influx of new gTLDs: <code>.online</code>, <code>.club</code>, <code>.website</code>, <code>.biz</code>, and many more (over 2000 TLDs).</li>
+        <li><strong>ccTLD</strong> (Country Code Top Level) — Used for geographical purposes: <code>.ca</code> for Canada, <code>.co.uk</code> for the United Kingdom, <code>.fr</code> for France.</li>
+      </ul>
+
+      <h3>Second-Level Domain</h3>
+      <p>Taking <code>tryhackme.com</code> as an example, the <code>.com</code> part is the TLD, and <code>tryhackme</code> is the Second-Level Domain. When registering a domain name, the second-level domain is limited to <strong>63 characters</strong> and can only use <strong>a-z, 0-9, and hyphens</strong> (cannot start or end with hyphens or have consecutive hyphens).</p>
+
+      <h3>Subdomain</h3>
+      <p>A subdomain sits on the <strong>left-hand side</strong> of the Second-Level Domain, separated by a period. For example, in <code>admin.tryhackme.com</code>, the <code>admin</code> part is the subdomain.</p>
+      <ul>
+        <li>Same creation restrictions as the Second-Level Domain (63 chars, a-z 0-9 hyphens)</li>
+        <li>You can use multiple subdomains split with periods: <code>jupiter.servers.tryhackme.com</code></li>
+        <li>But the <strong>total length must be kept to 253 characters</strong> or less</li>
+        <li>There is <strong>no limit</strong> to the number of subdomains you can create</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Domain structure from right to left: <strong>Root → TLD → Second-Level Domain → Subdomain</strong>. For <code>admin.tryhackme.com</code>: TLD = <code>.com</code>, SLD = <code>tryhackme</code>, Subdomain = <code>admin</code>. Max subdomain length = 63 chars, max total = 253 chars.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — RECORD TYPES -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Types of DNS Records</div>
+      <h2>DNS Record Types</h2>
+      <p>DNS isn't just for websites — multiple types of DNS records exist. Here are the most common ones:</p>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">A Record</div>
+          <div class="desc">Resolves to <strong>IPv4</strong> addresses. Example: <code>104.26.10.229</code></div>
+        </div>
+        <div class="mal-item">
+          <div class="name">AAAA Record</div>
+          <div class="desc">Resolves to <strong>IPv6</strong> addresses. Example: <code>2606:4700:20::681a:be5</code></div>
+        </div>
+        <div class="mal-item">
+          <div class="name">CNAME Record</div>
+          <div class="desc">Resolves to <strong>another domain name</strong>. Example: <code>store.tryhackme.com</code> → CNAME → <code>shops.shopify.com</code>. A second DNS request is then made to resolve that domain's IP.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">MX Record</div>
+          <div class="desc">Resolves to the address of the servers that handle <strong>email</strong> for the domain. Comes with a <strong>priority flag</strong> — tells the client which order to try the servers (backup if main goes down).</div>
+        </div>
+      </div>
+
+      <h3>TXT Record</h3>
+      <p><strong>TXT records</strong> are free text fields where any text-based data can be stored. Common uses:</p>
+      <ul>
+        <li>List servers that have authority to <strong>send email on behalf of the domain</strong> (helps fight spam and spoofed email)</li>
+        <li><strong>Verify ownership</strong> of the domain name when signing up for third-party services</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Memorize 5 record types: <strong>A</strong> (IPv4), <strong>AAAA</strong> (IPv6), <strong>CNAME</strong> (alias to another domain), <strong>MX</strong> (email servers), <strong>TXT</strong> (free text / verification). The MX record is what tells the Internet where to send email for a domain.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — MAKING A REQUEST -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — The Journey of a DNS Request</div>
+      <h2>What Happens When You Make a DNS Request</h2>
+
+      <h3>The 5-Step DNS Lookup</h3>
+      <div class="flow">
+        <div class="flow-step">1. Local<br>Cache</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Recursive<br>DNS Server</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Root DNS<br>Server</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. TLD<br>Server</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">5. Authoritative<br>DNS Server</div>
+      </div>
+
+      <ul>
+        <li><strong>Step 1 — Local Cache</strong> — Your computer first checks its local cache to see if you've previously looked up the address recently. If not, a request goes to your Recursive DNS Server.</li>
+        <li><strong>Step 2 — Recursive DNS Server</strong> — Usually provided by your <strong>ISP</strong> (but you can choose your own, e.g. Google 8.8.8.8). This server also has a local cache of recently looked-up domain names. If a result is found locally (common for popular services like Google, Facebook), your request ends here.</li>
+        <li><strong>Step 3 — Root DNS Servers</strong> — The backbone of DNS. Their job is to redirect you to the correct <strong>Top Level Domain server</strong>. For example, if you request <code>www.tryhackme.com</code>, the root server recognises the <code>.com</code> TLD and refers you to the correct TLD server.</li>
+        <li><strong>Step 4 — TLD Server</strong> — Holds records for where to find the <strong>authoritative server</strong> to answer the DNS request. The authoritative server is often also known as the <strong>nameserver</strong> for the domain.</li>
+        <li><strong>Step 5 — Authoritative DNS Server</strong> — The server responsible for <strong>storing the DNS records</strong> for a particular domain name and where any updates to your domain name DNS records would be made. Depending on the record type, the DNS record is then sent back to the Recursive DNS Server, where a local copy is <strong>cached</strong> for future requests. The result is then relayed back to the original client.</li>
+      </ul>
+
+      <h3>TTL — Time to Live</h3>
+      <p>DNS records all come with a <strong>TTL</strong> (Time To Live) value — a number represented in seconds that the response should be saved for locally until you have to look it up again. <strong>Caching saves on having to make a DNS request every time you communicate with a server.</strong></p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The DNS journey: <strong>Local Cache → Recursive DNS (ISP) → Root Server → TLD Server → Authoritative Server</strong>. Most requests never go past step 2 because popular domains are cached. The <strong>TTL</strong> determines how long a cached record stays valid. The <strong>Recursive DNS Server</strong> is usually provided by your ISP. The <strong>Authoritative Server</strong> holds all the actual records for a domain.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>DNS</strong> — Domain Name System. Translates domain names to IP addresses.</li>
+        <li><strong>Domain Name</strong> — Human-readable website address (e.g. <code>tryhackme.com</code>).</li>
+        <li><strong>TLD</strong> — Top-Level Domain. The rightmost part (<code>.com</code>, <code>.org</code>, <code>.fr</code>).</li>
+        <li><strong>gTLD</strong> — Generic Top-Level Domain (<code>.com</code>, <code>.org</code>, <code>.biz</code>).</li>
+        <li><strong>ccTLD</strong> — Country Code Top-Level Domain (<code>.uk</code>, <code>.ca</code>, <code>.fr</code>).</li>
+        <li><strong>Second-Level Domain (SLD)</strong> — The name you register (<code>tryhackme</code> in <code>tryhackme.com</code>). Max 63 chars.</li>
+        <li><strong>Subdomain</strong> — Left of the SLD (<code>admin</code> in <code>admin.tryhackme.com</code>). Max 63 chars each, total max 253.</li>
+        <li><strong>A Record</strong> — Maps domain to IPv4 address.</li>
+        <li><strong>AAAA Record</strong> — Maps domain to IPv6 address.</li>
+        <li><strong>CNAME Record</strong> — Maps domain to another domain name (alias).</li>
+        <li><strong>MX Record</strong> — Points to email servers for the domain. Has a priority flag.</li>
+        <li><strong>TXT Record</strong> — Free text field. Used for email authentication and domain verification.</li>
+        <li><strong>Recursive DNS Server</strong> — Usually your ISP's DNS. First external stop. Caches results.</li>
+        <li><strong>Root DNS Server</strong> — The backbone. Redirects to the correct TLD server.</li>
+        <li><strong>TLD Server</strong> — Knows where the authoritative server is for that TLD.</li>
+        <li><strong>Authoritative DNS Server</strong> — The final authority. Holds all DNS records for a domain. Also called the nameserver.</li>
+        <li><strong>TTL</strong> — Time to Live. How long (in seconds) a DNS record is cached before re-querying.</li>
+        <li><strong>Cache</strong> — Local storage of previously looked-up DNS records for faster access.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What does DNS stand for?</div>
+        <div class="a hidden">Domain Name System</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the maximum length of a subdomain?</div>
+        <div class="a hidden">63 characters</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the maximum length of a domain name (total)?</div>
+        <div class="a hidden">253 characters</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of TLD is .co.uk?</div>
+        <div class="a hidden">ccTLD (Country Code Top-Level Domain)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of record would be used to advise where to send email?</div>
+        <div class="a hidden">MX Record</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of record handles IPv6 addresses?</div>
+        <div class="a hidden">AAAA Record</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of record resolves to another domain name?</div>
+        <div class="a hidden">CNAME Record</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of record is used to verify domain ownership?</div>
+        <div class="a hidden">TXT Record</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What field specifies how long a DNS record should be cached for?</div>
+        <div class="a hidden">TTL (Time to Live)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of DNS Server is usually provided by your ISP?</div>
+        <div class="a hidden">Recursive DNS Server</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What type of server holds all the records for a domain?</div>
+        <div class="a hidden">Authoritative DNS Server</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 steps of a DNS request in order.</div>
+        <div class="a hidden">1. Local Cache → 2. Recursive DNS Server (ISP) → 3. Root DNS Server → 4. TLD Server → 5. Authoritative DNS Server</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the role of the Root DNS Server?</div>
+        <div class="a hidden">The backbone of DNS — redirects you to the correct TLD server based on the domain's TLD (.com, .org, etc.)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 common DNS record types.</div>
+        <div class="a hidden">A (IPv4), AAAA (IPv6), CNAME (alias), MX (email), TXT (text/verification)</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

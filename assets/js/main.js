@@ -139,6 +139,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 17, 2026"
   },
+  {
+    slug: "dns-in-detail",
+    title: "DNS in Detail",
+    desc: "Domain hierarchy (TLD, SLD, subdomains), DNS record types (A, AAAA, CNAME, MX, TXT), and the 5-step DNS request flow.",
+    tag: "How The Web Works",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 17, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
