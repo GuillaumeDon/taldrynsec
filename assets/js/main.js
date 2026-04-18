@@ -166,6 +166,15 @@ const NOTES = [
     topic: "web-security",
     date: "Apr 18, 2026"
   },
+  {
+    slug: "putting-it-all-together",
+    title: "Putting It All Together",
+    desc: "The full web request flow, load balancers, CDN, databases, WAF, virtual hosts, static vs dynamic content, backend languages.",
+    tag: "How The Web Works",
+    source: "tryhackme",
+    topic: "networking",
+    date: "Apr 18, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

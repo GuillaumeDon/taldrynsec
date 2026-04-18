@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Putting It All Together — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">How The Web Works</div>
+      <h1>Putting It All Together</h1>
+      <p>Learn how all the individual components of the web work together to bring you access to your favourite websites.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Networking</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — THE FULL PICTURE -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Complete Journey</div>
+      <h2>Putting It All Together</h2>
+      <p>When you request a website, a lot happens behind the scenes. Here's the simplified flow:</p>
+
+      <div class="flow">
+        <div class="flow-step">1. Request website<br>in your browser</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Find web server<br>IP address<br>with DNS</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Connect to<br>webserver</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. View<br>website</div>
+      </div>
+
+      <p>Your computer needs to know the server's IP address to talk to it — for this, it uses <strong>DNS</strong>. Your computer then talks to the web server using the <strong>HTTP protocol</strong>. The webserver returns HTML, JavaScript, CSS, images, etc., which your browser uses to correctly format and display the website to you.</p>
+      <p>But there are also a few other components that help the web run more efficiently and provide extra features.</p>
+    </div>
+
+    <!-- TASK 2 — OTHER COMPONENTS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Infrastructure Behind the Scenes</div>
+      <h2>Other Components</h2>
+
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Load Balancers</div>
+          <div class="desc">When a website gets a lot of traffic, <strong>one web server might no longer do the job</strong>. Load balancers receive your request first and then forward it to one of multiple servers behind it. They provide two main features: <strong>ensuring high traffic websites can handle the load</strong> and providing a <strong>failover</strong> if a server becomes unresponsive.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">CDN</div>
+          <div class="desc"><strong>Content Delivery Networks</strong> host static files (JavaScript, CSS, images, videos) across <strong>thousands of servers all over the world</strong>. When a user requests a file, the CDN finds the <strong>nearest server</strong> physically located to them and serves it from there — instead of from the other side of the world.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Databases</div>
+          <div class="desc">Websites need a way to <strong>store and recall data</strong> for their users. Databases can range from a simple text file to complex clusters of multiple servers. Common databases: <strong>MySQL, MSSQL, MongoDB, Postgres</strong>. Each has its specific features.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">WAF</div>
+          <div class="desc"><strong>Web Application Firewall</strong> sits between your web request and the web server. Its primary purpose is to <strong>protect the webserver from hacking or DoS attacks</strong>. It analyses requests for common attack techniques, checks if requests are from real browsers (not bots), and uses <strong>rate limiting</strong> (only allowing a certain amount of requests from an IP per second).</div>
+        </div>
+      </div>
+
+      <h3>Load Balancer Algorithms</h3>
+      <ul>
+        <li><strong>Round-robin</strong> — Sends requests to each server in turn, one after another.</li>
+        <li><strong>Weighted</strong> — Checks how many requests a server is currently dealing with and sends it to the <strong>least busy server</strong>.</li>
+      </ul>
+
+      <h3>Health Checks</h3>
+      <p>Load balancers also perform periodic <strong>health checks</strong> with each server to ensure they are running correctly. If a server doesn't respond appropriately or doesn't respond at all, the load balancer will <strong>stop sending traffic to it</strong> until it responds appropriately again.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Four components sit between you and the web server: <strong>Load Balancer</strong> (distributes traffic), <strong>CDN</strong> (speeds up static content), <strong>Database</strong> (stores data), <strong>WAF</strong> (protects against attacks). Each plays a critical role in a production web application.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — HOW WEB SERVERS WORK -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Inside the Server</div>
+      <h2>How Web Servers Work</h2>
+
+      <h3>What is a Web Server?</h3>
+      <p>A web server is software that <strong>listens for incoming connections</strong> and then utilises the HTTP protocol to deliver web content to its clients. The most common web server software: <strong>Apache, Nginx, IIS, and NodeJS</strong>.</p>
+      <p>A web server delivers files from its <strong>root directory</strong>:</p>
+      <ul>
+        <li>Nginx and Apache: <code>/var/www/html</code> (Linux)</li>
+        <li>IIS: <code>C:\inetpub\wwwroot</code> (Windows)</li>
+      </ul>
+
+      <h3>Virtual Hosts</h3>
+      <p>Web servers can host <strong>multiple websites with different domain names</strong> using <strong>virtual hosts</strong>. The web server checks the <strong>Host header</strong> from the HTTP request and matches it against its virtual hosts (just text-based configuration files). If a match is found, the correct website is served. If no match, the default website is served.</p>
+      <p>Virtual Hosts can have their root directory mapped to different locations. For example: <code>one.com</code> → <code>/var/www/website_one</code>, <code>two.com</code> → <code>/var/www/website_two</code>.</p>
+      <p><strong>There's no limit</strong> to the number of different websites you can host on a web server.</p>
+
+      <h3>Static vs Dynamic Content</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Static Content</div>
+          <div class="desc">Content that <strong>never changes</strong>. Examples: pictures, JavaScript, CSS, and even HTML that never changes. These files are served <strong>directly from the webserver</strong> with no modifications.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Dynamic Content</div>
+          <div class="desc">Content that <strong>could change with different requests</strong>. Example: a blog homepage showing the latest entries, or a search page showing different results. Changes are processed on the <strong>Backend</strong>.</div>
+        </div>
+      </div>
+
+      <p>Everything you see in your browser is called the <strong>Frontend</strong>. The processing happening behind the scenes that you can't see is called the <strong>Backend</strong>. You can't view the websites' HTML source and see what's happening in the Backend — the HTML is the <strong>result</strong> of the Backend processing.</p>
+
+      <h3>Scripting and Backend Languages</h3>
+      <p>Backend languages make a website interactive to the user. Some examples: <strong>PHP, Python, Ruby, NodeJS, Perl</strong> and many more. These languages can interact with databases, call external services, process data from the user, and much more.</p>
+
+      <p>A very basic PHP example: if you requested <code>http://example.com/index.php?name=adam</code></p>
+
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:0.8rem;margin:0.8rem 0;font-family:var(--font-display);font-size:0.68rem;line-height:1.8;">
+        <span style="color:var(--text-muted);">Server-side code:</span><br>
+        <span style="color:var(--accent);">&lt;html&gt;&lt;body&gt;</span>Hello <span style="color:var(--accent3);">&lt;?php echo $_GET["name"]; ?&gt;</span><span style="color:var(--accent);">&lt;/body&gt;&lt;/html&gt;</span><br><br>
+        <span style="color:var(--text-muted);">What the client sees:</span><br>
+        <span style="color:var(--accent);">&lt;html&gt;&lt;body&gt;</span>Hello <span style="color:#fff;">adam</span><span style="color:var(--accent);">&lt;/body&gt;&lt;/html&gt;</span>
+      </div>
+
+      <p>Notice: the client <strong>doesn't see any PHP code</strong> because it's processed on the Backend. This interactivity opens up security issues for web applications that haven't been created securely.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Virtual hosts</strong> = one server, multiple websites (matched by Host header). <strong>Static</strong> = files served as-is. <strong>Dynamic</strong> = content generated by backend code. The client <strong>never sees</strong> backend code — only the result. Backend processing is where most serious web vulnerabilities live.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Load Balancer</strong> — Distributes traffic across multiple servers. Uses algorithms like round-robin or weighted.</li>
+        <li><strong>Health Check</strong> — Periodic test by the load balancer to ensure servers are running correctly.</li>
+        <li><strong>Failover</strong> — When one server goes down, traffic is redirected to a working one.</li>
+        <li><strong>Round-Robin</strong> — Load balancing algorithm: sends to each server in turn.</li>
+        <li><strong>Weighted</strong> — Load balancing algorithm: sends to the least busy server.</li>
+        <li><strong>CDN</strong> — Content Delivery Network. Hosts static files on servers worldwide for faster delivery.</li>
+        <li><strong>Database</strong> — System for storing and recalling data. Examples: MySQL, MSSQL, MongoDB, Postgres.</li>
+        <li><strong>WAF</strong> — Web Application Firewall. Protects web servers from hacking and DoS attacks.</li>
+        <li><strong>Rate Limiting</strong> — Restricting the number of requests from an IP per second (used by WAFs).</li>
+        <li><strong>Web Server</strong> — Software that listens for connections and serves web content via HTTP. Examples: Apache, Nginx, IIS, NodeJS.</li>
+        <li><strong>Root Directory</strong> — The default folder from which a web server serves files.</li>
+        <li><strong>Virtual Hosts</strong> — Configuration allowing one web server to host multiple websites with different domains.</li>
+        <li><strong>Host Header</strong> — HTTP header that tells the web server which website is being requested.</li>
+        <li><strong>Static Content</strong> — Files that never change (images, CSS, JS). Served directly.</li>
+        <li><strong>Dynamic Content</strong> — Content generated per request by backend code. Can change.</li>
+        <li><strong>Frontend</strong> — What the browser displays (client-side).</li>
+        <li><strong>Backend</strong> — Server-side processing. The client never sees this code, only its output.</li>
+        <li><strong>Backend Languages</strong> — PHP, Python, Ruby, NodeJS, Perl — languages that process data server-side.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">Name the 4 steps of a web request in order.</div>
+        <div class="a hidden">1. Request website in browser → 2. DNS finds the IP → 3. Connect to webserver → 4. View website</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What can be used to host static files and speed up a client's visit to a website?</div>
+        <div class="a hidden">CDN (Content Delivery Network)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does a load balancer perform to make sure a host is still alive?</div>
+        <div class="a hidden">Health check</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What can be used to help against the hacking of a website?</div>
+        <div class="a hidden">WAF (Web Application Firewall)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name two load balancing algorithms.</div>
+        <div class="a hidden">Round-robin (each server in turn) and Weighted (least busy server)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does web server software use to host multiple sites?</div>
+        <div class="a hidden">Virtual Hosts</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the name for the type of content that can change?</div>
+        <div class="a hidden">Dynamic content</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Does the client see the backend code? (Yes/No)</div>
+        <div class="a hidden">No — the client only sees the result (the HTML output), never the backend code itself.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name 4 common web server software.</div>
+        <div class="a hidden">Apache, Nginx, IIS, NodeJS</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the default root directory for Nginx/Apache on Linux?</div>
+        <div class="a hidden">/var/www/html</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is rate limiting?</div>
+        <div class="a hidden">Restricting the number of requests an IP can make per second — used by WAFs to prevent DoS attacks and brute-forcing.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name 4 common backend programming languages.</div>
+        <div class="a hidden">PHP, Python, Ruby, NodeJS (also Perl)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What's the difference between static and dynamic content?</div>
+        <div class="a hidden">Static = never changes, served as-is (images, CSS, JS). Dynamic = generated per request by backend code, can change based on user input or database data.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name 4 common databases.</div>
+        <div class="a hidden">MySQL, MSSQL, MongoDB, Postgres</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
