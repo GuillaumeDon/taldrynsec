@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows Basics — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Operating Systems Basics</div>
+      <h1>Windows Basics</h1>
+      <p>Learn to navigate Windows, manage files, and use essential system tools.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Operating Systems</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRODUCTION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Scenario</div>
+      <h2>Introduction</h2>
+      <p>Every OS has its own personality. If you've used a computer at school, work, or home, there's a good chance you've already met <strong>Microsoft Windows</strong> — the most familiar OS. This room lets you step into a real example and see how the previously learned concepts take shape.</p>
+      <p>You take on the role of a new employee starting your first day at <strong>TryHatMe</strong>. You'll log in to your Windows workstation, learn the interface, open tools, navigate folders, create and organize files, change system settings, check Task Manager, and review basic security settings.</p>
+
+      <h3>Windows History — Key Milestones</h3>
+      <ul>
+        <li><strong>MS-DOS</strong> — Early text-based OS, the foundation before Windows had a GUI.</li>
+        <li><strong>Windows 3.1 (1992)</strong> — One of the first graphical versions.</li>
+        <li><strong>Windows XP (2001)</strong> — Massively popular, unified home and professional editions.</li>
+        <li><strong>Windows 7 (2009)</strong> — Refined the experience after Vista.</li>
+        <li><strong>Windows 10 (2015)</strong> — Long-running OS, now reaching end of life.</li>
+        <li><strong>Windows 11 (2021)</strong> — Current consumer release with redesigned interface.</li>
+      </ul>
+    </div>
+
+    <!-- TASK 2 — EXPLORING THE WORKSPACE -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Navigating Windows</div>
+      <h2>Exploring the Windows Workspace</h2>
+
+      <h3>Logging In and Authentication</h3>
+      <p>The authentication process controls who can access your desktop and determines the actions you're allowed to take. Windows has three main account types:</p>
+      <ul>
+        <li><strong>Administrator</strong> — Full control over the system: install software, manage applications, change security settings, and system functionality.</li>
+        <li><strong>Standard</strong> — Can do everyday tasks (open apps, browse, manage own files) but <strong>cannot install software or change system-wide settings</strong> without a password prompt.</li>
+        <li><strong>Guest</strong> (deprecated) — Limited access, restricted by permissions. Mostly phased out.</li>
+      </ul>
+      <p>Upon startup, if only one account exists, you're automatically logged in as Administrator. This lets you explore system settings, install programs, and modify the environment — but is <strong>not recommended for daily use</strong> due to security risks.</p>
+
+      <h3>The Windows Desktop</h3>
+      <p>The desktop is like an airport — a central hub that connects different areas. Two main areas:</p>
+      <ul>
+        <li><strong>Desktop</strong> — The main workspace where files, folders, and shortcuts live.</li>
+        <li><strong>Taskbar</strong> — A control strip that provides access to applications, system tools, settings, and notifications.</li>
+      </ul>
+
+      <h3>Taskbar Components</h3>
+      <ul>
+        <li><strong>Start Menu</strong> — Primary way to access applications, settings, and power options. Signified by the Windows logo. Fully customizable.</li>
+        <li><strong>Search</strong> — Quick access method for locating applications, settings, and files.</li>
+        <li><strong>Task View</strong> — Allows you to see all currently open windows and quickly switch between them.</li>
+        <li><strong>Pinned Applications</strong> — Your most-used apps, pinned for quick access.</li>
+        <li><strong>System Tray</strong> — Shows background services: Wi-Fi, volume, battery, etc.</li>
+        <li><strong>Date and Time</strong> — Opens a full calendar, clock, and settings (access alarms too).</li>
+        <li><strong>Notification Panel</strong> — Displays messages from the OS and apps (updates available, security alerts, etc.).</li>
+      </ul>
+
+      <h3>Built-in Tools and Apps</h3>
+      <p>Windows ships with useful built-in tools and applications. Beyond the web browser, you'll use: <strong>Calculator, Notepad, Paint, File Explorer, Snipping Tool</strong> — all accessible from the Start menu.</p>
+
+      <h3>Getting System Information</h3>
+      <p>Windows includes a tool called <strong>Settings</strong> that allows you to configure your OS and learn details about your system. The <strong>"About your PC"</strong> section in Settings provides key details about the system: device name, processor, RAM, Windows edition, and version.</p>
+      <p>The <strong>"About this PC"</strong> provides: device specifications (processor, RAM, system type), and Windows specifications (edition, version, build number).</p>
+
+      <h3>File Exploration and Management</h3>
+      <p><strong>File Explorer</strong> is the built-in Windows tool to browse, manage, and organize files and folders. Windows organizes files in a <strong>hierarchical directory structure</strong>: files live inside folders, folders live inside other folders (directories), and each folder or file has a <strong>path</strong> (address) to its location.</p>
+      <p>To access File Explorer: click the <strong>File Explorer (folder)</strong> icon on the Desktop, or alternatively press <code>Win + E</code>.</p>
+      <p>File Explorer features:</p>
+      <ul>
+        <li>Navigation panel on the left to browse drives and folders</li>
+        <li>Options for creating, sharing, and sorting folders and files</li>
+        <li>File path bar (address bar) for direct navigation</li>
+        <li>Search functionality to find files by name or content</li>
+      </ul>
+    </div>
+
+    <!-- TASK 3 — CONFIGURING AND SECURING -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Security and Configuration</div>
+      <h2>Configuring and Securing Windows</h2>
+
+      <h3>Updating Your Applications</h3>
+      <p>Keeping your system and applications up to date is an essential part of <strong>maintaining your system's security</strong>. Updates often include critical security patches, performance improvements, and bug fixes.</p>
+      <ul>
+        <li><strong>Windows Update</strong> — Built-in update tool that keeps the OS and some other applications up to date. Windows Update can be accessed through the Settings app, appearing in your system configuration.</li>
+        <li><strong>Application Updates</strong> — Some apps auto-update, some need manual checking, some redirect to the vendor's website.</li>
+      </ul>
+
+      <h3>Installing and Uninstalling Applications</h3>
+      <ul>
+        <li><strong>Microsoft Store</strong> — The native Windows application for installing trusted applications in a safe environment.</li>
+        <li><strong>Third-party</strong> — Apps downloaded from a vendor's website (e.g. <code>.exe</code> or <code>.msi</code> files). Be careful: always download from trusted sources.</li>
+        <li><strong>Dynamic Desktops</strong> — Navigate in File Explorer to browse, install, and manage applications with the taskbar and Start menu.</li>
+      </ul>
+      <p>To uninstall: Start menu → right-click → Uninstall, or use the <strong>Apps & Features</strong> section in Settings.</p>
+
+      <h3>Diving Into Settings</h3>
+      <ul>
+        <li><strong>Windows Settings</strong> — A centralized, modernized interface for configuring system, device, personalization, and security settings.</li>
+        <li><strong>Control Panel</strong> — The legacy management interface that provides access to system configuration options. Still available but being gradually replaced by Settings.</li>
+      </ul>
+
+      <h3>The Task Manager</h3>
+      <p><strong>Task Manager</strong> is a built-in Windows tool that allows you to monitor what's happening on your system in real time. It shows you all running applications (and background processes), and lets you end unresponsive ones or check if something suspicious is running.</p>
+      <p>Key tabs in Task Manager:</p>
+      <ul>
+        <li><strong>Processes</strong> — Currently running apps and background processes, and their resource usage.</li>
+        <li><strong>Performance</strong> — Live graphs for CPU, memory, disk, and network activity.</li>
+        <li><strong>Startup</strong> — Apps configured to start when Windows boots. Useful for troubleshooting slow boot times.</li>
+        <li><strong>Details</strong> — Expanded view of all processes with PIDs, status, and resource details.</li>
+        <li><strong>Services</strong> — Windows services and their current status (running/stopped).</li>
+      </ul>
+
+      <h3>Native Windows Security</h3>
+      <p>Windows has built-in security features that help protect your system from threats. These are not replacements for third-party tools, but are <strong>foundational and always active</strong>.</p>
+      <p><strong>Windows Security</strong> is a central dashboard for managing Windows built-in security tools. It includes several key areas:</p>
+      <ul>
+        <li><strong>Virus & threat protection</strong> — Detect and remove malicious software using built-in antivirus.</li>
+        <li><strong>Account protection</strong> — Manage login security and identity.</li>
+        <li><strong>App & browser control</strong> — Protect users from potentially unsafe apps, files, and websites.</li>
+      </ul>
+
+      <h3>Windows Defender Firewall</h3>
+      <p><strong>Windows Defender Firewall</strong> is a built-in firewall designed to help protect your system from unauthorized network traffic. It monitors network connections and applies rules that you or Windows configure, allowing you to enable custom rules or block specific applications from accessing the network.</p>
+      <p>Firewall has three network profiles:</p>
+      <ul>
+        <li><strong>Domain</strong> — Used when connected to an organization's managed network.</li>
+        <li><strong>Private</strong> — Intended for trusted networks, such as at home or lab environments.</li>
+        <li><strong>Public</strong> — Used for untrusted networks (airports, coffee shops, public Wi-Fi).</li>
+      </ul>
+      <p>Advanced settings allow you to: see all inbound/outbound/connection security rules, add/modify custom rules (allowing specific apps, ports, protocols), and create new rules for specific scenarios.</p>
+    </div>
+
+    <!-- TASK 4 — CONCLUSION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Recap</div>
+      <h2>Key Terminology</h2>
+      <ul>
+        <li><strong>Desktop</strong> — The main workspace where files, folders, and shortcuts live.</li>
+        <li><strong>Taskbar</strong> — A control strip providing access to applications, tools, settings, and notifications.</li>
+        <li><strong>Start Menu</strong> — The primary way to access applications, settings, and power options (Windows logo).</li>
+        <li><strong>Search</strong> — A quick access method of locating applications, settings, and files by entering search terms.</li>
+        <li><strong>File Explorer</strong> — The built-in Windows tool to browse, manage, and organize files and folders.</li>
+        <li><strong>Windows Update</strong> — A built-in update tool that helps keep your OS, native apps, and security features up to date.</li>
+        <li><strong>Microsoft Store</strong> — The native Windows application for installing trusted applications.</li>
+        <li><strong>Windows Settings</strong> — A centralized location for configuring system, device, personalization, and security settings.</li>
+        <li><strong>Control Panel</strong> — The legacy management interface that provides access to system configuration options.</li>
+        <li><strong>Task Manager</strong> — A Windows tool for monitoring what is happening on your system in real time.</li>
+        <li><strong>Windows Security</strong> — The central dashboard for managing Windows built-in security tools.</li>
+        <li><strong>Windows Defender Firewall</strong> — The firewall designed to help protect your system from unauthorized network traffic.</li>
+      </ul>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Administrator Account</strong> — Full system control: install software, change settings, manage everything.</li>
+        <li><strong>Standard Account</strong> — Everyday tasks only, can't change system-wide settings without a password prompt.</li>
+        <li><strong>Desktop</strong> — Main workspace with files, folders, shortcuts.</li>
+        <li><strong>Taskbar</strong> — Bottom strip: Start Menu, Search, pinned apps, system tray, clock.</li>
+        <li><strong>Start Menu</strong> — Main entry point to apps, settings, power options.</li>
+        <li><strong>Task View</strong> — View all open windows and switch between them.</li>
+        <li><strong>System Tray</strong> — Background services area (Wi-Fi, volume, battery).</li>
+        <li><strong>File Explorer</strong> — Browse, manage, and organize files/folders. Shortcut: <code>Win + E</code>.</li>
+        <li><strong>File Path</strong> — The address/location of a file in the directory hierarchy.</li>
+        <li><strong>Windows Update</strong> — Keeps OS and apps updated with security patches.</li>
+        <li><strong>Microsoft Store</strong> — Official app store for trusted application installs.</li>
+        <li><strong>Windows Settings</strong> — Modern centralized configuration panel.</li>
+        <li><strong>Control Panel</strong> — Legacy configuration interface (still available).</li>
+        <li><strong>Task Manager</strong> — Real-time system monitoring (processes, performance, startup). Shortcut: <code>Ctrl+Shift+Esc</code>.</li>
+        <li><strong>PID</strong> — Process ID. Unique number identifying each running process.</li>
+        <li><strong>Windows Security</strong> — Central dashboard for built-in security tools.</li>
+        <li><strong>Virus & Threat Protection</strong> — Built-in antivirus/antimalware scanning.</li>
+        <li><strong>Windows Defender Firewall</strong> — Built-in firewall managing network traffic rules.</li>
+        <li><strong>Domain/Private/Public Profiles</strong> — Three firewall profiles for different network trust levels.</li>
+        <li><strong>Inbound Rule</strong> — Firewall rule controlling incoming traffic.</li>
+        <li><strong>Outbound Rule</strong> — Firewall rule controlling outgoing traffic.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What are the two main account types in Windows?</div>
+        <div class="a hidden">Administrator (full control) and Standard (everyday tasks, limited permissions)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the main workspace where files, folders, and shortcuts live?</div>
+        <div class="a hidden">Desktop</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the control strip at the bottom of the screen called?</div>
+        <div class="a hidden">Taskbar</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the keyboard shortcut to open File Explorer?</div>
+        <div class="a hidden">Win + E</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What tool lets you monitor running processes and system performance in real time?</div>
+        <div class="a hidden">Task Manager (Ctrl+Shift+Esc)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the 5 tabs in Task Manager?</div>
+        <div class="a hidden">Processes, Performance, Startup, Details, Services</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between Windows Settings and Control Panel?</div>
+        <div class="a hidden">Settings is the modern centralized interface. Control Panel is the legacy interface. Both configure the system, but Settings is replacing Control Panel gradually.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the central dashboard for managing Windows built-in security?</div>
+        <div class="a hidden">Windows Security</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the three firewall network profiles?</div>
+        <div class="a hidden">Domain (managed network), Private (trusted/home), Public (untrusted/public WiFi)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why should you NOT use an Administrator account for daily work?</div>
+        <div class="a hidden">Security risk — if malware runs under an admin account, it has full control over the system. A Standard account limits the damage malware can do.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What built-in tool keeps your OS and security features up to date?</div>
+        <div class="a hidden">Windows Update</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Windows Defender Firewall?</div>
+        <div class="a hidden">A built-in firewall that monitors network connections and applies rules to allow or block traffic — protecting against unauthorized network access.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

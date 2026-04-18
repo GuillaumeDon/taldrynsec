@@ -175,6 +175,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 18, 2026"
   },
+  {
+    slug: "windows-basics",
+    title: "Windows Basics",
+    desc: "Windows interface, account types, File Explorer, Task Manager, Windows Update, Windows Security, Defender Firewall.",
+    tag: "Operating Systems Basics",
+    source: "tryhackme",
+    topic: "os",
+    date: "Apr 18, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
