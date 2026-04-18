@@ -157,6 +157,15 @@ const NOTES = [
     topic: "networking",
     date: "Apr 17, 2026"
   },
+  {
+    slug: "how-websites-work",
+    title: "How Websites Work",
+    desc: "Front-end vs back-end, HTML/CSS/JS basics, Sensitive Data Exposure, HTML Injection, and input sanitisation.",
+    tag: "How The Web Works",
+    source: "tryhackme",
+    topic: "web-security",
+    date: "Apr 18, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

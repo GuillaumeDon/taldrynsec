@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Websites Work — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">How The Web Works</div>
+      <h1>How Websites Work</h1>
+      <p>To exploit a website, you first need to know how they are created.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Web Security</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — HOW WEBSITES WORK -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — The Big Picture</div>
+      <h2>How Websites Work</h2>
+      <p>When you visit a website, your browser (like Safari or Chrome) makes a request to a web server asking for information about the page you're visiting. The server responds with data that your browser uses to show you the page. A web server is just a <strong>dedicated computer somewhere else in the world</strong> that handles your requests.</p>
+
+      <div class="flow">
+        <div class="flow-step">Browser<br>(Client)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Request</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Internet</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Web Server</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">Response</div>
+      </div>
+
+      <h3>Two Major Components</h3>
+      <div class="mal-grid">
+        <div class="mal-item">
+          <div class="name">Front End (Client-Side)</div>
+          <div class="desc">The way your <strong>browser renders</strong> a website. What you see and interact with. Built with HTML, CSS, and JavaScript.</div>
+        </div>
+        <div class="mal-item">
+          <div class="name">Back End (Server-Side)</div>
+          <div class="desc">A <strong>server that processes</strong> your request and returns a response. Handles logic, databases, authentication, etc.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Front end</strong> = what your browser displays (client-side). <strong>Back end</strong> = server processing your request (server-side). Understanding both is essential for web security — vulnerabilities exist on each side.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — HTML -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — The Structure</div>
+      <h2>HTML</h2>
+      <p>Websites are primarily created using three technologies:</p>
+      <ul>
+        <li><strong>HTML</strong> — to build websites and define their structure</li>
+        <li><strong>CSS</strong> — to make websites look pretty by adding styling options</li>
+        <li><strong>JavaScript</strong> — to implement complex features on pages using interactivity</li>
+      </ul>
+
+      <p><strong>HyperText Markup Language (HTML)</strong> is the language websites are written in. Elements (also known as <strong>tags</strong>) are the building blocks of HTML pages and tell the browser how to display content.</p>
+
+      <h3>Basic HTML Structure</h3>
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:0.8rem;margin:0.8rem 0;font-family:var(--font-display);font-size:0.68rem;color:var(--text-dim);line-height:1.8;">
+        <span style="color:var(--text-muted);">&lt;!DOCTYPE html&gt;</span><br>
+        <span style="color:var(--accent);">&lt;html&gt;</span><br>
+        &nbsp;&nbsp;<span style="color:var(--accent2);">&lt;head&gt;</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--accent3);">&lt;title&gt;</span>Page Title<span style="color:var(--accent3);">&lt;/title&gt;</span><br>
+        &nbsp;&nbsp;<span style="color:var(--accent2);">&lt;/head&gt;</span><br>
+        &nbsp;&nbsp;<span style="color:var(--accent4);">&lt;body&gt;</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fff;">&lt;h1&gt;</span>Example Heading<span style="color:#fff;">&lt;/h1&gt;</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fff;">&lt;p&gt;</span>Example paragraph..<span style="color:#fff;">&lt;/p&gt;</span><br>
+        &nbsp;&nbsp;<span style="color:var(--accent4);">&lt;/body&gt;</span><br>
+        <span style="color:var(--accent);">&lt;/html&gt;</span>
+      </div>
+
+      <ul>
+        <li><code>&lt;!DOCTYPE html&gt;</code> — Defines the page as an HTML5 document.</li>
+        <li><code>&lt;html&gt;</code> — The root element. All other elements come after this.</li>
+        <li><code>&lt;head&gt;</code> — Contains information about the page (like the title).</li>
+        <li><code>&lt;body&gt;</code> — Defines the HTML document's body. Only content inside the body is shown in the browser.</li>
+        <li><code>&lt;h1&gt;</code> — Defines a large heading.</li>
+        <li><code>&lt;p&gt;</code> — Defines a paragraph.</li>
+      </ul>
+
+      <h3>Tags, Attributes, and IDs</h3>
+      <ul>
+        <li>Tags can have <strong>attributes</strong> like <code>class</code> (for styling multiple elements the same way) and <code>src</code> (for specifying image sources: <code>&lt;img src="img/cat.jpg"&gt;</code>).</li>
+        <li>Elements can have an <strong>id attribute</strong> (<code>&lt;p id="example"&gt;</code>) which is unique to that element. Unlike class, multiple elements can't use the same id.</li>
+        <li>You can view the HTML of any website by right-clicking → <strong>"View Page Source"</strong>.</li>
+      </ul>
+    </div>
+
+    <!-- TASK 3 — JAVASCRIPT -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — The Interactivity</div>
+      <h2>JavaScript</h2>
+      <p><strong>JavaScript (JS)</strong> is one of the most popular coding languages in the world and allows pages to become <strong>interactive</strong>. HTML creates the website structure and content, while JavaScript controls the <strong>functionality</strong> of web pages. Without JavaScript, a page would not have interactive elements and would always be static.</p>
+
+      <h3>What JS Can Do</h3>
+      <ul>
+        <li>Dynamically <strong>update the page in real-time</strong> without reloading</li>
+        <li>Change the style of a button when a particular event occurs (e.g. when a user clicks it)</li>
+        <li>Display moving animations</li>
+        <li>Interact with the user through forms, popups, and more</li>
+      </ul>
+
+      <h3>How JS is Loaded</h3>
+      <ul>
+        <li>Loaded within <code>&lt;script&gt;</code> tags directly in the page</li>
+        <li>Or included remotely with the <code>src</code> attribute: <code>&lt;script src="/location/of/javascript_file.js"&gt;&lt;/script&gt;</code></li>
+      </ul>
+
+      <h3>Key JS Concepts</h3>
+      <ul>
+        <li><code>document.getElementById("demo")</code> — Finds an HTML element on the page by its id.</li>
+        <li><code>.innerHTML = "text"</code> — Changes the content of that element.</li>
+        <li><strong>Events</strong> — HTML elements can have events like <code>onclick</code> or <code>onhover</code> that execute JavaScript when triggered.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>HTML = structure. CSS = style. JavaScript = functionality.</strong> JS is executed by the browser on the client-side. This means an attacker can potentially manipulate JS on the client side — which is the foundation of many web vulnerabilities (XSS, HTML injection).</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — SENSITIVE DATA EXPOSURE -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">04 — First Web Vulnerability</div>
+      <h2>Sensitive Data Exposure</h2>
+      <p><strong>Sensitive Data Exposure</strong> occurs when a website doesn't properly protect (or remove) sensitive clear-text information to the end-user — usually found in a site's <strong>frontend source code</strong>.</p>
+
+      <h3>How It Happens</h3>
+      <p>Websites are built using many HTML elements (tags), all of which we can see simply by <strong>"viewing the page source"</strong>. A website developer may have forgotten to remove login credentials, hidden links to private parts of the website, or other sensitive data shown in HTML or JavaScript.</p>
+
+      <h3>Real-World Example</h3>
+      <p>Imagine an HTML comment left in the source code by a developer:</p>
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:0.8rem;margin:0.8rem 0;font-family:var(--font-display);font-size:0.68rem;color:var(--text-dim);line-height:1.8;">
+        <span style="color:var(--text-muted);">&lt;!-- TODO: remove test credentials admin:password123 --&gt;</span>
+      </div>
+      <p>If you viewed the page's source code and found this, you could use these credentials to log in elsewhere on the application — or worse, access backend components of the site.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Whenever you're assessing a web application for security issues, one of the first things you should do is <strong>review the page source code</strong> to see if you can find any exposed login credentials or hidden links. This is low-hanging fruit that attackers always check first.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — HTML INJECTION -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">05 — Second Web Vulnerability</div>
+      <h2>HTML Injection</h2>
+      <p><strong>HTML Injection</strong> is a vulnerability that occurs when <strong>unfiltered user input is displayed on the page</strong>. If a website fails to sanitise user input (filter any "malicious" text that a user inputs into a website), and that input is used on the page, an attacker can <strong>inject HTML code into a vulnerable website</strong>.</p>
+
+      <h3>How It Works</h3>
+      <div class="flow">
+        <div class="flow-step">1. User types<br>into input field</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Input used in<br>JS function to<br>display on page</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. No sanitisation<br>= raw HTML<br>is rendered</div>
+      </div>
+
+      <p>Example: a "What's your name?" form passes the input into a JavaScript function that uses <code>innerHTML</code> to display it on the page. If the input isn't sanitised, you can submit HTML like <code>&lt;h1&gt;Hacked&lt;/h1&gt;</code> or even a malicious <code>&lt;a href="http://hacker.com"&gt;</code> link — and the browser will render it as real HTML.</p>
+
+      <h3>Why It's Dangerous</h3>
+      <ul>
+        <li>An attacker can control the page's <strong>appearance and functionality</strong></li>
+        <li>Malicious links can trick users into clicking (phishing)</li>
+        <li>This is related to a more dangerous vulnerability: <strong>database injection</strong>, where user input can manipulate database queries (SQL injection)</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">The Golden Rule</div>
+        <p><strong>Never trust user input.</strong> The website developer should <strong>sanitise</strong> everything the user enters before using it in the JavaScript function — in this case, removing any HTML tags. <strong>Input sanitisation</strong> is the core defense against injection vulnerabilities.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Front End (Client-Side)</strong> — What the browser renders: HTML, CSS, JS. The user-facing part.</li>
+        <li><strong>Back End (Server-Side)</strong> — The server processing requests: logic, databases, authentication.</li>
+        <li><strong>HTML</strong> — HyperText Markup Language. Structure and content of web pages.</li>
+        <li><strong>CSS</strong> — Cascading Style Sheets. Styling and appearance of web pages.</li>
+        <li><strong>JavaScript (JS)</strong> — Programming language for web page interactivity and functionality.</li>
+        <li><strong>Tag / Element</strong> — Building blocks of HTML (e.g. <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;img&gt;</code>).</li>
+        <li><strong>Attribute</strong> — Extra information on a tag (e.g. <code>class</code>, <code>src</code>, <code>id</code>).</li>
+        <li><strong>Class</strong> — Attribute used to style multiple elements the same way.</li>
+        <li><strong>ID</strong> — Attribute unique to a single element. Used by JS and CSS to target it.</li>
+        <li><strong>View Page Source</strong> — Right-click → View Page Source to see the raw HTML.</li>
+        <li><strong>innerHTML</strong> — JS property that sets or gets the HTML content of an element.</li>
+        <li><strong>Events</strong> — Triggers in HTML like <code>onclick</code>, <code>onhover</code> that execute JS.</li>
+        <li><strong>Sensitive Data Exposure</strong> — When a website leaves sensitive info (credentials, hidden links) visible in its source code.</li>
+        <li><strong>HTML Injection</strong> — Vulnerability where unfiltered user input is rendered as HTML on the page.</li>
+        <li><strong>Input Sanitisation</strong> — Filtering/cleaning user input to remove malicious code before using it.</li>
+        <li><strong>SQL Injection</strong> — A related vulnerability where user input manipulates database queries (covered in later rooms).</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What term best describes the component of a web application rendered by your browser?</div>
+        <div class="a hidden">Front End (Client-Side)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the 3 main technologies used to build websites?</div>
+        <div class="a hidden">HTML (structure), CSS (style), JavaScript (functionality/interactivity)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does HTML stand for?</div>
+        <div class="a hidden">HyperText Markup Language</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between class and id attributes?</div>
+        <div class="a hidden">Class can be shared by multiple elements (for styling groups). ID is unique to a single element (for targeting one specific element).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How can you view the HTML source of any website?</div>
+        <div class="a hidden">Right-click → "View Page Source" (Chrome) or "Show Page Source" (Safari)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does JavaScript do that HTML and CSS cannot?</div>
+        <div class="a hidden">Makes pages interactive — dynamically updates content in real-time, responds to user events (clicks, hovers), without reloading the page.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Sensitive Data Exposure?</div>
+        <div class="a hidden">When a website doesn't properly protect or remove sensitive clear-text information visible in its frontend source code (credentials, hidden links, comments).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the first thing you should check when assessing a web app for security?</div>
+        <div class="a hidden">Review the page source code for exposed credentials, hidden links, or sensitive comments.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is HTML Injection?</div>
+        <div class="a hidden">A vulnerability where unfiltered user input is displayed on the page as real HTML, allowing attackers to inject their own HTML or JavaScript code.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the golden rule of web security regarding user input?</div>
+        <div class="a hidden">Never trust user input. Always sanitise it before using it — remove or escape any HTML tags or malicious code.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is input sanitisation?</div>
+        <div class="a hidden">The process of filtering/cleaning user input to remove malicious code (HTML, JS, SQL) before the application uses it.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What JS property is commonly exploited in HTML injection?</div>
+        <div class="a hidden">innerHTML — it sets the HTML content of an element. If user input goes into innerHTML unsanitised, the browser renders it as real HTML.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
