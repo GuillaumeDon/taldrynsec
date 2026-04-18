@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux CLI Basics — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .cmd-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:0.6rem 1rem; margin:0.5rem 0; font-family:var(--font-display); font-size:0.72rem; display:flex; align-items:baseline; gap:0.8rem; }
+    .cmd-box .cmd { color:var(--accent); font-weight:700; min-width:100px; white-space:nowrap; }
+    .cmd-box .desc { color:var(--text-dim); font-size:0.68rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Operating Systems Basics</div>
+      <h1>Linux CLI Basics</h1>
+      <p>Get comfortable navigating through the Linux CLI.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Linux</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRODUCTION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Why Linux CLI Matters</div>
+      <h2>Introduction</h2>
+      <p>In cyber security, Linux is everywhere — powering servers, security tools, and even hacking environments. Before you can defend systems or investigate incidents, you need to know how to navigate the Linux OS using the <strong>command-line interface (CLI)</strong>.</p>
+
+      <h3>Why the Terminal?</h3>
+      <ul>
+        <li>It's <strong>faster</strong> than clicking around</li>
+        <li>It gives you <strong>more control</strong></li>
+        <li>Many <strong>security tools only run in the terminal</strong></li>
+      </ul>
+
+      <h3>The Scenario</h3>
+      <p>It's your first day as an IT Support Engineer with the <strong>Cyber Operations Support Team</strong>. Your supervisor left in a hurry to deal with an incident and left you a note: <em>"Most of our work happens in the Linux terminal. Start by opening the terminal and exploring a bit."</em></p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>CLI</strong> stands for <strong>Command-Line Interface</strong>. It's a text-based interface where you type commands to control the computer. In cybersecurity, it's your primary tool — most of the work happens here.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — NAVIGATION -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Moving Around</div>
+      <h2>Navigation Mission</h2>
+
+      <h3>Step 1: "Where Am I?" — <code>pwd</code></h3>
+      <div class="cmd-box"><span class="cmd">pwd</span><span class="desc"><strong>Print Working Directory</strong> — Shows you the folder you're currently in.</span></div>
+
+      <h3>Step 2: "What's Around Me?" — <code>ls</code></h3>
+      <div class="cmd-box"><span class="cmd">ls</span><span class="desc">Lists the content of the current directory (files and folders).</span></div>
+      <div class="cmd-box"><span class="cmd">ls -l</span><span class="desc">Long format — shows file sizes, permissions, dates, and more.</span></div>
+      <div class="cmd-box"><span class="cmd">ls -al</span><span class="desc">Long format + <strong>hidden files</strong>. Hidden files start with a dot (<code>.</code>) and Linux hides them by default.</span></div>
+
+      <h3>Step 3: "Let's Move Around" — <code>cd</code></h3>
+      <div class="cmd-box"><span class="cmd">cd Documents</span><span class="desc"><strong>Change Directory</strong> — Moves into the <code>Documents</code> folder.</span></div>
+      <div class="cmd-box"><span class="cmd">cd ..</span><span class="desc">Go <strong>back</strong> one level (to the parent directory).</span></div>
+      <div class="cmd-box"><span class="cmd">cd ~</span><span class="desc">Go back to your <strong>home directory</strong> (shortcut).</span></div>
+
+      <h3>Step 4: "Find a File" — <code>find</code></h3>
+      <div class="cmd-box"><span class="cmd">find ~ -name filename.txt</span><span class="desc">Search for a file by name starting from your home directory (<code>~</code>). Checks <strong>every folder inside</strong>.</span></div>
+      <p>If the file exists, Linux will print the <strong>full path</strong> to it. You can then use <code>cd</code> to navigate to the folder and <code>cat</code> to read it.</p>
+
+      <h3>Step 5: "Read a File" — <code>cat</code></h3>
+      <div class="cmd-box"><span class="cmd">cat filename.txt</span><span class="desc">Displays the <strong>content</strong> of a file in the terminal.</span></div>
+
+      <div class="key-box">
+        <div class="lbl">The 5 Essential Navigation Commands</div>
+        <p><code>pwd</code> (where am I?), <code>ls</code> (what's here?), <code>cd</code> (move), <code>find</code> (search), <code>cat</code> (read). These 5 commands are what you'll use 90% of the time in any Linux environment.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — INVESTIGATING THE SYSTEM -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Gathering Intel</div>
+      <h2>Investigating the System</h2>
+      <p>Your next assignment: collect a small system report. In cybersecurity, gathering system information helps teams understand what environment they're operating in — what version of Linux, what resources are available. Think of it as <strong>taking a quick health check of the machine</strong>.</p>
+
+      <h3>Step 1: "Who Am I?" — <code>whoami</code></h3>
+      <div class="cmd-box"><span class="cmd">whoami</span><span class="desc">Prints your <strong>current username</strong>. One of the simplest and most useful commands in Linux.</span></div>
+
+      <h3>Step 2: "What System Am I On?" — <code>uname</code></h3>
+      <div class="cmd-box"><span class="cmd">uname -a</span><span class="desc">Gives a <strong>full line of system information</strong>: kernel, hostname, kernel version, hardware platform, OS type.</span></div>
+      <div class="cmd-box"><span class="cmd">uname</span><span class="desc">Outputs just the operating system name (e.g. <code>Linux</code>).</span></div>
+
+      <h3>Breakdown of <code>uname -a</code> Output</h3>
+      <ul>
+        <li><strong>Linux</strong> — The system is running the Linux kernel.</li>
+        <li><strong>tryhackme</strong> — The hostname (the computer's name).</li>
+        <li><strong>Kernel version</strong> — The kernel version installed on the machine.</li>
+        <li><strong>x86_64</strong> — The hardware platform (also 64-bit).</li>
+        <li><strong>GNU/Linux</strong> — The operating system type (Linux kernel + GNU tools).</li>
+      </ul>
+
+      <h3>Step 3: "Check Disk and Storage" — <code>df</code></h3>
+      <div class="cmd-box"><span class="cmd">df -h</span><span class="desc">Displays <strong>disk usage</strong> in human-readable format (GB/MB instead of bytes).</span></div>
+      <p>Key entries in the output:</p>
+      <ul>
+        <li><code>/dev/root</code> — The main disk of the system. Shows total, used, free space, and percentage full.</li>
+        <li><code>tmpfs</code> — Temporary filesystems stored in <strong>RAM</strong>, not on the physical disk.</li>
+        <li><code>/dev/shm</code> — Shared memory area.</li>
+      </ul>
+
+      <h3>Step 4: "Read a System File" — <code>/etc</code></h3>
+      <p>Linux stores configuration and informational files in the <code>/etc</code> directory. To explore it:</p>
+      <div class="cmd-box"><span class="cmd">cd /etc</span><span class="desc">Navigate to the system configuration directory.</span></div>
+      <div class="cmd-box"><span class="cmd">ls</span><span class="desc">List all config files — you'll see dozens: <code>hosts</code>, <code>passwd</code>, <code>fstab</code>, <code>os-release</code>, etc.</span></div>
+      <div class="cmd-box"><span class="cmd">cat os-release</span><span class="desc">Shows the <strong>Linux distribution</strong> details: name, version, pretty name, support URLs.</span></div>
+
+      <p>The <code>os-release</code> file provides details about the Linux distribution that are often clearer than those provided by <code>uname</code>.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><code>whoami</code> (who am I?), <code>uname -a</code> (what system?), <code>df -h</code> (disk space?), <code>cat /etc/os-release</code> (what distro?). These 4 commands let you quickly profile any Linux machine — essential for incident response and system administration.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — CONCLUSION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Recap</div>
+      <h2>What You Learned</h2>
+      <ul>
+        <li>Navigate the Linux filesystem</li>
+        <li>Search for files</li>
+        <li>Inspect system information</li>
+        <li>Read important configuration files</li>
+        <li>Follow clues and complete missions inside a Linux environment</li>
+      </ul>
+      <p>These skills may seem simple, but they're the <strong>building blocks for everything that comes later</strong>: file permissions, users & groups, processes, package management, and eventually real security tooling.</p>
+    </div>
+
+    <!-- COMMAND CHEAT SHEET -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Cheat Sheet</div>
+      <h2>All Commands at a Glance</h2>
+
+      <h3>Navigation</h3>
+      <div class="cmd-box"><span class="cmd">pwd</span><span class="desc">Print Working Directory — where am I?</span></div>
+      <div class="cmd-box"><span class="cmd">ls</span><span class="desc">List directory contents</span></div>
+      <div class="cmd-box"><span class="cmd">ls -l</span><span class="desc">Long format (sizes, permissions, dates)</span></div>
+      <div class="cmd-box"><span class="cmd">ls -al</span><span class="desc">Long format + hidden files</span></div>
+      <div class="cmd-box"><span class="cmd">cd &lt;dir&gt;</span><span class="desc">Change directory</span></div>
+      <div class="cmd-box"><span class="cmd">cd ..</span><span class="desc">Go back one level</span></div>
+      <div class="cmd-box"><span class="cmd">cd ~</span><span class="desc">Go to home directory</span></div>
+      <div class="cmd-box"><span class="cmd">find ~ -name &lt;file&gt;</span><span class="desc">Search for a file by name</span></div>
+      <div class="cmd-box"><span class="cmd">cat &lt;file&gt;</span><span class="desc">Read/display file content</span></div>
+
+      <h3>System Investigation</h3>
+      <div class="cmd-box"><span class="cmd">whoami</span><span class="desc">Print current username</span></div>
+      <div class="cmd-box"><span class="cmd">uname -a</span><span class="desc">Full system info (kernel, hostname, arch)</span></div>
+      <div class="cmd-box"><span class="cmd">uname</span><span class="desc">OS name only</span></div>
+      <div class="cmd-box"><span class="cmd">df -h</span><span class="desc">Disk usage (human-readable)</span></div>
+      <div class="cmd-box"><span class="cmd">cat /etc/os-release</span><span class="desc">Linux distribution details</span></div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>CLI</strong> — Command-Line Interface. Text-based way to control the computer.</li>
+        <li><strong>Terminal</strong> — The application that provides access to the CLI.</li>
+        <li><strong>pwd</strong> — Print Working Directory.</li>
+        <li><strong>ls</strong> — List directory contents.</li>
+        <li><strong>cd</strong> — Change Directory.</li>
+        <li><strong>find</strong> — Search for files by name across directories.</li>
+        <li><strong>cat</strong> — Concatenate/display file content.</li>
+        <li><strong>whoami</strong> — Display current username.</li>
+        <li><strong>uname</strong> — Display system information (kernel, hostname, architecture).</li>
+        <li><strong>df</strong> — Disk Free. Show disk space usage.</li>
+        <li><strong>Hidden Files</strong> — Files starting with a dot (<code>.</code>). Hidden by default, shown with <code>ls -a</code>.</li>
+        <li><strong>Home Directory</strong> — Your personal folder. Shortcut: <code>~</code>. Usually <code>/home/username</code>.</li>
+        <li><strong>/etc</strong> — System configuration directory. Contains config files like <code>os-release</code>, <code>passwd</code>, <code>hosts</code>.</li>
+        <li><strong>os-release</strong> — File in <code>/etc</code> with details about the Linux distribution.</li>
+        <li><strong>Kernel</strong> — The core of the OS that manages hardware and system resources.</li>
+        <li><strong>Hostname</strong> — The computer's network name.</li>
+        <li><strong>x86_64</strong> — 64-bit hardware architecture.</li>
+        <li><strong>tmpfs</strong> — Temporary filesystem stored in RAM.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What does CLI stand for?</div>
+        <div class="a hidden">Command-Line Interface</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command shows you which directory you're currently in?</div>
+        <div class="a hidden">pwd (Print Working Directory)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command lists files including hidden ones?</div>
+        <div class="a hidden">ls -al (or ls -a)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do hidden files look in Linux?</div>
+        <div class="a hidden">They start with a dot (.) — e.g. .bashrc, .config</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command moves you back one directory level?</div>
+        <div class="a hidden">cd ..</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command searches for a file by name?</div>
+        <div class="a hidden">find ~ -name filename.txt</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command reads and displays the content of a file?</div>
+        <div class="a hidden">cat filename.txt</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command prints your current username?</div>
+        <div class="a hidden">whoami</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command gives full system information (kernel, hostname, architecture)?</div>
+        <div class="a hidden">uname -a</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command shows disk usage in human-readable format?</div>
+        <div class="a hidden">df -h</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What file shows the Linux distribution details?</div>
+        <div class="a hidden">/etc/os-release (read with: cat /etc/os-release)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What directory stores system configuration files in Linux?</div>
+        <div class="a hidden">/etc</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the shortcut to go to your home directory?</div>
+        <div class="a hidden">cd ~ (tilde)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does x86_64 mean in uname output?</div>
+        <div class="a hidden">64-bit hardware architecture/platform</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

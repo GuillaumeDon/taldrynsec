@@ -184,6 +184,15 @@ const NOTES = [
     topic: "os",
     date: "Apr 18, 2026"
   },
+  {
+    slug: "linux-cli-basics",
+    title: "Linux CLI Basics",
+    desc: "Essential Linux commands: pwd, ls, cd, find, cat, whoami, uname, df. Navigation, file search, and system investigation.",
+    tag: "Operating Systems Basics",
+    source: "tryhackme",
+    topic: "linux",
+    date: "Apr 18, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
