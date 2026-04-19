@@ -202,6 +202,15 @@ const NOTES = [
     topic: "os",
     date: "Apr 19, 2026"
   },
+  {
+    slug: "operating-system-security",
+    title: "Operating System Security",
+    desc: "CIA triad, authentication & weak passwords, file permissions, Trojan horses, ransomware, SSH, privilege escalation.",
+    tag: "Operating Systems Basics",
+    source: "tryhackme",
+    topic: "blue-team",
+    date: "Apr 19, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

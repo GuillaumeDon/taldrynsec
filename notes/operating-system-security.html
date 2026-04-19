@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating System Security — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .cia-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .cia-grid { grid-template-columns:1fr; } }
+    .cia-card { background:var(--bg-deep); border-radius:8px; padding:1rem; text-align:center; border:1px solid var(--border); }
+    .cia-card h4 { font-family:var(--font-display); font-size:0.82rem; margin-bottom:0.4rem; }
+    .cia-card p { font-size:0.72rem; color:var(--text-dim); }
+    .cia-c { border-color:rgba(0,229,160,0.3); }
+    .cia-c h4 { color:var(--accent); }
+    .cia-i { border-color:rgba(0,180,216,0.3); }
+    .cia-i h4 { color:var(--accent2); }
+    .cia-a { border-color:rgba(244,114,182,0.3); }
+    .cia-a h4 { color:var(--accent3); }
+    .cmd-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:0.6rem 1rem; margin:0.5rem 0; font-family:var(--font-display); font-size:0.72rem; display:flex; align-items:baseline; gap:0.8rem; }
+    .cmd-box .cmd { color:var(--accent); font-weight:700; min-width:120px; white-space:nowrap; }
+    .cmd-box .desc { color:var(--text-dim); font-size:0.68rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Operating Systems Basics</div>
+      <h1>Operating System Security</h1>
+      <p>Introduction to OS security, the CIA triad, and demonstrates SSH authentication on Linux.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Operating Systems</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — CIA TRIAD -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Why OS Security Matters</div>
+      <h2>Introduction to Operating System Security</h2>
+      <p>Every day you interact directly or indirectly with an operating system. Your smartphone might be running Android or iOS, and you might have plenty of <strong>private data</strong> on it: private conversations, photos, email, passwords, banking apps.</p>
+      <p>The same goes for your laptop or computer. Confidential work files, personal documents, saved passwords, photos — the list of sensitive data goes on. You want to ensure that your data is <strong>secure</strong>.</p>
+
+      <h3>The CIA Triad</h3>
+      <p>When we talk about security, we should think of protecting <strong>three things</strong>:</p>
+
+      <div class="cia-grid">
+        <div class="cia-card cia-c">
+          <h4>Confidentiality</h4>
+          <p>Ensure that secret and private files and information are <strong>only available to intended persons</strong>.</p>
+        </div>
+        <div class="cia-card cia-i">
+          <h4>Integrity</h4>
+          <p>It is crucial that <strong>no one can tamper</strong> with the files stored on your system or while being transferred on the network.</p>
+        </div>
+        <div class="cia-card cia-a">
+          <h4>Availability</h4>
+          <p>You want your laptop or smartphone to be <strong>available to use anytime</strong> you decide to use it.</p>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The <strong>CIA triad</strong> is the foundation of all cybersecurity. Every attack targets one or more of these pillars. Every defense protects one or more. Memorize it: <strong>Confidentiality</strong> (who can see it?), <strong>Integrity</strong> (has it been changed?), <strong>Availability</strong> (can I use it?).</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — COMMON ATTACKS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Three Weaknesses</div>
+      <h2>Common Examples of OS Security</h2>
+      <p>Security is concerned with attacks against: Confidentiality, Integrity, and Availability. This room focuses on <strong>three common weaknesses</strong> targeted by malicious users:</p>
+
+      <h3>1. Authentication and Weak Passwords</h3>
+      <p><strong>Authentication</strong> is the act of verifying your identity, be it a local or a remote system. It can be achieved via three main ways:</p>
+      <ul>
+        <li><strong>Something you know</strong> — A password or a PIN code.</li>
+        <li><strong>Something you are</strong> — A fingerprint.</li>
+        <li><strong>Something you have</strong> — A phone number via which you can receive an SMS message.</li>
+      </ul>
+      <p>Since passwords are the most common form of authentication, they are also the <strong>most attacked</strong>. Many users tend to use easy-to-guess passwords or the same password on many websites. Attackers are well aware of this tendency.</p>
+
+      <h3>Top 20 Most Common Passwords</h3>
+      <p>The National Cyber Security Centre (NCSC) published the 100,000 most common passwords. The top ones include: <code>123456</code>, <code>123456789</code>, <code>qwerty</code>, <code>password</code>, <code>111111</code>, <code>abc123</code>, <code>password1</code>, <code>12345</code>, <code>monkey</code>, <code>dragon</code>.</p>
+      <p>Words not in the dictionary like <code>qwertyuiop</code> and <code>1q2w3e4r5t</code> seem complex but are very predictable — they just follow the <strong>keyboard layout</strong>.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>If an attacker can guess your password for any online account, they can access your private data. Use <strong>complex passwords</strong> and <strong>different passwords</strong> for different accounts. A password manager is your best friend.</p>
+      </div>
+
+      <h3>2. Weak File Permissions</h3>
+      <p>Proper security dictates the <strong>principle of least privilege</strong>: in a work environment, you want any file accessible only by those who need to access it to get work done. In simpler terms: <em>"who can access what?"</em></p>
+      <p>Weak file permissions make it easy for the adversary to attack <strong>confidentiality and integrity</strong>. They can access files they should not be able to access, and they can modify files that they should not be able to edit.</p>
+
+      <h3>3. Access to Malicious Programs</h3>
+      <p>Depending on the type of malicious program, it can attack <strong>confidentiality, integrity, and availability</strong>:</p>
+      <ul>
+        <li><strong>Trojan Horses</strong> — Give the attacker access to your system. The attacker can read your files or even modify them.</li>
+        <li><strong>Ransomware</strong> — A malicious program that <strong>encrypts the user's files</strong>. Without knowing the encryption password, the files become unreadable gibberish. The attacker offers to give the decryption password if the user is willing to <strong>pay the "ransom"</strong>. Attacks <strong>availability</strong> (and potentially confidentiality).</li>
+      </ul>
+    </div>
+
+    <!-- TASK 3 — PRACTICAL SSH -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Hands-On Attack</div>
+      <h2>Practical Example of OS Security</h2>
+      <p>In a typical attack, the adversary needs to gain access to a remote system. They can accomplish this by tricking the target into running a malicious file or by <strong>obtaining a username and a password</strong>. This room focuses on the latter.</p>
+      <p>After discovering a username, we will try to "guess" the password. Furthermore, we will try to <strong>escalate our privileges</strong> to a system administrator. This account is called <strong>root</strong> on Android, Apple, and Linux systems, and <strong>administrator</strong> on MS Windows systems. The accounts <code>root</code> and <code>administrator</code> have complete unrestricted access to a system.</p>
+
+      <h3>SSH — Connecting Remotely</h3>
+      <div class="cmd-box"><span class="cmd">ssh username@IP</span><span class="desc">Connect to a remote Linux machine via SSH (Secure Shell). You'll be prompted for a password.</span></div>
+      <p>When typing your SSH password, <strong>you won't see any stars, dots, or indicators</strong> on the screen. The system still receives the password you are typing — this is normal on Linux.</p>
+
+      <h3>Commands Used in This Exercise</h3>
+      <div class="cmd-box"><span class="cmd">whoami</span><span class="desc">Confirm which user you're logged in as.</span></div>
+      <div class="cmd-box"><span class="cmd">ls</span><span class="desc">List files in the current directory (add <code>-a</code> for hidden files).</span></div>
+      <div class="cmd-box"><span class="cmd">cat filename</span><span class="desc">Read the contents of a file.</span></div>
+      <div class="cmd-box"><span class="cmd">su - johnny</span><span class="desc"><strong>Switch User</strong> — Log in as another user (e.g. Johnny). You'll need their password.</span></div>
+      <div class="cmd-box"><span class="cmd">history</span><span class="desc">Shows the commands the user has typed previously. <strong>Reusing passwords</strong> means that your password for other sites becomes exposed if one service is hacked.</span></div>
+
+      <h3>The Attack Flow</h3>
+      <div class="flow">
+        <div class="flow-step">1. SSH into<br>target machine</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">2. Guess weak<br>password</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">3. Check <code>history</code><br>for leaked<br>passwords</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">4. <code>su</code> to<br>another user<br>or root</div>
+      </div>
+
+      <h3>Key Insight</h3>
+      <p>By checking <code>history</code>, we found that a user had mistakenly typed their password instead of a command. This exposed their credentials. Then using <code>su</code>, we switched to that user and escalated further. This is a real scenario that happens in corporate environments when users have <strong>poor password hygiene</strong>.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The practical exercise demonstrates a real attack chain: <strong>gain initial access</strong> (SSH + weak password) → <strong>investigate</strong> (history, ls, cat) → <strong>escalate privileges</strong> (su to another user or root). All of this is possible because of weak passwords and poor security practices.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>CIA Triad</strong> — Confidentiality, Integrity, Availability. The three pillars of cybersecurity.</li>
+        <li><strong>Confidentiality</strong> — Only intended persons can access the data.</li>
+        <li><strong>Integrity</strong> — Data cannot be tampered with (on disk or in transit).</li>
+        <li><strong>Availability</strong> — Systems and data are accessible when needed.</li>
+        <li><strong>Authentication</strong> — Verifying identity. Three factors: something you know, are, or have.</li>
+        <li><strong>Principle of Least Privilege</strong> — Users should only have access to what they need for their job.</li>
+        <li><strong>File Permissions</strong> — Rules controlling who can read, write, or execute a file.</li>
+        <li><strong>Trojan Horse</strong> — Malicious program that gives an attacker access to your system.</li>
+        <li><strong>Ransomware</strong> — Malicious program that encrypts files and demands payment for decryption.</li>
+        <li><strong>SSH</strong> — Secure Shell. Protocol for securely connecting to a remote system (port 22).</li>
+        <li><strong>root</strong> — The administrator account on Linux/Android/Apple systems. Full unrestricted access.</li>
+        <li><strong>administrator</strong> — The equivalent of root on Windows systems.</li>
+        <li><strong>su</strong> — Switch User. Command to log in as another user on Linux.</li>
+        <li><strong>history</strong> — Linux command showing previously typed commands. Can leak passwords if users mistype.</li>
+        <li><strong>Privilege Escalation</strong> — Going from a low-privilege account to a higher-privilege one (e.g. user → root).</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What are the three pillars of the CIA triad?</div>
+        <div class="a hidden">Confidentiality, Integrity, Availability</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does Confidentiality mean?</div>
+        <div class="a hidden">Ensuring that private files and information are only available to intended persons.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does Integrity mean?</div>
+        <div class="a hidden">Ensuring that no one can tamper with the files stored on your system or while being transferred on the network.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does Availability mean?</div>
+        <div class="a hidden">Your systems and data are available to use anytime you need them.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the three authentication factors?</div>
+        <div class="a hidden">Something you know (password), something you are (fingerprint), something you have (phone/SMS).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the principle of least privilege?</div>
+        <div class="a hidden">Users should only have access to the files and resources they need for their job — nothing more.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is ransomware?</div>
+        <div class="a hidden">A malicious program that encrypts your files and demands payment (ransom) for the decryption key. Attacks availability.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the administrator account called on Linux?</div>
+        <div class="a hidden">root</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command do you use to switch to another user on Linux?</div>
+        <div class="a hidden">su - username (Switch User)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command shows previously typed commands on Linux?</div>
+        <div class="a hidden">history</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is the history command dangerous from a security perspective?</div>
+        <div class="a hidden">If a user accidentally types their password as a command, it gets saved in history — exposing credentials to anyone who can access that user's account.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which CIA pillar does ransomware primarily attack?</div>
+        <div class="a hidden">Availability (you can't access your files). Also potentially Confidentiality (attacker may read them).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which CIA pillar do weak file permissions attack?</div>
+        <div class="a hidden">Confidentiality (unauthorized access) and Integrity (unauthorized modification).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is privilege escalation?</div>
+        <div class="a hidden">Going from a low-privilege account to a higher-privilege one (e.g. standard user → root/administrator).</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
