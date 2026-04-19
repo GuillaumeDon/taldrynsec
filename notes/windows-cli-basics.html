@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows CLI Basics — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .cmd-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:0.6rem 1rem; margin:0.5rem 0; font-family:var(--font-display); font-size:0.72rem; display:flex; align-items:baseline; gap:0.8rem; }
+    .cmd-box .cmd { color:var(--accent2); font-weight:700; min-width:140px; white-space:nowrap; }
+    .cmd-box .desc { color:var(--text-dim); font-size:0.68rem; }
+    .compare-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.75rem; }
+    .compare-table th { text-align:left; padding:0.5rem; font-family:var(--font-display); font-size:0.62rem; text-transform:uppercase; border-bottom:1px solid var(--border); }
+    .compare-table td { padding:0.5rem; border-bottom:1px solid var(--border); font-family:var(--font-display); font-size:0.72rem; }
+    .compare-table .linux-col { color:var(--accent); }
+    .compare-table .win-col { color:var(--accent2); }
+    .compare-table .action-col { color:var(--text-dim); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Operating Systems Basics</div>
+      <h1>Windows CLI Basics</h1>
+      <p>Explore what Windows CLI is, how to navigate, and interact with the system using Windows CLI.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Operating Systems</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRODUCTION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Day 2 on the Job</div>
+      <h2>Introduction</h2>
+      <p>After your first steps into the Linux CLI, today you're continuing your journey on <strong>Windows</strong> — one of the most widely used operating systems in workplaces worldwide. As someone interested in cyber security, you'll often investigate or troubleshoot <strong>Windows machines</strong>, especially user desktops and laptops.</p>
+      <p>The <strong>Command Prompt</strong> (often referred to as <strong>CMD</strong>) is a text-based interface for interacting with the Windows OS. Instead of clicking folders and menus, you type commands to tell the system exactly what you want to do.</p>
+
+      <h3>Why the Windows Command Line?</h3>
+      <ul>
+        <li>Not everything is visible in the graphical interface</li>
+        <li>Files may be hidden or buried deep in the system</li>
+        <li>Analysts often need quick answers without clicking through menus</li>
+        <li>Command-line tools are <strong>faster, more precise, and easier to automate</strong></li>
+      </ul>
+    </div>
+
+    <!-- TASK 2 — NAVIGATING FILES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Moving Around</div>
+      <h2>Windows CLI: Navigating Files</h2>
+
+      <h3>Step 1: "Where Am I?" — <code>cd</code></h3>
+      <div class="cmd-box"><span class="cmd">cd</span><span class="desc">Shows the full path of the directory you're currently in. On Windows, this is usually your <strong>user folder</strong> (e.g. <code>C:\Users\Administrator</code>). Note: <code>cd</code> is used both to display and to change the directory.</span></div>
+
+      <h3>Step 2: "What's Around Me?" — <code>dir</code></h3>
+      <div class="cmd-box"><span class="cmd">dir</span><span class="desc">Lists the files and folders in the current directory. Shows dates, sizes, and names.</span></div>
+      <p>Not everything you see will always be obvious. Take a moment to look around — not everything is immediately visible.</p>
+
+      <h3>Step 3: "Are There Hidden Files?" — <code>dir /a</code></h3>
+      <div class="cmd-box"><span class="cmd">dir /a</span><span class="desc">Shows <strong>everything, including hidden files and folders</strong>. On Windows, some files and folders are marked as hidden — this doesn't mean they're secret, just that Windows hides them by default.</span></div>
+
+      <h3>Step 4: "Moving Around" — <code>cd &lt;folder&gt;</code></h3>
+      <div class="cmd-box"><span class="cmd">cd Documents</span><span class="desc">Move into the Documents folder.</span></div>
+      <div class="cmd-box"><span class="cmd">cd ..</span><span class="desc">Go back one level (parent directory).</span></div>
+      <p>Use <code>dir</code> / <code>dir /a</code> to explore what's inside each folder. You can explore a file system quickly just by combining <code>cd</code> and <code>dir</code>.</p>
+
+      <h3>Step 5: "Finding a File on the Disk" — <code>dir /s</code></h3>
+      <div class="cmd-box"><span class="cmd">dir /s task_brief.txt</span><span class="desc">The <code>/s</code> flag tells Windows to search <strong>all subdirectories</strong> starting from your current directory. It will find the file and show you the <strong>full path</strong> to it.</span></div>
+
+      <h3>Step 6: "Navigate to the File"</h3>
+      <div class="cmd-box"><span class="cmd">cd path\to\the\folder</span><span class="desc">Now that you know where the file is, use <code>cd</code> to navigate to its location.</span></div>
+
+      <h3>Step 7: "Read the File" — <code>type</code></h3>
+      <div class="cmd-box"><span class="cmd">type task_brief.txt</span><span class="desc">Prints the <strong>contents of a file</strong> directly in the command prompt. The Windows equivalent of Linux's <code>cat</code>.</span></div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Windows navigation: <code>cd</code> (where am I / move), <code>dir</code> (what's here), <code>dir /a</code> (show hidden), <code>dir /s filename</code> (search everywhere), <code>type</code> (read file). Same logic as Linux, different commands.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — GATHERING SYSTEM INFO -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Investigating the Machine</div>
+      <h2>Gathering System Information on Windows</h2>
+      <p>It's time to learn how to ask the system questions about itself. Cyber security and IT professionals do this all the time — before fixing a problem or investigating an incident, they first want to know: who am I, what machine is this, what version of Windows, and how is it connected?</p>
+
+      <h3>Step 1: "Who Am I?" — <code>whoami</code></h3>
+      <div class="cmd-box"><span class="cmd">whoami</span><span class="desc">Prints the username of the account you're currently logged into. This matters because <strong>different users can have different permissions</strong>.</span></div>
+
+      <h3>Step 2: "What Is the Computer's Name?" — <code>hostname</code></h3>
+      <div class="cmd-box"><span class="cmd">hostname</span><span class="desc">Prints the <strong>computer's network name</strong>. In workplaces, this helps identify network systems.</span></div>
+
+      <h3>Step 3: "What Version of Windows?" — <code>systeminfo</code></h3>
+      <div class="cmd-box"><span class="cmd">systeminfo</span><span class="desc">Prints a <strong>lot of information</strong> about the system. Don't worry, you're not expected to understand everything yet.</span></div>
+      <p>Focus on these key parts:</p>
+      <ul>
+        <li><strong>OS Name</strong> — The version of Windows (e.g. Windows Server 2019 Datacenter).</li>
+        <li><strong>OS Version</strong> — The exact build number.</li>
+        <li><strong>System Type</strong> — Whether the machine is 32-bit or 64-bit.</li>
+        <li><strong>Total Physical Memory</strong> — How much RAM the machine has.</li>
+      </ul>
+
+      <h3>Step 4: "How Is This Machine Connected?" — <code>ipconfig</code></h3>
+      <div class="cmd-box"><span class="cmd">ipconfig</span><span class="desc">Shows the machine's <strong>network configuration</strong>. This information helps analysts understand how a machine connects to the network.</span></div>
+      <p>Key fields to look for:</p>
+      <ul>
+        <li><strong>IPv4 Address</strong> — The machine's IP address on the local network.</li>
+        <li><strong>Subnet Mask</strong> — Defines the network boundary.</li>
+        <li><strong>Default Gateway</strong> — The router's IP address (exit point to the Internet).</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>These are the <strong>first commands analysts and IT staff run</strong> when they start working on a Windows machine: <code>whoami</code> (who), <code>hostname</code> (what machine), <code>systeminfo</code> (what OS/version), <code>ipconfig</code> (network). Memorize all four.</p>
+      </div>
+    </div>
+
+    <!-- LINUX VS WINDOWS COMPARISON -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Comparison</div>
+      <h2>Linux vs Windows CLI — Side by Side</h2>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="action-col">Action</th>
+            <th style="color:var(--accent);">Linux</th>
+            <th style="color:var(--accent2);">Windows</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="action-col">Where am I?</td><td class="linux-col">pwd</td><td class="win-col">cd</td></tr>
+          <tr><td class="action-col">List files</td><td class="linux-col">ls</td><td class="win-col">dir</td></tr>
+          <tr><td class="action-col">List + hidden</td><td class="linux-col">ls -al</td><td class="win-col">dir /a</td></tr>
+          <tr><td class="action-col">Change directory</td><td class="linux-col">cd folder</td><td class="win-col">cd folder</td></tr>
+          <tr><td class="action-col">Go back one level</td><td class="linux-col">cd ..</td><td class="win-col">cd ..</td></tr>
+          <tr><td class="action-col">Go home</td><td class="linux-col">cd ~</td><td class="win-col">cd %USERPROFILE%</td></tr>
+          <tr><td class="action-col">Search for file</td><td class="linux-col">find ~ -name file</td><td class="win-col">dir /s file</td></tr>
+          <tr><td class="action-col">Read file</td><td class="linux-col">cat file</td><td class="win-col">type file</td></tr>
+          <tr><td class="action-col">Who am I?</td><td class="linux-col">whoami</td><td class="win-col">whoami</td></tr>
+          <tr><td class="action-col">Computer name</td><td class="linux-col">uname -n</td><td class="win-col">hostname</td></tr>
+          <tr><td class="action-col">System info</td><td class="linux-col">uname -a</td><td class="win-col">systeminfo</td></tr>
+          <tr><td class="action-col">Network info</td><td class="linux-col">ip a / ifconfig</td><td class="win-col">ipconfig</td></tr>
+          <tr><td class="action-col">Disk space</td><td class="linux-col">df -h</td><td class="win-col">wmic logicaldisk get size,freespace</td></tr>
+        </tbody>
+      </table>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Same concepts, different commands. <code>whoami</code> is the same on both. Most Linux commands are shorter. The important thing is to <strong>know the equivalent on both systems</strong> — as a cybersec professional, you'll work on both daily.</p>
+      </div>
+    </div>
+
+    <!-- CHEAT SHEET -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Cheat Sheet</div>
+      <h2>All Windows CMD Commands</h2>
+
+      <h3>Navigation</h3>
+      <div class="cmd-box"><span class="cmd">cd</span><span class="desc">Show current directory (or change with cd folder)</span></div>
+      <div class="cmd-box"><span class="cmd">cd ..</span><span class="desc">Go back one level</span></div>
+      <div class="cmd-box"><span class="cmd">dir</span><span class="desc">List files and folders</span></div>
+      <div class="cmd-box"><span class="cmd">dir /a</span><span class="desc">List all files including hidden</span></div>
+      <div class="cmd-box"><span class="cmd">dir /s filename</span><span class="desc">Search all subdirectories for a file</span></div>
+      <div class="cmd-box"><span class="cmd">type filename</span><span class="desc">Display file contents (= Linux cat)</span></div>
+
+      <h3>System Investigation</h3>
+      <div class="cmd-box"><span class="cmd">whoami</span><span class="desc">Print current username</span></div>
+      <div class="cmd-box"><span class="cmd">hostname</span><span class="desc">Print computer's network name</span></div>
+      <div class="cmd-box"><span class="cmd">systeminfo</span><span class="desc">Full system details (OS, version, RAM, etc.)</span></div>
+      <div class="cmd-box"><span class="cmd">ipconfig</span><span class="desc">Network configuration (IP, subnet, gateway)</span></div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>CMD</strong> — Command Prompt. Windows text-based interface for system interaction.</li>
+        <li><strong>cd</strong> — Change Directory. Shows current path or navigates to a folder.</li>
+        <li><strong>dir</strong> — List directory contents (equivalent of Linux <code>ls</code>).</li>
+        <li><strong>dir /a</strong> — Show all files including hidden ones.</li>
+        <li><strong>dir /s</strong> — Search recursively through all subdirectories.</li>
+        <li><strong>type</strong> — Display file contents (equivalent of Linux <code>cat</code>).</li>
+        <li><strong>whoami</strong> — Print current username (same on Linux and Windows).</li>
+        <li><strong>hostname</strong> — Print the computer's network name.</li>
+        <li><strong>systeminfo</strong> — Display comprehensive system information.</li>
+        <li><strong>ipconfig</strong> — Display network configuration (IP, subnet mask, default gateway).</li>
+        <li><strong>IPv4 Address</strong> — The machine's IP address on the local network.</li>
+        <li><strong>Subnet Mask</strong> — Defines which part of the IP is the network vs the host.</li>
+        <li><strong>Default Gateway</strong> — The router's IP — the exit point to the Internet.</li>
+        <li><strong>Hidden Files</strong> — Files marked as hidden by Windows. Not secret, just not shown by default.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is CMD?</div>
+        <div class="a hidden">Command Prompt — a text-based interface for interacting with the Windows OS.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command shows the contents of a directory in Windows?</div>
+        <div class="a hidden">dir</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you show hidden files in Windows CMD?</div>
+        <div class="a hidden">dir /a</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you search for a file across all subdirectories?</div>
+        <div class="a hidden">dir /s filename</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command reads a file in Windows CMD? What's the Linux equivalent?</div>
+        <div class="a hidden">type (Windows) = cat (Linux)</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command prints the computer's network name?</div>
+        <div class="a hidden">hostname</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command gives you comprehensive system info (OS name, version, system type)?</div>
+        <div class="a hidden">systeminfo</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command shows network configuration on Windows?</div>
+        <div class="a hidden">ipconfig</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What 3 key fields should you look for in ipconfig output?</div>
+        <div class="a hidden">IPv4 Address, Subnet Mask, Default Gateway</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the Windows equivalent of Linux's ls?</div>
+        <div class="a hidden">dir</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the Windows equivalent of Linux's find?</div>
+        <div class="a hidden">dir /s filename</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which command works exactly the same on both Linux and Windows?</div>
+        <div class="a hidden">whoami</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 4 first commands a cybersec analyst runs on a Windows machine.</div>
+        <div class="a hidden">whoami (who am I?), hostname (what machine?), systeminfo (what OS?), ipconfig (network?)</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

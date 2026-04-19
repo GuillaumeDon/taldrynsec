@@ -193,6 +193,15 @@ const NOTES = [
     topic: "linux",
     date: "Apr 18, 2026"
   },
+  {
+    slug: "windows-cli-basics",
+    title: "Windows CLI Basics",
+    desc: "Windows Command Prompt: cd, dir, dir /a, dir /s, type, whoami, hostname, systeminfo, ipconfig + Linux vs Windows comparison.",
+    tag: "Operating Systems Basics",
+    source: "tryhackme",
+    topic: "os",
+    date: "Apr 19, 2026"
+  },
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
