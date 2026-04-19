@@ -211,6 +211,15 @@ const NOTES = [
     topic: "blue-team",
     date: "Apr 19, 2026"
   },
+  {
+  slug: "data-representation",
+  title: "Data Representation",
+  desc: "Binary, hexadecimal, octal number systems, RGB color model, 24-bit color, and base conversions.",
+  tag: "Software Basics",
+  source: "tryhackme",
+  topic: "blue-team",
+  date: "Apr 19, 2026"
+},
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

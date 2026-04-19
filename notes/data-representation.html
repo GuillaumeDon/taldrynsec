@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Representation — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Number systems grid */
+    .sys-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:700px){ .sys-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:400px){ .sys-grid { grid-template-columns:1fr; } }
+    .sys-card { background:var(--bg-deep); border-radius:8px; padding:1rem; text-align:center; border:1px solid var(--border); }
+    .sys-card h4 { font-family:var(--font-display); font-size:0.82rem; margin-bottom:0.3rem; }
+    .sys-card .base { font-family:var(--font-display); font-size:0.65rem; color:var(--text-dim); margin-bottom:0.4rem; }
+    .sys-card p { font-size:0.7rem; color:var(--text-dim); }
+    .sys-dec h4 { color:var(--accent); } .sys-dec { border-color:rgba(0,229,160,0.3); }
+    .sys-bin h4 { color:var(--accent2); } .sys-bin { border-color:rgba(0,180,216,0.3); }
+    .sys-hex h4 { color:var(--accent3); } .sys-hex { border-color:rgba(244,114,182,0.3); }
+    .sys-oct h4 { color:var(--accent4); } .sys-oct { border-color:rgba(251,191,36,0.3); }
+
+    /* Color table */
+    .color-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; }
+    .color-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); padding:0.5rem 0.7rem; border-bottom:1px solid var(--border); text-align:left; }
+    .color-table td { padding:0.45rem 0.7rem; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--text-muted); }
+    .color-table td:first-child { font-family:var(--font-display); font-weight:700; font-size:0.68rem; letter-spacing:0.06em; }
+    .color-table td:last-child { font-weight:500; color:var(--text); }
+    .color-swatch { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:middle; }
+
+    /* Hex/Bin/Dec reference table */
+    .ref-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; }
+    .ref-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); padding:0.5rem 0.7rem; border-bottom:1px solid var(--border); text-align:left; }
+    .ref-table td { padding:0.4rem 0.7rem; border-bottom:1px solid rgba(255,255,255,0.04); font-family:var(--font-display); font-size:0.68rem; color:var(--text-muted); }
+    .ref-table td:first-child { color:var(--accent); }
+    .ref-table td:nth-child(2) { color:var(--accent3); }
+    .ref-table td:nth-child(3) { color:var(--accent2); }
+    .ref-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* Binary conversion steps */
+    .bin-calc { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:0.8rem 1rem; margin:0.6rem 0; font-family:var(--font-display); font-size:0.72rem; color:var(--text-dim); }
+    .bin-calc .eq { color:var(--accent2); font-weight:700; }
+    .bin-calc .result { color:var(--accent); font-weight:700; font-size:0.82rem; }
+
+    /* RGB color band visual */
+    .rgb-band { display:flex; gap:0; border-radius:8px; overflow:hidden; margin:1rem 0; height:40px; }
+    .rgb-r { flex:1; background:rgba(229,0,0,0.6); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:0.7rem; font-weight:700; color:#fff; }
+    .rgb-g { flex:1; background:rgba(0,229,0,0.5); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:0.7rem; font-weight:700; color:#fff; }
+    .rgb-b { flex:1; background:rgba(0,0,229,0.6); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:0.7rem; font-weight:700; color:#fff; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Software Basics</div>
+      <h1>Data Representation</h1>
+      <p>How computers represent colors and numbers — binary, hexadecimal, octal, and the RGB color model.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Software Basics</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Introduction</div>
+      <h2>Why Computers Use Binary</h2>
+      <p>Humans use the <strong>decimal system</strong> (base-10) in everyday life — digits range from 0 to 9. Computers, however, are limited to <strong>two digits: 0 and 1</strong>. This mirrors the physical reality of electronics: a transistor is either conducting current (<strong>1</strong>) or not (<strong>0</strong>), a hard-disk particle is magnetized North or South, a light is on or off.</p>
+      <p>Everything a computer does — storing colors, numbers, text, files — ultimately comes down to sequences of 0s and 1s.</p>
+
+      <h3>The Four Number Systems</h3>
+      <div class="sys-grid">
+        <div class="sys-card sys-dec">
+          <h4>Decimal</h4>
+          <div class="base">Base-10</div>
+          <p>Digits: <strong>0–9</strong>. Our everyday counting system.</p>
+        </div>
+        <div class="sys-card sys-bin">
+          <h4>Binary</h4>
+          <div class="base">Base-2</div>
+          <p>Digits: <strong>0, 1</strong>. Native language of computers.</p>
+        </div>
+        <div class="sys-card sys-hex">
+          <h4>Hexadecimal</h4>
+          <div class="base">Base-16</div>
+          <p>Digits: <strong>0–9, A–F</strong>. Compact binary notation.</p>
+        </div>
+        <div class="sys-card sys-oct">
+          <h4>Octal</h4>
+          <div class="base">Base-8</div>
+          <p>Digits: <strong>0–7</strong>. Groups 3 bits together.</p>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Computers use binary because their hardware has only two physical states. Every other system (hex, octal) is just a <strong>more human-friendly way to read binary</strong> — grouping bits to make them shorter to write and easier to scan.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — COLORS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Representing Colors</div>
+      <h2>From 8 Colors to 16 Million</h2>
+
+      <h3>Our First Eight Colors (1 bit per channel)</h3>
+      <p>A computer screen mixes <strong>Red, Green, and Blue</strong> light. Think of three knobs, each controlling one color. If each knob can only be <strong>on (1) or off (0)</strong>, you get 2 × 2 × 2 = <strong>8 possible colors</strong>. Each color is stored as a 3-bit value called a <strong>bit</strong>.</p>
+
+      <div class="rgb-band">
+        <div class="rgb-r">R</div>
+        <div class="rgb-g">G</div>
+        <div class="rgb-b">B</div>
+      </div>
+
+      <table class="color-table">
+        <thead><tr><th>Binary (RGB)</th><th>Color Name</th><th>Preview</th></tr></thead>
+        <tbody>
+          <tr><td>000</td><td>Black</td><td><span class="color-swatch" style="background:#000;border:1px solid #444;"></span>All off</td></tr>
+          <tr><td>001</td><td>Blue</td><td><span class="color-swatch" style="background:#00f;"></span>Only blue on</td></tr>
+          <tr><td>010</td><td>Green</td><td><span class="color-swatch" style="background:#0f0;"></span>Only green on</td></tr>
+          <tr><td>100</td><td>Red</td><td><span class="color-swatch" style="background:#f00;"></span>Only red on</td></tr>
+          <tr><td>011</td><td>Cyan</td><td><span class="color-swatch" style="background:#0ff;"></span>Green + blue</td></tr>
+          <tr><td>101</td><td>Magenta</td><td><span class="color-swatch" style="background:#f0f;"></span>Red + blue</td></tr>
+          <tr><td>110</td><td>Yellow</td><td><span class="color-swatch" style="background:#ff0;"></span>Red + green</td></tr>
+          <tr><td>111</td><td>White</td><td><span class="color-swatch" style="background:#fff;border:1px solid #444;"></span>All on</td></tr>
+        </tbody>
+      </table>
+
+      <h3>From 8 to 16,777,216 Colors (1 byte per channel)</h3>
+      <p>8 colors is not enough. If instead each channel has <strong>8 bits (1 byte)</strong> — values from 0 to 255 — we get 256 × 256 × 256 = <strong>16,777,216 colors</strong>. A full color is now <strong>3 bytes = 24 bits</strong>.</p>
+      <p>For example, the green used on this page is stored as the binary sequence <code>01010000 11001100 10010001</code> — representing decimal values <code>80, 204, 145</code> — and written in hex as <code>#00E5A0</code>.</p>
+
+      <h3>Hexadecimal Representation</h3>
+      <p>Writing 24-bit binary numbers is tedious. Instead, we <strong>group every 4 bits into one hex digit</strong>. A hex digit ranges from <code>0</code> to <code>F</code>, representing decimal 0–15. This means one color byte (8 bits) = exactly <strong>2 hex digits</strong>.</p>
+      <p>So <code>#FF0000</code> = red (R=255, G=0, B=0), <code>#00FF00</code> = green, <code>#0000FF</code> = blue.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>In real applications: a color = <strong>3 bytes (24 bits)</strong>. Each byte = one channel (R, G, B). Each byte = <strong>2 hex digits</strong>. That's why HTML colors look like <code>#RRGGBB</code>. Over 16 million combinations fit in just 3 bytes.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — NUMBERS -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Numbers: Decimal to Hexadecimal</div>
+      <h2>Binary Numbers</h2>
+      <p>The binary (base-2) system works just like decimal (base-10), but each position represents a <strong>power of 2</strong> instead of a power of 10. The rightmost digit is multiplied by 2⁰, the next by 2¹, then 2², and so on.</p>
+
+      <h3>Powers of 2 Reference</h3>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.8rem 0;">
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2⁷</div><div style="color:var(--text-dim);">128</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2⁶</div><div style="color:var(--text-dim);">64</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2⁵</div><div style="color:var(--text-dim);">32</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2⁴</div><div style="color:var(--text-dim);">16</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2³</div><div style="color:var(--text-dim);">8</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2²</div><div style="color:var(--text-dim);">4</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2¹</div><div style="color:var(--text-dim);">2</div></div>
+        <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;padding:0.4rem 0.7rem;font-family:var(--font-display);font-size:0.7rem;text-align:center;"><div style="color:var(--accent2);font-weight:700;">2⁰</div><div style="color:var(--text-dim);">1</div></div>
+      </div>
+
+      <h3>Binary → Decimal Examples</h3>
+      <div class="bin-calc"><span class="eq">1000</span> = 1×2³ = <span class="result">8</span></div>
+      <div class="bin-calc"><span class="eq">1001</span> = 1×2³ + 0×2² + 0×2¹ + 1×2⁰ = 8+1 = <span class="result">9</span></div>
+      <div class="bin-calc"><span class="eq">1010</span> = 1×2³ + 0×2² + 1×2¹ + 0×2⁰ = 8+2 = <span class="result">10</span></div>
+      <div class="bin-calc"><span class="eq">1100</span> = 1×2³ + 1×2² + 0×2¹ + 0×2⁰ = 8+4 = <span class="result">12</span></div>
+      <div class="bin-calc"><span class="eq">1111</span> = 1×2³ + 1×2² + 1×2¹ + 1×2⁰ = 8+4+2+1 = <span class="result">15</span></div>
+
+      <h3>Decimal / Hex / Binary Reference Table (0–15)</h3>
+      <table class="ref-table">
+        <thead><tr><th>Decimal</th><th>Hex</th><th>Binary</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>0000</td></tr>
+          <tr><td>1</td><td>1</td><td>0001</td></tr>
+          <tr><td>2</td><td>2</td><td>0010</td></tr>
+          <tr><td>3</td><td>3</td><td>0011</td></tr>
+          <tr><td>4</td><td>4</td><td>0100</td></tr>
+          <tr><td>5</td><td>5</td><td>0101</td></tr>
+          <tr><td>6</td><td>6</td><td>0110</td></tr>
+          <tr><td>7</td><td>7</td><td>0111</td></tr>
+          <tr><td>8</td><td>8</td><td>1000</td></tr>
+          <tr><td>9</td><td>9</td><td>1001</td></tr>
+          <tr><td>10</td><td>A</td><td>1010</td></tr>
+          <tr><td>11</td><td>B</td><td>1011</td></tr>
+          <tr><td>12</td><td>C</td><td>1100</td></tr>
+          <tr><td>13</td><td>D</td><td>1101</td></tr>
+          <tr><td>14</td><td>E</td><td>1110</td></tr>
+          <tr><td>15</td><td>F</td><td>1111</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Optional: Octal Numbers</h3>
+      <p>The <strong>octal (base-8)</strong> system uses digits 0–7 and groups <strong>3 binary bits</strong> together. It's less common today but still encountered in some Unix contexts (e.g. file permissions: <code>chmod 755</code>).</p>
+      <table class="ref-table">
+        <thead><tr><th>Decimal</th><th>Octal</th><th>Binary</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>000</td></tr>
+          <tr><td>1</td><td>1</td><td>001</td></tr>
+          <tr><td>2</td><td>2</td><td>010</td></tr>
+          <tr><td>3</td><td>3</td><td>011</td></tr>
+          <tr><td>4</td><td>4</td><td>100</td></tr>
+          <tr><td>5</td><td>5</td><td>101</td></tr>
+          <tr><td>6</td><td>6</td><td>110</td></tr>
+          <tr><td>7</td><td>7</td><td>111</td></tr>
+        </tbody>
+      </table>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Hex groups 4 bits → 1 hex digit</strong>. <strong>Octal groups 3 bits → 1 octal digit</strong>. Both exist only to make binary easier to read. In cybersecurity, hex is everywhere — hex editors, memory addresses, color codes, hash outputs, shellcode. Learn to convert fluently.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Bit</strong> — Short for binary digit. Can be <code>0</code> or <code>1</code>. The smallest unit of data.</li>
+        <li><strong>Byte</strong> — A group of 8 bits. On modern systems, the standard unit. Also called an <em>octet</em>.</li>
+        <li><strong>Binary (Base-2)</strong> — Number system with only digits 0 and 1. The native language of computers.</li>
+        <li><strong>Decimal (Base-10)</strong> — Everyday number system. Digits 0–9.</li>
+        <li><strong>Hexadecimal (Base-16)</strong> — Digits 0–9 then A–F. Every 4 bits = 1 hex digit. Used everywhere in computing.</li>
+        <li><strong>Octal (Base-8)</strong> — Digits 0–7. Every 3 bits = 1 octal digit. Less common, seen in Unix file permissions.</li>
+        <li><strong>RGB</strong> — Red, Green, Blue. The three primary colors of light used by computer screens.</li>
+        <li><strong>Hex Color</strong> — A 6-character hex string representing a color as <code>#RRGGBB</code> (e.g. <code>#FF0000</code> = red).</li>
+        <li><strong>MSB</strong> — Most Significant Bit. The leftmost bit, with the highest positional value.</li>
+        <li><strong>LSB</strong> — Least Significant Bit. The rightmost bit, with the lowest positional value (2⁰ = 1).</li>
+        <li><strong>24-bit color</strong> — 3 bytes (one per channel R, G, B), giving 16,777,216 possible colors.</li>
+        <li><strong>Positional notation</strong> — Each digit's value depends on its position. Digit × base^position.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">Why do computers use binary instead of decimal?</div>
+        <div class="a hidden">Because computer hardware has only two physical states: on/off, high/low voltage, magnetized North/South. Binary maps directly to these states.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many colors can you represent with 1 bit per RGB channel?</div>
+        <div class="a hidden">8 colors (2 × 2 × 2 = 2³ = 8).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many colors can you represent with 1 byte per RGB channel?</div>
+        <div class="a hidden">16,777,216 colors (256 × 256 × 256 = 2²⁴). This is called 24-bit color or "True Color".</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many bytes does a full color take in a 24-bit color system?</div>
+        <div class="a hidden">3 bytes — one byte per channel (Red, Green, Blue).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a hexadecimal digit? What range does it cover?</div>
+        <div class="a hidden">A single symbol representing values 0–15. Digits 0–9 cover 0–9, and letters A–F cover 10–15. One hex digit = 4 bits.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Convert binary 1010 to decimal.</div>
+        <div class="a hidden">1×2³ + 0×2² + 1×2¹ + 0×2⁰ = 8 + 0 + 2 + 0 = 10.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Convert binary 1111 to decimal.</div>
+        <div class="a hidden">1×8 + 1×4 + 1×2 + 1×1 = 15. In hex: F.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What decimal number does hex A represent? Hex F?</div>
+        <div class="a hidden">A = 10, F = 15.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why do we use hexadecimal in computing?</div>
+        <div class="a hidden">It compresses binary into a much shorter notation: 4 bits = 1 hex digit. A full byte (8 bits) needs only 2 hex characters instead of 8 binary digits.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the HTML color #FF0000 represent?</div>
+        <div class="a hidden">Pure red. R = FF (255), G = 00 (0), B = 00 (0).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the octal system? How many bits does each octal digit represent?</div>
+        <div class="a hidden">Base-8 system, digits 0–7. Each octal digit represents 3 bits.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a bit? What is a byte?</div>
+        <div class="a hidden">A bit is the smallest unit of data — 0 or 1. A byte is 8 bits, also called an octet.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is positional notation?</div>
+        <div class="a hidden">A system where each digit's value = digit × base^position. The rightmost position is 0. Used in all number systems (decimal, binary, hex, octal).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Convert hex B to binary.</div>
+        <div class="a hidden">B = decimal 11 = binary 1011.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you convert a large binary number to hex quickly?</div>
+        <div class="a hidden">Group the bits from right to left into groups of 4, then convert each group to its hex digit. Example: 10101111 → 1010 = A, 1111 = F → AF.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
