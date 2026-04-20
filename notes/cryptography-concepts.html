@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cryptography Concepts — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Plaintext → Ciphertext flow */
+    .crypto-flow { display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem; margin:1rem 0; }
+    .cf-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:0.6rem 1rem; font-family:var(--font-display); font-size:0.72rem; text-align:center; }
+    .cf-box .label { font-size:0.58rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:0.2rem; }
+    .cf-box .val { font-weight:700; }
+    .cf-plain  { border-color:rgba(0,229,160,0.3);  } .cf-plain  .val { color:var(--accent); }
+    .cf-key    { border-color:rgba(251,191,36,0.3);  } .cf-key    .val { color:var(--accent4); }
+    .cf-algo   { border-color:rgba(0,180,216,0.3);   } .cf-algo   .val { color:var(--accent2); }
+    .cf-cipher { border-color:rgba(244,114,182,0.3); } .cf-cipher .val { color:var(--accent3); }
+    .cf-arrow  { color:var(--accent); font-size:1rem; font-weight:700; }
+
+    /* Caesar cipher demo */
+    .caesar-demo { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:1rem; margin:0.8rem 0; }
+    .caesar-demo h4 { font-family:var(--font-display); font-size:0.78rem; color:var(--accent4); margin-bottom:0.6rem; }
+    .caesar-row { display:flex; align-items:center; gap:0.5rem; font-family:var(--font-display); font-size:0.72rem; margin-bottom:0.3rem; }
+    .caesar-row .letter { background:rgba(0,229,160,0.1); border:1px solid rgba(0,229,160,0.2); border-radius:4px; padding:0.2rem 0.5rem; color:var(--accent); font-weight:700; min-width:2rem; text-align:center; }
+    .caesar-row .arrow  { color:var(--text-dim); }
+    .caesar-row .result { background:rgba(244,114,182,0.1); border:1px solid rgba(244,114,182,0.2); border-radius:4px; padding:0.2rem 0.5rem; color:var(--accent3); font-weight:700; min-width:2rem; text-align:center; }
+    .caesar-row .note   { color:var(--text-dim); font-size:0.65rem; }
+
+    /* Sym vs Asym comparison table */
+    .compare-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; }
+    .compare-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.5rem 0.8rem; border-bottom:1px solid var(--border); text-align:left; background:rgba(255,255,255,0.03); }
+    .compare-table th:nth-child(1) { color:var(--text-dim); }
+    .compare-table th:nth-child(2) { color:var(--accent); }
+    .compare-table th:nth-child(3) { color:var(--accent2); }
+    .compare-table td { padding:0.45rem 0.8rem; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--text-muted); font-size:0.7rem; }
+    .compare-table td:first-child { color:var(--text-dim); }
+    .compare-table td:nth-child(2) { color:rgba(0,229,160,0.85); }
+    .compare-table td:nth-child(3) { color:rgba(0,180,216,0.85); }
+    .compare-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* Analogy cards */
+    .analogy-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .analogy-grid { grid-template-columns:1fr; } }
+    .analogy-card { background:var(--bg-deep); border-radius:8px; padding:1rem; border:1px solid var(--border); }
+    .analogy-card .icon { font-size:1.6rem; margin-bottom:0.5rem; }
+    .analogy-card h4 { font-family:var(--font-display); font-size:0.8rem; margin-bottom:0.35rem; }
+    .analogy-card p { font-size:0.7rem; color:var(--text-dim); margin:0; line-height:1.5; }
+    .ac-sym  { border-color:rgba(0,229,160,0.3); }  .ac-sym  h4 { color:var(--accent); }
+    .ac-asym { border-color:rgba(0,180,216,0.3); }  .ac-asym h4 { color:var(--accent2); }
+
+    /* HTTPS flow */
+    .https-flow { display:flex; flex-direction:column; gap:0.4rem; margin:0.8rem 0; }
+    .hf-step { display:flex; align-items:center; gap:0.8rem; background:var(--bg-deep); border:1px solid var(--border); border-radius:6px; padding:0.5rem 0.9rem; font-size:0.7rem; }
+    .hf-num { font-family:var(--font-display); font-size:0.62rem; color:var(--accent2); font-weight:700; min-width:1.4rem; }
+    .hf-text { color:var(--text-muted); }
+    .hf-text strong { color:var(--text); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Attacks and Defenses</div>
+      <h1>Cryptography Concepts</h1>
+      <p>Plaintext, ciphertext, symmetric & asymmetric encryption, the Caesar cipher, and how HTTPS works.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Attacks & Defenses</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Cryptography</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Introduction</div>
+      <h2>Why Cryptography Matters</h2>
+      <p>The padlock in your browser's address bar — what's actually stopping someone from reading your data as it travels across the internet? That's cryptography.</p>
+      <p>Data doesn't travel directly from you to the recipient. It bounces through dozens of computers and routers. Without protection, anyone with access to those systems could <strong>read, change, or block</strong> your data — attacking all three pillars of the CIA Triad.</p>
+      <p>Cryptography solves this by using <strong>mathematical rules and secret keys</strong> to scramble information into gibberish that only authorised people can unscramble.</p>
+
+      <h3>Core Vocabulary</h3>
+      <ul>
+        <li><strong>Plaintext</strong> — A message you can read normally. Example: <code>HELLO</code></li>
+        <li><strong>Ciphertext</strong> — A scrambled version not supposed to make sense. Example: <code>KHOOR</code></li>
+        <li><strong>Key</strong> — The secret that controls how scrambling and unscrambling works. Only people with the right key can decrypt.</li>
+        <li><strong>Algorithm</strong> — The public recipe (the steps) that says how to use the key on the message. Everyone can know the algorithm — security comes from keeping the <em>key</em> secret.</li>
+      </ul>
+
+      <div class="crypto-flow">
+        <div class="cf-box cf-plain"><span class="label">Input</span><span class="val">Plaintext</span></div>
+        <span class="cf-arrow">+</span>
+        <div class="cf-box cf-key"><span class="label">Secret</span><span class="val">Key</span></div>
+        <span class="cf-arrow">+</span>
+        <div class="cf-box cf-algo"><span class="label">Method</span><span class="val">Algorithm</span></div>
+        <span class="cf-arrow">→</span>
+        <div class="cf-box cf-cipher"><span class="label">Output</span><span class="val">Ciphertext</span></div>
+      </div>
+      <p style="font-size:0.7rem;color:var(--text-dim);">Decryption is the reverse: Ciphertext + Key + Algorithm → Plaintext.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>The algorithm is public — the <strong>key is the only secret</strong>. Security does not come from hiding how encryption works, but from protecting the key. This is Kerckhoffs's principle.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — SYMMETRIC -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Symmetric Encryption</div>
+      <h2>One Key for Both Directions</h2>
+      <p><strong>Symmetric encryption</strong> uses the <strong>same key</strong> to both encrypt and decrypt. Alice and Bob both know this secret key. Alice encrypts with it, Bob decrypts with it.</p>
+
+      <div class="analogy-grid">
+        <div class="analogy-card ac-sym">
+          <div class="icon">🔒</div>
+          <h4>The Lockbox Analogy</h4>
+          <p>Alice puts her message in a lockbox and locks it. She mails the lockbox to Bob. Bob uses his <strong>copy of the same key</strong> to open it. Anyone who intercepts the box along the way can't open it — but only if they don't have the key.</p>
+        </div>
+        <div class="analogy-card ac-sym" style="border-color:rgba(251,191,36,0.3);">
+          <div class="icon">⚡</div>
+          <h4>Why It's Used</h4>
+          <p>Symmetric algorithms are <strong>very fast</strong>. They can encrypt large amounts of data quickly — perfect for encrypting files, hard drives, and high-speed network traffic.</p>
+        </div>
+      </div>
+
+      <h3>The Caesar Cipher — Algorithm + Key in Action</h3>
+      <p>The Caesar cipher shifts each letter in the alphabet by a fixed number. That number is the <strong>key</strong>. The shift rule is the <strong>algorithm</strong>. It's historically famous but completely insecure — used here only to illustrate the concept.</p>
+
+      <div class="caesar-demo">
+        <h4>Example: key = 3 (shift forward 3)</h4>
+        <div class="caesar-row"><span class="letter">H</span><span class="arrow">→ +3 →</span><span class="result">K</span></div>
+        <div class="caesar-row"><span class="letter">E</span><span class="arrow">→ +3 →</span><span class="result">H</span></div>
+        <div class="caesar-row"><span class="letter">L</span><span class="arrow">→ +3 →</span><span class="result">O</span></div>
+        <div class="caesar-row"><span class="letter">L</span><span class="arrow">→ +3 →</span><span class="result">O</span></div>
+        <div class="caesar-row"><span class="letter">O</span><span class="arrow">→ +3 →</span><span class="result">R</span><span class="note">&nbsp;(wraps around at Z)</span></div>
+        <div style="margin-top:0.7rem;font-family:var(--font-display);font-size:0.72rem;">
+          <span style="color:var(--accent);">HELLO</span>
+          <span style="color:var(--text-dim);"> → encrypted with key=3 → </span>
+          <span style="color:var(--accent3);">KHOOR</span>
+        </div>
+        <div style="margin-top:0.3rem;font-family:var(--font-display);font-size:0.7rem;color:var(--text-dim);">
+          To decrypt: shift <strong>backwards</strong> by 3. KHOOR → HELLO.
+        </div>
+      </div>
+
+      <p><strong>Why the Caesar cipher is weak:</strong> the algorithm is completely public, and there are only 25 possible key values (1–25). A computer checks all 25 in milliseconds — this is called a <strong>brute-force attack</strong>. Real symmetric algorithms (AES, ChaCha20) use keys that are billions of years to brute-force.</p>
+
+      <h3>The Key Distribution Problem</h3>
+      <p>Symmetric encryption has one critical weakness: <strong>how do Alice and Bob share the key safely in the first place?</strong> If they send it in plaintext, an attacker intercepts it. If they encrypt it, they need another key — circular problem. This is the <strong>key distribution problem</strong>, and it's why asymmetric encryption was invented.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Symmetric = <strong>one key, both directions</strong>. Fast, efficient. Algorithm + key → ciphertext. Key distribution is the weakness. Real-world algorithms: AES, DES, ChaCha20.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — ASYMMETRIC -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Asymmetric Encryption</div>
+      <h2>Two Keys Instead of One</h2>
+      <p>Asymmetric encryption uses <strong>two mathematically linked keys</strong>:</p>
+      <ul>
+        <li><strong>Public key</strong> — Anyone can know it and use it. Used to <em>encrypt</em>.</li>
+        <li><strong>Private key</strong> — Only one person keeps it, secret. Used to <em>decrypt</em>.</li>
+      </ul>
+      <p>If you encrypt something with someone's <strong>public key</strong>, only their <strong>private key</strong> can decrypt it. This solves the key distribution problem — you can share your public key with the entire world safely.</p>
+
+      <div class="analogy-grid">
+        <div class="analogy-card ac-asym">
+          <div class="icon">📬</div>
+          <h4>The Mailbox Analogy</h4>
+          <p>The <strong>mail slot</strong> is the public key — anyone can drop a letter in. It's completely open and accessible. The <strong>locked door</strong> is the private key — only the mailbox owner has the key to open it and grab the letters.</p>
+        </div>
+        <div class="analogy-card ac-asym" style="border-color:rgba(244,114,182,0.3);">
+          <div class="icon">🐢</div>
+          <h4>The Tradeoff</h4>
+          <p>Asymmetric encryption is <strong>much slower</strong> than symmetric. It's used for small amounts of data — primarily to <strong>securely exchange a symmetric key</strong>, after which symmetric encryption takes over for the bulk of the data.</p>
+        </div>
+      </div>
+
+      <h3>Asymmetric Flow — Alice sends to Bob</h3>
+      <div class="https-flow">
+        <div class="hf-step"><span class="hf-num">1</span><span class="hf-text">Bob creates a <strong>public key</strong> and a <strong>private key</strong>. He keeps the private key secret and shares the public key with the world.</span></div>
+        <div class="hf-step"><span class="hf-num">2</span><span class="hf-text">Alice finds Bob's public key (on a website, or he sends it openly).</span></div>
+        <div class="hf-step"><span class="hf-num">3</span><span class="hf-text">Alice <strong>encrypts her message using Bob's public key</strong> and sends it.</span></div>
+        <div class="hf-step"><span class="hf-num">4</span><span class="hf-text">Bob <strong>decrypts with his private key</strong> — he is the only one who can, because no one else has it.</span></div>
+        <div class="hf-step"><span class="hf-num">✓</span><span class="hf-text">An attacker who intercepts the message <strong>cannot decrypt it</strong> without Bob's private key.</span></div>
+      </div>
+
+      <h3>Real-World Use: HTTPS</h3>
+      <p>The padlock in your browser = <strong>HTTPS</strong>. This is how the two encryption types combine in practice:</p>
+
+      <div class="https-flow">
+        <div class="hf-step"><span class="hf-num">1</span><span class="hf-text">Your browser requests the website. The server sends its <strong>public key</strong> inside a <strong>certificate</strong>.</span></div>
+        <div class="hf-step"><span class="hf-num">2</span><span class="hf-text">Your browser checks the certificate is signed by a trusted <strong>Certificate Authority (CA)</strong>.</span></div>
+        <div class="hf-step"><span class="hf-num">3</span><span class="hf-text"><strong>Asymmetric encryption</strong> is used to securely agree on a shared <strong>symmetric session key</strong>.</span></div>
+        <div class="hf-step"><span class="hf-num">4</span><span class="hf-text">From this point, all data is encrypted with <strong>symmetric encryption</strong> (fast) using that session key.</span></div>
+      </div>
+
+      <p>Asymmetric solves the key distribution problem. Symmetric handles the heavy lifting efficiently. <strong>HTTPS uses both.</strong></p>
+
+      <h3>Symmetric vs Asymmetric — Side by Side</h3>
+      <table class="compare-table">
+        <thead><tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr></thead>
+        <tbody>
+          <tr><td>Number of keys</td><td>One key (encrypt + decrypt)</td><td>Two keys (public + private)</td></tr>
+          <tr><td>Key sharing</td><td>Both parties need the same secret key</td><td>Public key can be shared openly</td></tr>
+          <tr><td>Speed</td><td>Very fast</td><td>Slower (small data only)</td></tr>
+          <tr><td>Main use</td><td>Encrypting bulk data (files, traffic)</td><td>Sharing keys, digital certificates</td></tr>
+          <tr><td>Key distribution problem</td><td>Has the problem</td><td>Solves the problem</td></tr>
+          <tr><td>Algorithms</td><td>AES, DES, ChaCha20</td><td>RSA, ECC, Diffie-Hellman</td></tr>
+          <tr><td>In HTTPS</td><td>Encrypts the session data</td><td>Sets up the initial handshake</td></tr>
+        </tbody>
+      </table>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Asymmetric = <strong>two linked keys</strong>. Public key encrypts, private key decrypts. Solves key distribution. Slow — used only to set up a shared symmetric key. Real-world algorithms: RSA, ECC. In HTTPS: asym for handshake → sym for data.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Cryptography</strong> — The science of securing communication using mathematical techniques to make data unreadable to unauthorised parties.</li>
+        <li><strong>Plaintext</strong> — The original readable message before encryption.</li>
+        <li><strong>Ciphertext</strong> — The scrambled, unreadable output after encryption.</li>
+        <li><strong>Key</strong> — The secret value that controls encryption and decryption. The algorithm is public — the key is the only secret.</li>
+        <li><strong>Algorithm</strong> — The public set of mathematical steps that uses the key to encrypt or decrypt data.</li>
+        <li><strong>Symmetric Encryption</strong> — One key used for both encryption and decryption. Fast. Examples: AES, ChaCha20.</li>
+        <li><strong>Asymmetric Encryption</strong> — Two linked keys: a public key (anyone can use) and a private key (only the owner has). Examples: RSA, ECC.</li>
+        <li><strong>Public Key</strong> — The shareable key in asymmetric encryption. Used to encrypt messages to the owner.</li>
+        <li><strong>Private Key</strong> — The secret key in asymmetric encryption. Only the owner has it. Used to decrypt.</li>
+        <li><strong>Key Distribution Problem</strong> — The challenge of securely sharing a symmetric key. Solved by asymmetric encryption.</li>
+        <li><strong>Caesar Cipher</strong> — A simple substitution cipher that shifts letters by a fixed number. Historically significant, but trivially brute-forced.</li>
+        <li><strong>Brute-Force Attack</strong> — Trying all possible keys systematically until the correct one is found.</li>
+        <li><strong>HTTPS</strong> — HyperText Transfer Protocol Secure. Uses asymmetric encryption for the handshake, then symmetric for the session data.</li>
+        <li><strong>Certificate</strong> — A digital document containing a website's public key, signed by a trusted Certificate Authority (CA). Proves the public key belongs to the legitimate site.</li>
+        <li><strong>Certificate Authority (CA)</strong> — A trusted organisation that signs and validates digital certificates.</li>
+        <li><strong>Session Key</strong> — A temporary symmetric key generated for one communication session. Agreed upon via asymmetric encryption.</li>
+        <li><strong>Kerckhoffs's Principle</strong> — A cryptographic system should be secure even if everything except the key is public knowledge.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the difference between plaintext and ciphertext?</div>
+        <div class="a hidden">Plaintext is the original readable message. Ciphertext is the scrambled, unreadable version produced by encryption.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a key in cryptography? What is an algorithm?</div>
+        <div class="a hidden">A key is the secret value that controls encryption/decryption. An algorithm is the public set of steps (the recipe) for using the key. The algorithm can be known by everyone — only the key must stay secret.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is symmetric encryption? Give a real-world analogy.</div>
+        <div class="a hidden">Encryption where the same key is used for both encryption and decryption. Analogy: a lockbox — Alice and Bob both have a copy of the same key to lock and unlock it.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the key distribution problem?</div>
+        <div class="a hidden">The challenge of securely sharing a symmetric key with another party. If you send it in plaintext, it can be intercepted. If you encrypt it, you need another key — circular problem.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is asymmetric encryption? How many keys does it use?</div>
+        <div class="a hidden">Encryption using two mathematically linked keys: a public key (anyone can use to encrypt) and a private key (only the owner has to decrypt). Two keys total.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">In asymmetric encryption, which key encrypts? Which decrypts?</div>
+        <div class="a hidden">The public key encrypts (anyone can send a secret message to the owner). The private key decrypts (only the owner can read it).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the mailbox analogy for asymmetric encryption?</div>
+        <div class="a hidden">The mail slot = public key (anyone can drop a letter in). The locked door = private key (only the mailbox owner has the key to retrieve letters).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is asymmetric encryption not used to encrypt all data?</div>
+        <div class="a hidden">It is much slower than symmetric encryption. It is only used for small amounts of data — primarily to securely exchange a symmetric session key.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How does the Caesar cipher work? What is its key?</div>
+        <div class="a hidden">It shifts each letter in the alphabet by a fixed number. That number is the key. Example: key=3, HELLO → KHOOR. To decrypt: shift backwards by 3.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is the Caesar cipher insecure?</div>
+        <div class="a hidden">There are only 25 possible keys (1–25). A computer can try all of them in milliseconds — this is a brute-force attack.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How does HTTPS combine both encryption types?</div>
+        <div class="a hidden">Asymmetric encryption is used during the handshake to securely agree on a shared symmetric session key. Then symmetric encryption handles all the actual data (faster).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a digital certificate? What does it contain?</div>
+        <div class="a hidden">A digital document containing a website's public key, signed by a Certificate Authority (CA). It proves the public key genuinely belongs to that website and not an attacker.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a Certificate Authority (CA)?</div>
+        <div class="a hidden">A trusted organisation that signs and validates digital certificates. Your browser and OS come with a list of trusted CAs. If a certificate is signed by one, it's trusted.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Which CIA pillars does cryptography protect?</div>
+        <div class="a hidden">Confidentiality (encryption prevents unauthorised reading) and Integrity (digital signatures detect tampering). It does not directly protect Availability.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Kerckhoffs's principle?</div>
+        <div class="a hidden">A cryptographic system should remain secure even if everything about the system — except the key — is public knowledge. Security comes from the key, not from hiding the algorithm.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

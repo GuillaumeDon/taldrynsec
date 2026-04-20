@@ -256,6 +256,15 @@ const NOTES = [
   topic: "fundamentals",
   date: "Apr 20, 2026"
 },
+{
+  slug: "cryptography-concepts",
+  title: "Cryptography Concepts",
+  desc: "Plaintext, ciphertext, symmetric vs asymmetric encryption, Caesar cipher, certificates, and how HTTPS works.",
+  tag: "Attacks and Defenses",
+  source: "tryhackme",
+  topic: "crypto",
+  date: "Apr 20, 2026"
+},
 
   // {
   //   slug: "filename-without-html",
