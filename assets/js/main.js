@@ -212,23 +212,33 @@ const NOTES = [
     date: "Apr 19, 2026"
   },
   {
-  slug: "data-representation",
-  title: "Data Representation",
-  desc: "Binary, hexadecimal, octal number systems, RGB color model, 24-bit color, and base conversions.",
-  tag: "Software Basics",
-  source: "tryhackme",
-  topic: "blue-team",
-  date: "Apr 19, 2026"
-},
-{
-  slug: "data-encoding",
-  title: "Data Encoding",
-  desc: "Character encoding from ASCII to Unicode — UTF-8, UTF-16, UTF-32, code points, and why mojibake happens.",
-  tag: "Software Basics",
-  source: "tryhackme",
-  topic: "blue-team",
-  date: "Apr 20, 2026"
-},
+    slug: "data-representation",
+    title: "Data Representation",
+    desc: "Binary, hexadecimal, octal number systems, RGB color model, 24-bit color, and base conversions.",
+    tag: "Software Basics",
+    source: "tryhackme",
+    topic: "fundamentals",
+    date: "Apr 19, 2026"
+  },
+  {
+    slug: "data-encoding",
+    title: "Data Encoding",
+    desc: "Character encoding from ASCII to Unicode — UTF-8, UTF-16, UTF-32, code points, and why mojibake happens.",
+    tag: "Software Basics",
+    source: "tryhackme",
+    topic: "fundamentals",
+    date: "Apr 20, 2026"
+  },
+  {
+    slug: "python-simple-demo",
+    title: "Python: Simple Demo",
+    desc: "Variables, conditional statements (if/elif/else), and while loops — building a Guess the Number game in Python.",
+    tag: "Software Basics",
+    source: "tryhackme",
+    topic: "fundamentals",
+    date: "Apr 20, 2026"
+  },
+
   // {
   //   slug: "filename-without-html",
   //   title: "Title",
