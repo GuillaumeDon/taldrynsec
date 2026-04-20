@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript: Simple Demo — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Code blocks */
+    .code-block { background:#0d1117; border:1px solid var(--border); border-radius:8px; padding:1rem 1.2rem; margin:0.8rem 0; font-family:var(--font-display); font-size:0.72rem; line-height:1.8; overflow-x:auto; white-space:pre; }
+    .code-block .comment { color:#6e7681; font-style:italic; }
+    .code-block .kw  { color:#ff7b72; }
+    .code-block .fn  { color:#d2a8ff; }
+    .code-block .str { color:#a5d6ff; }
+    .code-block .num { color:#79c0ff; }
+    .code-block .op  { color:#ff7b72; }
+
+    /* Python vs JS comparison table */
+    .compare-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; }
+    .compare-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.5rem 0.8rem; border-bottom:1px solid var(--border); text-align:left; }
+    .compare-table th:nth-child(1) { color:var(--text-dim); }
+    .compare-table th:nth-child(2) { color:#3b82f6; }
+    .compare-table th:nth-child(3) { color:#f7df1e; }
+    .compare-table td { padding:0.45rem 0.8rem; border-bottom:1px solid rgba(255,255,255,0.04); font-family:var(--font-display); font-size:0.68rem; }
+    .compare-table td:first-child { color:var(--text-dim); }
+    .compare-table td:nth-child(2) { color:rgba(59,130,246,0.9); }
+    .compare-table td:nth-child(3) { color:rgba(247,223,30,0.9); }
+    .compare-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* if/else if/else visual */
+    .ifelse-flow { display:flex; flex-direction:column; gap:0.4rem; margin:0.8rem 0; }
+    .ife-row { display:flex; align-items:stretch; gap:0; border-radius:6px; overflow:hidden; font-family:var(--font-display); font-size:0.7rem; }
+    .ife-kw   { padding:0.5rem 0.8rem; min-width:80px; font-weight:700; display:flex; align-items:center; }
+    .ife-cond { padding:0.5rem 0.8rem; flex:1; background:var(--bg-deep); color:var(--text-dim); display:flex; align-items:center; border:1px solid var(--border); border-left:none; border-radius:0 6px 6px 0; }
+    .ife-if   .ife-kw { background:rgba(0,229,160,0.15);  color:var(--accent); }
+    .ife-elif .ife-kw { background:rgba(0,180,216,0.15);  color:var(--accent2); }
+    .ife-else .ife-kw { background:rgba(244,114,182,0.15); color:var(--accent3); }
+
+    /* Terminal */
+    .terminal { background:#0d1117; border:1px solid #30363d; border-radius:8px; margin:0.8rem 0; overflow:hidden; }
+    .terminal-bar { background:#161b22; padding:0.4rem 0.8rem; display:flex; gap:6px; align-items:center; }
+    .terminal-bar span { font-family:var(--font-display); font-size:0.6rem; color:#8b949e; margin-left:auto; }
+    .t-dot { width:10px; height:10px; border-radius:50%; }
+    .terminal-body { padding:0.8rem 1rem; font-family:var(--font-display); font-size:0.7rem; line-height:1.9; color:#e6edf3; }
+    .terminal-body .prompt { color:#3fb950; }
+    .terminal-body .out    { color:#8b949e; }
+    .terminal-body .win    { color:#ffa657; font-weight:700; }
+
+    /* while box */
+    .while-box { background:var(--bg-deep); border:1px solid rgba(244,114,182,0.3); border-radius:8px; padding:1rem; margin:0.8rem 0; }
+    .while-box .while-header { font-family:var(--font-display); font-size:0.78rem; color:var(--accent3); font-weight:700; margin-bottom:0.5rem; }
+    .while-box .while-body { padding-left:1rem; border-left:2px solid rgba(244,114,182,0.3); font-size:0.7rem; color:var(--text-dim); line-height:1.7; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Software Basics</div>
+      <h1>JavaScript: Simple Demo</h1>
+      <p>Variables, constants, user input, conditionals, and while loops — the same Guess the Number game, in JavaScript.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Software Basics</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(247,223,30,0.1);border:1px solid rgba(247,223,30,0.3);color:#f7df1e;">JavaScript</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Introduction</div>
+      <h2>JavaScript: Client-Side and Server-Side</h2>
+      <p>JavaScript was initially designed to run inside <strong>web browsers</strong> to make pages interactive. With <strong>Node.js</strong>, it became a server-side language too — you can now run JS from the command line just like Python.</p>
+      <p>This room rebuilds the exact same <strong>"Guess the Number"</strong> game from the Python room, using JavaScript. The goal is to highlight language differences while the logic stays identical.</p>
+      <p>We run JS with Node.js: <code>node guess_v3.js</code></p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>Terminal — guess_v3.js</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">ubuntu@tryhackme:~/JavaScript-Demo$</span> node guess_v3.js</div>
+          <div class="out">I'm thinking of a number between 1 and 20</div>
+          <div class="out">Take a guess: 10</div>
+          <div class="out">Too high, try again.</div>
+          <div class="out">Take a guess: 5</div>
+          <div class="out">Too low, try again.</div>
+          <div class="out">Take a guess: 7</div>
+          <div class="win">You got it in 3 tries!</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>JavaScript = the language of the web browser. Node.js = JavaScript on the server/terminal. Same language, different runtime. Run JS files from the terminal with <code>node filename.js</code>.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — VARIABLES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Variables & Constants</div>
+      <h2>let vs const</h2>
+      <p>JavaScript has two ways to declare storage. Unlike Python (where you just write <code>x = 5</code>), JS requires an explicit keyword.</p>
+      <ul>
+        <li><code>let</code> — declares a <strong>variable</strong>: its value can change during the program. Used for <code>tries</code> and <code>guess</code>.</li>
+        <li><code>const</code> — declares a <strong>constant</strong>: its value is set once and never changes. Used for <code>secret</code>.</li>
+      </ul>
+
+      <div class="code-block"><span class="kw">let</span> tries = <span class="num">0</span>;
+<span class="kw">let</span> guess = <span class="num">0</span>;  <span class="comment">// start outside valid range (secret is 1..20)</span>
+
+<span class="kw">const</span> secret = <span class="fn">Math</span>.<span class="fn">floor</span>(<span class="fn">Math</span>.<span class="fn">random</span>() * <span class="num">20</span>) + <span class="num">1</span>;  <span class="comment">// 1 &lt;= secret &lt;= 20</span></div>
+
+      <h3>How Math.random() works</h3>
+      <ul>
+        <li><code>Math.random()</code> → random decimal between 0 (inclusive) and 1 (exclusive). Example: <code>0.572</code></li>
+        <li><code>* 20</code> → stretches range to 0–20. Example: <code>11.44</code></li>
+        <li><code>Math.floor()</code> → rounds down to integer. Example: <code>11</code></li>
+        <li><code>+ 1</code> → shifts range from 0–19 to <strong>1–20</strong></li>
+      </ul>
+
+      <h3>Displaying output</h3>
+      <p>Python uses <code>print()</code>. JavaScript uses <code>console.log()</code>.</p>
+      <div class="code-block"><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"I'm thinking of a number between 1 and 20"</span>);</div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Use <code>let</code> for values that change, <code>const</code> for values that are fixed. JS statements end with a <strong>semicolon <code>;</code></strong> (optional but conventional). Output = <code>console.log()</code>, not <code>print()</code>.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — INPUT -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Prompting the User for Input</div>
+      <h2>readline + parseInt</h2>
+      <p>Reading terminal input in JS is more involved than Python's <code>input()</code>. We use Node.js's built-in <strong>readline</strong> module, which handles input/output streams asynchronously.</p>
+
+      <div class="code-block"><span class="kw">import</span> * <span class="kw">as</span> readline <span class="kw">from</span> <span class="str">"node:readline/promises"</span>;
+<span class="kw">import</span> { stdin <span class="kw">as</span> input, stdout <span class="kw">as</span> output } <span class="kw">from</span> <span class="str">"node:process"</span>;
+
+<span class="kw">const</span> rl = readline.<span class="fn">createInterface</span>({ input, output });
+
+<span class="comment">// Inside async context:</span>
+<span class="kw">const</span> text = <span class="kw">await</span> rl.<span class="fn">question</span>(<span class="str">"Take a guess: "</span>);  <span class="comment">// returns a string</span>
+guess = <span class="fn">parseInt</span>(text, <span class="num">10</span>);  <span class="comment">// convert string → integer (base 10)</span></div>
+
+      <h3>Key differences from Python</h3>
+      <ul>
+        <li>Python: <code>text = input("prompt")</code> — one line, synchronous</li>
+        <li>JavaScript: needs <code>readline</code> module + <code>await rl.question()</code></li>
+        <li>Conversion: Python uses <code>int(text)</code> — JS uses <code>parseInt(text, 10)</code></li>
+        <li>The <code>10</code> in <code>parseInt</code> specifies <strong>base-10</strong> (decimal). Always include it to avoid edge cases.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><code>rl.question()</code> returns a string, just like Python's <code>input()</code>. Convert with <code>parseInt(text, 10)</code> before any numeric comparison. The <code>await</code> keyword pauses execution until the user has typed their answer.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — CONDITIONALS -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Conditional Statements</div>
+      <h2>if / else if / else</h2>
+      <p>The logic is identical to Python. The syntax differs: JS uses <strong>curly braces <code>{ }</code></strong> to delimit blocks (not indentation), and writes <code>else if</code> instead of <code>elif</code>. Also, the <strong>OR operator</strong> is <code>||</code> in JS (vs <code>or</code> in Python).</p>
+
+      <div class="ifelse-flow">
+        <div class="ife-row ife-if">
+          <div class="ife-kw">if</div>
+          <div class="ife-cond">(guess &lt; 1 <strong>||</strong> guess &gt; 20) → "That number is out of range. Try again."</div>
+        </div>
+        <div class="ife-row ife-elif">
+          <div class="ife-kw">else if</div>
+          <div class="ife-cond">(guess &lt; secret) → "Too low, try again."</div>
+        </div>
+        <div class="ife-row ife-elif">
+          <div class="ife-kw">else if</div>
+          <div class="ife-cond">(guess &gt; secret) → "Too high, try again."</div>
+        </div>
+        <div class="ife-row ife-else">
+          <div class="ife-kw">else</div>
+          <div class="ife-cond">→ "You got it in [tries] tries!" (guess === secret)</div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="kw">if</span> (guess &lt; <span class="num">1</span> <span class="op">||</span> guess &gt; <span class="num">20</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"That number is out of range. Try again."</span>);
+} <span class="kw">else if</span> (guess &lt; secret) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Too low, try again."</span>);
+} <span class="kw">else if</span> (guess &gt; secret) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Too high, try again."</span>);
+} <span class="kw">else</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"You got it in"</span>, tries, <span class="str">"tries!"</span>);
+}</div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Python uses <code>elif</code> + indentation. JavaScript uses <code>else if</code> + <code>{ }</code> braces. OR is <code>||</code> in JS, <code>or</code> in Python. The logic is identical — only syntax changes.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — ITERATIONS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">05 — Iterations</div>
+      <h2>while Loop</h2>
+      <p>Same concept as Python: repeat the game loop until <code>guess === secret</code>. In JS, "not equal" is <code>!==</code> (vs <code>!=</code> in Python). The braces <code>{ }</code> delimit the loop body.</p>
+
+      <div class="while-box">
+        <div class="while-header">while (guess !== secret) &#123;</div>
+        <div class="while-body">
+          — await user input (rl.question)<br>
+          — parseInt to convert string → int<br>
+          — tries = tries + 1<br>
+          — if / else if / else → print hint<br>
+          <em>(loop back, re-check condition)</em>
+        </div>
+      </div>
+
+      <h3>Final Complete Program (guess_v3.js)</h3>
+      <div class="code-block"><span class="kw">import</span> * <span class="kw">as</span> readline <span class="kw">from</span> <span class="str">"node:readline/promises"</span>;
+<span class="kw">import</span> { stdin <span class="kw">as</span> input, stdout <span class="kw">as</span> output } <span class="kw">from</span> <span class="str">"node:process"</span>;
+
+<span class="kw">const</span> rl = readline.<span class="fn">createInterface</span>({ input, output });
+
+<span class="kw">try</span> {
+    <span class="kw">const</span> secret = <span class="fn">Math</span>.<span class="fn">floor</span>(<span class="fn">Math</span>.<span class="fn">random</span>() * <span class="num">20</span>) + <span class="num">1</span>;  <span class="comment">// 1 &lt;= secret &lt;= 20</span>
+    <span class="kw">let</span> tries = <span class="num">0</span>;
+    <span class="kw">let</span> guess = <span class="num">0</span>;
+
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"I'm thinking of a number between 1 and 20"</span>);
+
+    <span class="kw">while</span> (guess <span class="op">!==</span> secret) {
+        <span class="kw">const</span> text = <span class="kw">await</span> rl.<span class="fn">question</span>(<span class="str">"Take a guess: "</span>);
+        guess = <span class="fn">parseInt</span>(text, <span class="num">10</span>);
+        tries = tries + <span class="num">1</span>;
+
+        <span class="kw">if</span> (guess &lt; <span class="num">1</span> <span class="op">||</span> guess &gt; <span class="num">20</span>) {
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"That number is out of range. Try again."</span>);
+        } <span class="kw">else if</span> (guess &lt; secret) {
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Too low, try again."</span>);
+        } <span class="kw">else if</span> (guess &gt; secret) {
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Too high, try again."</span>);
+        } <span class="kw">else</span> {
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"You got it in"</span>, tries, <span class="str">"tries!"</span>);
+        }
+    }
+} <span class="kw">finally</span> {
+    rl.<span class="fn">close</span>();
+}</div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>"Not equal" in JS is <code>!==</code>. The <code>try/finally</code> block ensures <code>rl.close()</code> always runs to cleanly release the input stream. Same loop logic as Python's <code>while guess != secret:</code> — only the syntax differs.</p>
+      </div>
+    </div>
+
+    <!-- PYTHON vs JS COMPARISON -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">Python vs JavaScript</div>
+      <h2>Side-by-Side Comparison</h2>
+      <table class="compare-table">
+        <thead><tr><th>Concept</th><th>Python</th><th>JavaScript</th></tr></thead>
+        <tbody>
+          <tr><td>Declare variable</td><td>x = 5</td><td>let x = 5;</td></tr>
+          <tr><td>Declare constant</td><td>X = 5 (convention)</td><td>const x = 5;</td></tr>
+          <tr><td>Print to screen</td><td>print("text")</td><td>console.log("text");</td></tr>
+          <tr><td>Read user input</td><td>input("prompt")</td><td>await rl.question("prompt")</td></tr>
+          <tr><td>Convert string → int</td><td>int(text)</td><td>parseInt(text, 10)</td></tr>
+          <tr><td>Random int 1–20</td><td>random.randint(1, 20)</td><td>Math.floor(Math.random()*20)+1</td></tr>
+          <tr><td>Output to screen</td><td>print()</td><td>console.log()</td></tr>
+          <tr><td>else if</td><td>elif</td><td>else if</td></tr>
+          <tr><td>OR operator</td><td>or</td><td>||</td></tr>
+          <tr><td>Not equal</td><td>!=</td><td>!==</td></tr>
+          <tr><td>Block delimiter</td><td>indentation</td><td>{ curly braces }</td></tr>
+          <tr><td>while loop</td><td>while cond:</td><td>while (cond) { }</td></tr>
+          <tr><td>Statement end</td><td>(newline)</td><td>; semicolon</td></tr>
+          <tr><td>Run program</td><td>python file.py</td><td>node file.js</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Node.js</strong> — JavaScript runtime that lets you run JS outside the browser, directly in the terminal.</li>
+        <li><strong>let</strong> — JS keyword to declare a variable (value can change).</li>
+        <li><strong>const</strong> — JS keyword to declare a constant (value cannot be reassigned).</li>
+        <li><strong>console.log()</strong> — JS equivalent of Python's <code>print()</code>. Outputs to the terminal.</li>
+        <li><strong>readline</strong> — Node.js built-in module for reading terminal input line by line.</li>
+        <li><strong>rl.question()</strong> — Displays a prompt and waits for the user to type a line. Returns a string.</li>
+        <li><strong>parseInt(text, 10)</strong> — Converts a string to an integer in base 10. JS equivalent of Python's <code>int()</code>.</li>
+        <li><strong>Math.random()</strong> — Returns a random float between 0 (inclusive) and 1 (exclusive).</li>
+        <li><strong>Math.floor()</strong> — Rounds a number down to the nearest integer.</li>
+        <li><strong>await</strong> — Pauses execution until an asynchronous operation completes (e.g. waiting for user input).</li>
+        <li><strong>|| (OR)</strong> — Logical OR operator in JavaScript. True if at least one operand is true.</li>
+        <li><strong>!== (strict not equal)</strong> — Returns true if values differ. Preferred over <code>!=</code> in modern JS.</li>
+        <li><strong>try / finally</strong> — Ensures code in the <code>finally</code> block always runs, even if an error occurs.</li>
+        <li><strong>Semicolon ;</strong> — Marks the end of a JS statement. Optional in modern JS but conventional.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the difference between let and const in JavaScript?</div>
+        <div class="a hidden">let declares a variable whose value can change. const declares a constant whose value is set once and cannot be reassigned.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What word is used to declare a variable in JavaScript?</div>
+        <div class="a hidden">let. Example: let tries = 0;</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What word is used to declare a constant in JavaScript?</div>
+        <div class="a hidden">const. Example: const secret = 12;</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the JS equivalent of Python's print()?</div>
+        <div class="a hidden">console.log(). Example: console.log("Hello!");</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What method converts user input to a number in JavaScript?</div>
+        <div class="a hidden">parseInt(text, 10). The second argument (10) specifies base-10 (decimal).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How does Math.floor(Math.random() * 20) + 1 produce a number between 1 and 20?</div>
+        <div class="a hidden">Math.random() gives 0–0.999…, ×20 gives 0–19.99…, Math.floor() rounds to 0–19, +1 shifts to 1–20.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How does JavaScript write "else if"? How does Python write it?</div>
+        <div class="a hidden">JavaScript: else if. Python: elif.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How is the OR operator written in JavaScript? In Python?</div>
+        <div class="a hidden">JavaScript: || (double pipe). Python: or (keyword).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How is "not equal" written in JavaScript?</div>
+        <div class="a hidden">!== (strict not equal). Also !== is preferred over != in modern JS.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How does JS delimit code blocks (if body, while body)? How does Python do it?</div>
+        <div class="a hidden">JavaScript uses curly braces { }. Python uses indentation (whitespace).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does await do in JavaScript?</div>
+        <div class="a hidden">It pauses execution of the current async function until the awaited promise resolves — e.g. waiting for the user to type input.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the purpose of rl.close() in the finally block?</div>
+        <div class="a hidden">It releases the readline interface and closes the input stream. Without it, the Node.js process may hang after the game ends.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command runs a JavaScript file with Node.js?</div>
+        <div class="a hidden">node filename.js. Example: node guess_v3.js</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What will the program display if secret is 10 and the user guesses 35?</div>
+        <div class="a hidden">"That number is out of range. Try again." — because 35 > 20, the first if condition (guess > 20) is true.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are the three key pillars of imperative programming covered in this room?</div>
+        <div class="a hidden">Variables (let/const), Conditionals (if/else if/else), and Iterations (while loop).</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

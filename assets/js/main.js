@@ -238,6 +238,15 @@ const NOTES = [
     topic: "fundamentals",
     date: "Apr 20, 2026"
   },
+  {
+  slug: "javascript-simple-demo",
+  title: "JavaScript: Simple Demo",
+  desc: "Variables (let/const), console.log, parseInt, conditionals, while loops — the Guess the Number game in JS vs Python.",
+  tag: "Software Basics",
+  source: "tryhackme",
+  topic: "fundamentals",
+  date: "Apr 20, 2026"
+},
 
   // {
   //   slug: "filename-without-html",
