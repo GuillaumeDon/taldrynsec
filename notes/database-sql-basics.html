@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database SQL Basics — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* SQL code blocks */
+    .code-block { background:#0d1117; border:1px solid var(--border); border-radius:8px; padding:1rem 1.2rem; margin:0.8rem 0; font-family:var(--font-display); font-size:0.72rem; line-height:1.8; overflow-x:auto; }
+    .sql-kw  { color:#ff7b72; font-weight:700; }   /* SELECT FROM WHERE ORDER BY */
+    .sql-str { color:#a5d6ff; }                     /* 'Coffee' */
+    .sql-col { color:#79c0ff; }                     /* column names */
+    .sql-tbl { color:#ffa657; }                     /* table names */
+    .sql-cmt { color:#6e7681; font-style:italic; }  /* -- comments */
+    .sql-op  { color:#d2a8ff; }                     /* * DESC ASC */
+
+    /* DB table visual */
+    .db-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .db-table thead tr { background:rgba(0,229,160,0.12); }
+    .db-table th { font-family:var(--font-display); font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); padding:0.55rem 0.9rem; text-align:left; border-bottom:1px solid var(--border); }
+    .db-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-family:var(--font-display); font-size:0.7rem; color:var(--text-muted); }
+    .db-table td:first-child { color:var(--accent2); font-weight:700; }
+    .db-table tr:last-child td { border-bottom:none; }
+    .db-table tr:hover td { background:rgba(255,255,255,0.02); }
+    .db-table .highlight td { background:rgba(244,114,182,0.07); }
+
+    /* SQL anatomy visual */
+    .sql-anatomy { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:1rem 1.2rem; margin:0.8rem 0; font-family:var(--font-display); font-size:0.82rem; line-height:2.2; }
+    .sql-anatomy .clause { display:inline-block; padding:0.15rem 0.5rem; border-radius:4px; margin:0 2px; font-weight:700; font-size:0.78rem; }
+    .c-select  { background:rgba(255,123,114,0.2);  color:#ff7b72; }
+    .c-cols    { background:rgba(121,192,255,0.2);  color:#79c0ff; }
+    .c-from    { background:rgba(255,166,87,0.2);   color:#ffa657; }
+    .c-table   { background:rgba(255,166,87,0.15);  color:#ffa657; }
+    .c-where   { background:rgba(210,168,255,0.2);  color:#d2a8ff; }
+    .c-cond    { background:rgba(210,168,255,0.15); color:#d2a8ff; }
+    .c-order   { background:rgba(0,229,160,0.2);    color:var(--accent); }
+    .c-dir     { background:rgba(0,229,160,0.15);   color:var(--accent); }
+
+    /* Query steps grid */
+    .steps-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .steps-grid { grid-template-columns:1fr; } }
+    .step-card { background:var(--bg-deep); border-radius:8px; padding:1rem; border:1px solid var(--border); }
+    .step-card .step-num { font-family:var(--font-display); font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.4rem; }
+    .step-card h4 { font-family:var(--font-display); font-size:0.8rem; margin-bottom:0.35rem; }
+    .step-card p { font-size:0.7rem; color:var(--text-dim); margin:0; }
+    .s1 { border-color:rgba(255,123,114,0.3); } .s1 .step-num,.s1 h4 { color:#ff7b72; }
+    .s2 { border-color:rgba(255,166,87,0.3);  } .s2 .step-num,.s2 h4 { color:#ffa657; }
+    .s3 { border-color:rgba(210,168,255,0.3); } .s3 .step-num,.s3 h4 { color:#d2a8ff; }
+    .s4 { border-color:rgba(0,229,160,0.3);   } .s4 .step-num,.s4 h4 { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Software Basics</div>
+      <h1>Database SQL Basics</h1>
+      <p>Tables, rows, columns, and your first SQL queries — SELECT, FROM, WHERE, ORDER BY.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Software Basics</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(255,166,87,0.1);border:1px solid rgba(255,166,87,0.3);color:#ffa657;">SQL</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Introduction</div>
+      <h2>Why Databases?</h2>
+      <p>A small café tracks orders in a paper notebook. It works at first — but as orders grow, answering questions like <em>"How many coffees sold today?"</em> requires reading every page manually. This is slow and error-prone.</p>
+      <p>A <strong>database</strong> is a digital storage system that keeps information organised so a computer can <strong>search, count, and sort</strong> it in milliseconds — even across millions of records.</p>
+      <p><strong>SQL</strong> (Structured Query Language) is the language used to ask questions to a database. It is not a programming language like Python or JavaScript — it is a <strong>query language</strong>: you describe what data you want, and the database retrieves it.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Database = organised digital storage. SQL = the language to ask it questions. A <strong>query</strong> does not change data — it only reads and displays what you requested.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — TABLES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Tables, Rows, and Columns</div>
+      <h2>The Structure of a Database</h2>
+      <p>Inside a database, all information is stored in <strong>tables</strong> — similar to spreadsheets. Every table has a name and is made of:</p>
+      <ul>
+        <li><strong>Columns</strong> — the titles at the top. Each column stores one <em>type</em> of information (e.g. drink name, price, time).</li>
+        <li><strong>Rows</strong> — each row is one complete record (e.g. one café order).</li>
+      </ul>
+
+      <h3>Example: the Orders table</h3>
+      <table class="db-table">
+        <thead><tr><th>ID</th><th>Drink</th><th>Price</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Coffee</td><td>2.00</td><td>11:00 AM</td></tr>
+          <tr><td>2</td><td>Tea</td><td>1.50</td><td>11:10 AM</td></tr>
+          <tr class="highlight"><td>3</td><td>Muffin</td><td>2.50</td><td>11:15 AM</td></tr>
+          <tr><td>4</td><td>Coffee</td><td>2.00</td><td>12:05 PM</td></tr>
+          <tr><td>5</td><td>Tea</td><td>1.50</td><td>12:30 PM</td></tr>
+        </tbody>
+      </table>
+
+      <ul>
+        <li>Row 3 (highlighted) = one complete order: Muffin, £2.50, at 11:15 AM.</li>
+        <li>The <code>Price</code> column stores only prices — nothing else.</li>
+        <li>Adding a new order = adding one row. Removing an order = removing one row. The rest of the table is unaffected.</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Table</strong> = one category of data (e.g. orders). <strong>Column</strong> = one type of info (e.g. price). <strong>Row</strong> = one complete record (e.g. one order). One column stores all information about one order.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — SQL QUERIES -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Writing Your First SQL Query</div>
+      <h2>SELECT · FROM · WHERE · ORDER BY</h2>
+      <p>SQL queries are built from <strong>clauses</strong>. Each clause has a specific role. You combine them to precisely describe the data you want.</p>
+
+      <h3>SQL Query Anatomy</h3>
+      <div class="sql-anatomy">
+        <span class="clause c-select">SELECT</span>
+        <span class="clause c-cols">drink, price</span>
+        <span class="clause c-from">FROM</span>
+        <span class="clause c-table">Orders</span>
+        <span class="clause c-where">WHERE</span>
+        <span class="clause c-cond">drink = 'Coffee'</span>
+        <span class="clause c-order">ORDER BY</span>
+        <span class="clause c-dir">price DESC</span><span style="color:var(--text-dim);">;</span>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card s1">
+          <div class="step-num">Step 1</div>
+          <h4>SELECT</h4>
+          <p>Chooses <strong>which columns</strong> to display. Use <code>*</code> to select all columns, or list specific names separated by commas.</p>
+        </div>
+        <div class="step-card s2">
+          <div class="step-num">Step 2</div>
+          <h4>FROM</h4>
+          <p>Tells the database <strong>which table</strong> to look in. Always required. Example: <code>FROM Orders</code></p>
+        </div>
+        <div class="step-card s3">
+          <div class="step-num">Step 3</div>
+          <h4>WHERE</h4>
+          <p><strong>Filters rows</strong> — only rows matching the condition are returned. Optional but very common. Example: <code>WHERE drink = 'Coffee'</code></p>
+        </div>
+        <div class="step-card s4">
+          <div class="step-num">Step 4</div>
+          <h4>ORDER BY</h4>
+          <p><strong>Sorts results</strong> by a column. Default is ascending (lowest first). Add <code>DESC</code> for descending (highest first).</p>
+        </div>
+      </div>
+
+      <h3>Step 1 — View Everything (SELECT *)</h3>
+      <div class="code-block"><span class="sql-kw">SELECT</span> <span class="sql-op">*</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span>;</div>
+      <p>Returns every column and every row in the Orders table. <code>*</code> is a wildcard meaning "all columns".</p>
+
+      <h3>Step 2 — Select Specific Columns</h3>
+      <div class="code-block"><span class="sql-kw">SELECT</span> <span class="sql-col">drink</span>, <span class="sql-col">price</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span>;</div>
+      <p>Returns only the <code>drink</code> and <code>price</code> columns — ignores ID and Time.</p>
+
+      <h3>Step 3 — Filter Results (WHERE)</h3>
+      <div class="code-block"><span class="sql-kw">SELECT</span> <span class="sql-op">*</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span> <span class="sql-kw">WHERE</span> <span class="sql-col">drink</span> = <span class="sql-str">'Coffee'</span>;</div>
+      <p>Returns only rows where the drink is Coffee. String values are wrapped in <strong>single quotes</strong> <code>' '</code>.</p>
+      <div class="code-block"><span class="sql-cmt">-- Note: use column names, not string values, without quotes</span>
+<span class="sql-kw">SELECT</span> <span class="sql-op">*</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span> <span class="sql-kw">WHERE</span> <span class="sql-col">price</span> &lt; <span class="sql-op">2.00</span>;</div>
+
+      <h3>Step 4 — Sort Results (ORDER BY)</h3>
+      <div class="code-block"><span class="sql-cmt">-- Ascending (lowest first — default)</span>
+<span class="sql-kw">SELECT</span> <span class="sql-op">*</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span> <span class="sql-kw">ORDER BY</span> <span class="sql-col">price</span>;
+
+<span class="sql-cmt">-- Descending (highest first)</span>
+<span class="sql-kw">SELECT</span> <span class="sql-op">*</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span> <span class="sql-kw">ORDER BY</span> <span class="sql-col">price</span> <span class="sql-op">DESC</span>;</div>
+
+      <h3>Step 5 — Combine Filtering + Sorting</h3>
+      <div class="code-block"><span class="sql-kw">SELECT</span> <span class="sql-op">*</span> <span class="sql-kw">FROM</span> <span class="sql-tbl">Orders</span>
+  <span class="sql-kw">WHERE</span> <span class="sql-col">drink</span> = <span class="sql-str">'Coffee'</span>
+  <span class="sql-kw">ORDER BY</span> <span class="sql-col">price</span> <span class="sql-op">DESC</span>;</div>
+      <p>Filters to show only Coffee orders, then sorts them from most expensive to cheapest.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>SQL clause order matters: <strong>SELECT → FROM → WHERE → ORDER BY</strong>. <code>SELECT *</code> = all columns. <code>WHERE</code> filters rows. <code>ORDER BY col DESC</code> sorts highest-first. String values need single quotes; numbers don't.</p>
+      </div>
+    </div>
+
+    <!-- SECURITY NOTE -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Security Note</div>
+      <h2>Why SQL Matters in Cybersecurity</h2>
+      <p>The conclusion of the room asks: <em>"What could happen if someone were allowed to change or remove café orders without permission?"</em></p>
+      <p>This points directly to a critical web vulnerability: <strong>SQL Injection (SQLi)</strong>. If a web application passes user input directly into a SQL query without sanitisation, an attacker can manipulate the query to:</p>
+      <ul>
+        <li>Bypass authentication (login without a password)</li>
+        <li>Dump entire database contents (usernames, passwords, credit cards)</li>
+        <li>Delete or modify records</li>
+        <li>In some cases, execute commands on the server</li>
+      </ul>
+      <p>Understanding how SQL queries are structured is the <strong>first step</strong> to understanding how SQL injection attacks work and how to defend against them.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>SQL knowledge is essential for web security. SQL Injection is consistently in the <strong>OWASP Top 10</strong> most critical web vulnerabilities. You cannot understand or prevent it without first understanding how normal SQL queries work.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Database</strong> — An organised collection of structured data stored and managed by a computer. Allows fast search, sort, and retrieval.</li>
+        <li><strong>SQL</strong> — Structured Query Language. The standard language for interacting with relational databases.</li>
+        <li><strong>Query</strong> — A question asked to a database. A query reads data — it does not modify it (unless using INSERT/UPDATE/DELETE).</li>
+        <li><strong>Table</strong> — A structured collection of data in a database, organised into rows and columns. Like a spreadsheet.</li>
+        <li><strong>Column</strong> — A vertical attribute in a table. Defines one type of information (e.g. <code>price</code>, <code>drink</code>).</li>
+        <li><strong>Row</strong> — A horizontal record in a table. Contains one complete entry (e.g. one café order).</li>
+        <li><strong>SELECT</strong> — SQL clause that specifies which columns to return.</li>
+        <li><strong>FROM</strong> — SQL clause that specifies which table to query.</li>
+        <li><strong>WHERE</strong> — SQL clause that filters rows based on a condition.</li>
+        <li><strong>ORDER BY</strong> — SQL clause that sorts results by a column. Default: ascending. Add <code>DESC</code> for descending.</li>
+        <li><strong>* (wildcard)</strong> — In SQL, <code>SELECT *</code> returns all columns.</li>
+        <li><strong>ASC / DESC</strong> — Ascending (lowest → highest) / Descending (highest → lowest). Used with ORDER BY.</li>
+        <li><strong>SQL Injection</strong> — A web attack that manipulates SQL queries by injecting malicious input. One of the most common and dangerous web vulnerabilities.</li>
+        <li><strong>Relational Database</strong> — A database that stores data in tables that can be linked (related) to each other.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is a database?</div>
+        <div class="a hidden">An organised digital storage system that lets a computer search, count, and sort information very quickly — even across millions of records.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does SQL stand for? Is it a programming language?</div>
+        <div class="a hidden">Structured Query Language. It is not a programming language — it is a query language. You describe what data you want, and the database retrieves it.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a table in a database?</div>
+        <div class="a hidden">A structured set of data organised into rows and columns, similar to a spreadsheet. Each table stores one category of information (e.g. Orders).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a column? What is a row?</div>
+        <div class="a hidden">A column defines one type of information (e.g. price). A row is one complete record (e.g. one café order). A table has many rows and a fixed set of columns.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does SELECT * FROM Orders do?</div>
+        <div class="a hidden">Returns every column (*) and every row from the Orders table. The * wildcard means "all columns".</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the WHERE clause do?</div>
+        <div class="a hidden">It filters rows — only rows that match the condition are returned. Example: WHERE drink = 'Coffee' returns only coffee orders.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you select only the drink and price columns from Orders?</div>
+        <div class="a hidden">SELECT drink, price FROM Orders;</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you sort results from highest price to lowest?</div>
+        <div class="a hidden">ORDER BY price DESC — DESC means descending (highest first). Without DESC, results are sorted ascending (lowest first) by default.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the correct order of SQL clauses?</div>
+        <div class="a hidden">SELECT → FROM → WHERE → ORDER BY. The order matters — writing them out of sequence causes a syntax error.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">String values in SQL need what kind of quotes?</div>
+        <div class="a hidden">Single quotes ' '. Example: WHERE drink = 'Coffee'. Numbers do not need quotes: WHERE price = 2.00</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Write a query to show all orders where the drink is Tea, sorted by time ascending.</div>
+        <div class="a hidden">SELECT * FROM Orders WHERE drink = 'Tea' ORDER BY time;</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Does a SELECT query modify data?</div>
+        <div class="a hidden">No. SELECT only reads and displays data. Modifying data requires other commands: INSERT (add), UPDATE (change), DELETE (remove).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is SQL Injection and why is it dangerous?</div>
+        <div class="a hidden">A web attack where malicious SQL is injected into a query via unsanitised user input. It can bypass authentication, leak entire databases, or delete records. Consistently in the OWASP Top 10.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the term for the "spreadsheets" that store information inside a database?</div>
+        <div class="a hidden">Tables.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

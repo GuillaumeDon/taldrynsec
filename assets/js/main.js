@@ -247,6 +247,15 @@ const NOTES = [
   topic: "fundamentals",
   date: "Apr 20, 2026"
 },
+{
+  slug: "database-sql-basics",
+  title: "Database SQL Basics",
+  desc: "Tables, rows, columns, and SQL queries — SELECT, FROM, WHERE, ORDER BY — with a café example.",
+  tag: "Software Basics",
+  source: "tryhackme",
+  topic: "fundamentals",
+  date: "Apr 20, 2026"
+},
 
   // {
   //   slug: "filename-without-html",
