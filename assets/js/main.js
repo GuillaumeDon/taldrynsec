@@ -220,6 +220,15 @@ const NOTES = [
   topic: "blue-team",
   date: "Apr 19, 2026"
 },
+{
+  slug: "data-encoding",
+  title: "Data Encoding",
+  desc: "Character encoding from ASCII to Unicode — UTF-8, UTF-16, UTF-32, code points, and why mojibake happens.",
+  tag: "Software Basics",
+  source: "tryhackme",
+  topic: "blue-team",
+  date: "Apr 20, 2026"
+},
   // {
   //   slug: "filename-without-html",
   //   title: "Title",

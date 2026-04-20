@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Encoding — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* ASCII table */
+    .ascii-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.7rem; }
+    .ascii-table th { font-family:var(--font-display); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); padding:0.5rem 0.6rem; border-bottom:1px solid var(--border); text-align:left; }
+    .ascii-table td { padding:0.38rem 0.6rem; border-bottom:1px solid rgba(255,255,255,0.04); font-family:var(--font-display); font-size:0.68rem; color:var(--text-muted); }
+    .ascii-table td:first-child { color:var(--accent); }
+    .ascii-table td:nth-child(2) { color:var(--accent3); }
+    .ascii-table td:nth-child(3) { color:var(--accent2); }
+    .ascii-table td:nth-child(4) { color:#fff; font-weight:700; font-size:0.82rem; }
+    .ascii-table tr:hover td { background:rgba(255,255,255,0.02); }
+    .ascii-table .sep td { background:rgba(255,255,255,0.03); color:var(--text-dim); font-style:italic; font-size:0.6rem; }
+
+    /* UTF comparison grid */
+    .utf-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .utf-grid { grid-template-columns:1fr; } }
+    .utf-card { background:var(--bg-deep); border-radius:8px; padding:1rem; border:1px solid var(--border); }
+    .utf-card h4 { font-family:var(--font-display); font-size:0.82rem; margin-bottom:0.5rem; }
+    .utf-card ul { margin:0; padding-left:1.1rem; }
+    .utf-card ul li { font-size:0.7rem; color:var(--text-dim); margin-bottom:0.25rem; }
+    .utf-8  { border-color:rgba(0,229,160,0.3); } .utf-8  h4 { color:var(--accent); }
+    .utf-16 { border-color:rgba(0,180,216,0.3); } .utf-16 h4 { color:var(--accent2); }
+    .utf-32 { border-color:rgba(244,114,182,0.3); } .utf-32 h4 { color:var(--accent3); }
+
+    /* Encoding flow */
+    .enc-flow { display:flex; align-items:center; flex-wrap:wrap; gap:0.4rem; margin:0.8rem 0; }
+    .enc-step { background:var(--bg-deep); border:1px solid var(--border); border-radius:6px; padding:0.45rem 0.8rem; font-family:var(--font-display); font-size:0.7rem; color:var(--text); text-align:center; }
+    .enc-step span { display:block; font-size:0.58rem; color:var(--text-dim); margin-top:0.1rem; }
+    .enc-arrow { color:var(--accent); font-size:0.9rem; font-weight:700; }
+
+    /* Unicode example boxes */
+    .unicode-ex { display:grid; grid-template-columns:repeat(2,1fr); gap:0.6rem; margin:0.8rem 0; }
+    @media(max-width:500px){ .unicode-ex { grid-template-columns:1fr; } }
+    .uni-box { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:0.7rem 0.9rem; display:flex; align-items:center; gap:0.8rem; }
+    .uni-char { font-size:1.6rem; line-height:1; min-width:2rem; text-align:center; }
+    .uni-info { font-family:var(--font-display); font-size:0.68rem; }
+    .uni-info .codepoint { color:var(--accent3); font-weight:700; }
+    .uni-info .desc { color:var(--text-dim); font-size:0.62rem; margin-top:0.15rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Software Basics</div>
+      <h1>Data Encoding</h1>
+      <p>How computers encode characters — from ASCII to Unicode's UTF-8, UTF-16, and UTF-32.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Software Basics</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — INTRO -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Introduction</div>
+      <h2>Representation vs. Encoding</h2>
+      <p>In the previous room, we learned that everything in a computer is stored as bits and numbers. But how do those numbers become <strong>letters, punctuation, and emojis</strong>?</p>
+      <p><strong>Representation</strong> is the idea that data lives as bits and numbers in memory. <strong>Encoding</strong> is the specific, agreed-upon <em>mapping</em> between those numbers and their meanings — for example, which number corresponds to the character "A".</p>
+      <p>In text, each character is assigned a numeric code, so a string becomes a sequence of numbers that the computer stores and moves around just like any other data.</p>
+
+      <div class="enc-flow">
+        <div class="enc-step">'A'<span>character</span></div>
+        <span class="enc-arrow">→</span>
+        <div class="enc-step">65<span>decimal</span></div>
+        <span class="enc-arrow">→</span>
+        <div class="enc-step">41<span>hex</span></div>
+        <span class="enc-arrow">→</span>
+        <div class="enc-step">01000001<span>binary</span></div>
+      </div>
+
+      <p>When you open a file and see <strong>gibberish characters</strong>, it means the application is reading the bytes with a <em>different encoding</em> than the one used to save the file. The bytes are correct — the interpretation is wrong.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Encoding = the agreed mapping</strong> between numbers and characters. Everyone reading a file must use the same encoding as the writer, otherwise the text will appear as garbage.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — ASCII -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — ASCII</div>
+      <h2>American Standard Code for Information Interchange</h2>
+      <p><strong>ASCII</strong> is one of the earliest character encodings, created in 1963. It uses numbers <strong>0–127</strong> to represent English letters, digits, punctuation, and special control characters. The original ASCII standard was limited to <strong>7 bits</strong>, giving exactly 128 characters. It acts as a small bilingual dictionary between text and numeric codes.</p>
+
+      <h3>ASCII Table (key entries)</h3>
+      <table class="ascii-table">
+        <thead><tr><th>Dec</th><th>Hex</th><th>Binary</th><th>Char</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr class="sep"><td colspan="5">— Control / Digits —</td></tr>
+          <tr><td>48</td><td>30</td><td>00110000</td><td>0</td><td>Zero</td></tr>
+          <tr><td>57</td><td>39</td><td>00111001</td><td>9</td><td>Nine</td></tr>
+          <tr class="sep"><td colspan="5">— Uppercase Letters —</td></tr>
+          <tr><td>65</td><td>41</td><td>01000001</td><td>A</td><td>Uppercase A</td></tr>
+          <tr><td>88</td><td>58</td><td>01011000</td><td>X</td><td>Uppercase X</td></tr>
+          <tr><td>89</td><td>59</td><td>01011001</td><td>Y</td><td>Uppercase Y</td></tr>
+          <tr><td>90</td><td>5A</td><td>01011010</td><td>Z</td><td>Uppercase Z</td></tr>
+          <tr class="sep"><td colspan="5">— Special Characters —</td></tr>
+          <tr><td>91</td><td>5B</td><td>01011011</td><td>[</td><td>Opening bracket</td></tr>
+          <tr><td>92</td><td>5C</td><td>01011100</td><td>\</td><td>Backslash</td></tr>
+          <tr><td>93</td><td>5D</td><td>01011101</td><td>]</td><td>Closing bracket</td></tr>
+          <tr><td>95</td><td>5F</td><td>01011111</td><td>_</td><td>Underscore</td></tr>
+          <tr class="sep"><td colspan="5">— Lowercase Letters —</td></tr>
+          <tr><td>97</td><td>61</td><td>01100001</td><td>a</td><td>Lowercase a</td></tr>
+          <tr><td>98</td><td>62</td><td>01100010</td><td>b</td><td>Lowercase b</td></tr>
+          <tr><td>99</td><td>63</td><td>01100011</td><td>c</td><td>Lowercase c</td></tr>
+          <tr><td>122</td><td>7A</td><td>01111010</td><td>z</td><td>Lowercase z</td></tr>
+          <tr><td>127</td><td>7F</td><td>01111111</td><td>DEL</td><td>Delete (control)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Key Observations</h3>
+      <ul>
+        <li>Letters are in order: knowing hex/decimal for <code>A</code> (65 / 0x41) lets you derive <code>B</code> (66), <code>Z</code> (90), then <code>a</code> (97), <code>z</code> (122).</li>
+        <li>Digits start at 48 (0x30): digit <code>0</code> = 48, digit <code>9</code> = 57.</li>
+        <li>Uppercase–lowercase difference is exactly <strong>32</strong> (0x20). <code>A</code>=65, <code>a</code>=97.</li>
+        <li>When a computer reads <code>42</code> in a file, it displays <code>B</code> (not the number 42).</li>
+      </ul>
+
+      <h3>"TryHackMe" in ASCII</h3>
+      <p>Stored as 8 bits per character on disk, the binary blob looks like:</p>
+      <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:0.7rem 1rem;font-family:var(--font-display);font-size:0.62rem;color:var(--accent2);word-break:break-all;line-height:1.8;margin:0.6rem 0;">
+        01010100 01110010 01111001 01001000 01100001 01100011 01101011 01001101 01100101
+      </div>
+      <p>In hex (grouping 4 bits per hex digit): <code style="font-size:0.75rem;">54 72 79 48 61 63 6B 4D 65</code></p>
+
+      <h3>ASCII Limitations — European Languages</h3>
+      <p>ASCII only covers English. With 7 bits you get 128 characters — not enough for Spanish <code>ñ</code>, French <code>é</code>, German <code>ü</code>, Polish <code>ł</code>, etc. ISO/IEC 8859 extended ASCII to 8 bits (256 chars) with regional variants:</p>
+      <ul>
+        <li><strong>ISO-8859-1 (Latin-1)</strong> — Western European languages (French, Spanish, German, Italian, Portuguese…)</li>
+        <li><strong>ISO-8859-2 (Latin-2)</strong> — Central/Eastern European (Polish, Czech, Croatian, Romanian, Slovak…)</li>
+      </ul>
+      <p>Problem: saving a file in Latin-1 and reading it as Latin-2 will corrupt non-ASCII characters. <strong>The sender and recipient must agree on an encoding.</strong></p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>ASCII = 7 bits, 128 characters, English only. Extended ASCII = 8 bits, 256 characters, one regional variant at a time. The real fix needed a <strong>universal standard</strong> — that's Unicode.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — UNICODE -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Unicode & UTF</div>
+      <h2>One Standard to Rule Them All</h2>
+      <p>Arabic needs <strong>250+ characters</strong> for ligatures and diacritics. Japanese requires <strong>2,136 Kanji</strong> for daily use (JIS X 0208 defines 6,879). Chinese GB 18030-2022 defines <strong>87,887 Hanzi</strong>. Regional encodings couldn't scale — we needed one universal standard.</p>
+      <p><strong>Unicode</strong> is a universal character encoding standard that assigns a unique <strong>code point</strong> to every character from every modern and historical writing system. Unicode 17.0 defines close to <strong>157,000 characters</strong>, almost 4,000 of them emoji sequences.</p>
+      <p>Code points are written as <code>U+XXXX</code> (hex). Because Unicode is a shared standard, a sender and recipient using any Unicode-compatible encoding will display the same characters — no more garbage.</p>
+
+      <h3>Unicode Code Point Examples</h3>
+      <div class="unicode-ex">
+        <div class="uni-box">
+          <div class="uni-char">A</div>
+          <div class="uni-info">
+            <div class="codepoint">U+0041</div>
+            <div class="desc">Latin Capital Letter A</div>
+          </div>
+        </div>
+        <div class="uni-box">
+          <div class="uni-char">Ω</div>
+          <div class="uni-info">
+            <div class="codepoint">U+03A9</div>
+            <div class="desc">Greek Capital Letter Omega</div>
+          </div>
+        </div>
+        <div class="uni-box">
+          <div class="uni-char">あ</div>
+          <div class="uni-info">
+            <div class="codepoint">U+3042</div>
+            <div class="desc">Japanese Hiragana "a"</div>
+          </div>
+        </div>
+        <div class="uni-box">
+          <div class="uni-char">🔥</div>
+          <div class="uni-info">
+            <div class="codepoint">U+1F525</div>
+            <div class="desc">Fire emoji</div>
+          </div>
+        </div>
+        <div class="uni-box">
+          <div class="uni-char">龍</div>
+          <div class="uni-info">
+            <div class="codepoint">U+9F80</div>
+            <div class="desc">Chinese "dragon" (龍)</div>
+          </div>
+        </div>
+        <div class="uni-box">
+          <div class="uni-char">♞</div>
+          <div class="uni-info">
+            <div class="codepoint">U+265E</div>
+            <div class="desc">Black Chess Knight</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>UTF-8, UTF-16, and UTF-32</h2>
+      <p>Unicode defines <em>code points</em>. <strong>UTF (Unicode Transformation Format)</strong> defines how those code points are stored as bytes. The three main encodings are:</p>
+
+      <div class="utf-grid">
+        <div class="utf-card utf-8">
+          <h4>UTF-8</h4>
+          <ul>
+            <li>Variable-width: <strong>1 to 4 bytes</strong> per character</li>
+            <li>ASCII chars (U+0000–U+007F) = <strong>1 byte</strong> — fully backwards compatible with ASCII</li>
+            <li>Non-ASCII (e.g. Ω U+03A9) = <strong>2 bytes</strong></li>
+            <li>Complex/emoji (e.g. 🔥 U+1F525) = <strong>4 bytes</strong></li>
+            <li>Most common on the <strong>web</strong>. Default for HTML, JSON, Linux.</li>
+          </ul>
+        </div>
+        <div class="utf-card utf-16">
+          <h4>UTF-16</h4>
+          <ul>
+            <li>Variable-width: <strong>2 or 4 bytes</strong> per character</li>
+            <li>Common chars (Latin, Cyrillic, CJK) = <strong>2 bytes</strong></li>
+            <li>Rare chars and emoji need <strong>2 × 2 = 4 bytes</strong> (surrogate pair)</li>
+            <li>Used by <strong>Windows</strong> internally, Java, JavaScript strings</li>
+            <li>Example: 'A' = <code>U+0041</code>, 🔥 = <code>U+D83D U+DD25</code></li>
+          </ul>
+        </div>
+        <div class="utf-card utf-32">
+          <h4>UTF-32</h4>
+          <ul>
+            <li>Fixed-width: <strong>4 bytes</strong> per character, always</li>
+            <li>Simple but wasteful — English text uses 4× more space than UTF-8</li>
+            <li>Example: 'A' = <code>U+00000041</code></li>
+            <li>Easy to index (character N is always at byte 4N)</li>
+            <li>Rarely used in practice</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Why UTF-8 Dominates the Web</h3>
+      <p>UTF-8 is backward-compatible with ASCII: any ASCII file is already valid UTF-8. It's also space-efficient for English text (1 byte/char). A webpage mixing English and emoji only pays the 4-byte cost for the emoji — everything else stays at 1–2 bytes.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Unicode = the map (code points). UTF = the encoding (how bytes are stored). <strong>UTF-8</strong> is dominant on the web: variable 1–4 bytes, ASCII-compatible. <strong>UTF-16</strong> is used by Windows/Java. <strong>UTF-32</strong> is fixed 4 bytes — simple but wasteful. Always check what encoding a file or stream uses before parsing it.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Encoding</strong> — The agreed-upon mapping between numbers and characters (e.g. number 65 → letter 'A').</li>
+        <li><strong>ASCII</strong> — American Standard Code for Information Interchange. 7-bit standard, 128 characters, English only (1963).</li>
+        <li><strong>Extended ASCII / ISO-8859</strong> — 8-bit extensions to ASCII (256 chars) for regional European languages.</li>
+        <li><strong>Unicode</strong> — Universal character encoding standard covering all world languages, ~157,000 code points.</li>
+        <li><strong>Code Point</strong> — The unique number assigned to a character in Unicode. Written as <code>U+XXXX</code>.</li>
+        <li><strong>UTF-8</strong> — Unicode encoding using 1–4 bytes per character. Backward-compatible with ASCII. Dominant on the web.</li>
+        <li><strong>UTF-16</strong> — Unicode encoding using 2 or 4 bytes per character. Used by Windows, Java, JavaScript.</li>
+        <li><strong>UTF-32</strong> — Unicode encoding using exactly 4 bytes per character. Simple but wastes space.</li>
+        <li><strong>Surrogate Pair</strong> — In UTF-16, two 16-bit units used together to encode characters outside the basic range (e.g. emoji).</li>
+        <li><strong>BOM (Byte Order Mark)</strong> — A special marker at the start of a file indicating byte order and encoding.</li>
+        <li><strong>Mojibake</strong> — The garbled text that appears when a file is read with the wrong encoding (e.g. opening a UTF-8 file as Latin-1).</li>
+        <li><strong>Charset</strong> — Short for "character set". Often used interchangeably with encoding (e.g. <code>charset=UTF-8</code> in HTML).</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the difference between representation and encoding?</div>
+        <div class="a hidden">Representation = data lives as bits/numbers in memory. Encoding = the specific agreed mapping between those numbers and their meanings (e.g. 65 → 'A').</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does ASCII stand for? How many characters does it define?</div>
+        <div class="a hidden">American Standard Code for Information Interchange. 7 bits, 128 characters (0–127). English letters, digits, punctuation, and control characters.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the ASCII decimal code for uppercase 'A'? For lowercase 'a'?</div>
+        <div class="a hidden">Uppercase 'A' = 65 (hex 41). Lowercase 'a' = 97 (hex 61). The difference is always 32.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the ASCII decimal code for the digit '0'?</div>
+        <div class="a hidden">48 (hex 30). Digit '9' = 57 (hex 39).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why does gibberish appear when opening a text file?</div>
+        <div class="a hidden">The file is being read with a different encoding than the one used to save it. The bytes are correct — the interpretation is wrong.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the main limitation of ASCII?</div>
+        <div class="a hidden">It only covers 128 characters — English letters, digits, and basic punctuation. No support for accented characters, non-Latin scripts, or emoji.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What are ISO-8859-1 and ISO-8859-2?</div>
+        <div class="a hidden">8-bit extended ASCII variants. Latin-1 covers Western European languages (French, Spanish, German…). Latin-2 covers Central/Eastern European (Polish, Czech…). They are incompatible with each other for non-ASCII characters.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Unicode? How are its code points written?</div>
+        <div class="a hidden">A universal standard assigning a unique number to every character from every language and script (~157,000 characters in v17.0). Code points are written as U+XXXX (hex), e.g. U+0041 = 'A'.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between Unicode and UTF-8?</div>
+        <div class="a hidden">Unicode defines the code points (the map). UTF-8 is an encoding that specifies how those code points are stored as bytes in memory or on disk.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many bytes does UTF-8 use for ASCII characters? For emoji?</div>
+        <div class="a hidden">1 byte for ASCII characters (U+0000–U+007F) — fully backward-compatible. 4 bytes for emoji and complex scripts (e.g. U+1F525 🔥).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How many bytes does UTF-16 use per character?</div>
+        <div class="a hidden">2 bytes for common characters (Latin, Cyrillic, CJK Hanzi). 4 bytes (surrogate pair) for rare characters and emoji.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is UTF-32? What is its main drawback?</div>
+        <div class="a hidden">Fixed-width encoding: always 4 bytes per character. Simple to index but wastes space — an English text file in UTF-32 is 4× larger than in UTF-8.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is UTF-8 dominant on the web?</div>
+        <div class="a hidden">Backward-compatible with ASCII (no migration needed), space-efficient for English text (1 byte/char), and handles all Unicode characters. It's the default for HTML, JSON, and Linux.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is mojibake?</div>
+        <div class="a hidden">The garbled, unreadable text that appears when a file is opened with the wrong encoding — the bytes are correct but misinterpreted.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the Unicode code point for the fire emoji 🔥?</div>
+        <div class="a hidden">U+1F525. In UTF-32: U+0001F525. In UTF-16: surrogate pair U+D83D U+DD25.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
