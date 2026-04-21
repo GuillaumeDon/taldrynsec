@@ -283,6 +283,15 @@ const NOTES = [
   topic: "blue-team",
   date: "Apr 21, 2026"
 },
+{
+  slug: "search-skills",
+  title: "Search Skills",
+  desc: "Source evaluation, Google operators (site/filetype/dorking), Shodan, Censys, VirusTotal, HIBP, CVEs, and OSINT via social media.",
+  tag: "Start Your Cyber Security Journey",
+  source: "tryhackme",
+  topic: "blue-team",
+  date: "Apr 21, 2026"
+},
 
   // {
   //   slug: "filename-without-html",

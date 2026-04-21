@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Skills — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Search operator cards */
+    .op-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .op-grid { grid-template-columns:1fr; } }
+    .op-card { background:var(--bg-deep); border-radius:8px; padding:0.9rem 1rem; border:1px solid var(--border); }
+    .op-card .op-syntax { font-family:var(--font-display); font-size:0.82rem; font-weight:700; margin-bottom:0.3rem; }
+    .op-card .op-example { font-family:var(--font-display); font-size:0.68rem; color:var(--accent4); margin-bottom:0.3rem; }
+    .op-card p { font-size:0.7rem; color:var(--text-dim); margin:0; line-height:1.5; }
+    .op-q   { border-color:rgba(0,180,216,0.3); }  .op-q   .op-syntax { color:var(--accent2); }
+    .op-s   { border-color:rgba(0,229,160,0.3); }  .op-s   .op-syntax { color:var(--accent); }
+    .op-m   { border-color:rgba(244,114,182,0.3); } .op-m   .op-syntax { color:var(--accent3); }
+    .op-f   { border-color:rgba(251,191,36,0.3); }  .op-f   .op-syntax { color:var(--accent4); }
+
+    /* OSINT tool cards */
+    .tool-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .tool-grid { grid-template-columns:1fr; } }
+    .tool-card { background:var(--bg-deep); border-radius:8px; padding:0.9rem 1rem; border:1px solid var(--border); }
+    .tool-card h4 { font-family:var(--font-display); font-size:0.82rem; margin-bottom:0.3rem; }
+    .tool-card .tool-url { font-family:var(--font-display); font-size:0.62rem; margin-bottom:0.4rem; opacity:0.7; }
+    .tool-card p { font-size:0.7rem; color:var(--text-dim); margin:0; line-height:1.5; }
+    .tc-shodan { border-color:rgba(248,81,73,0.3);   } .tc-shodan h4 { color:#f85149; }
+    .tc-censys { border-color:rgba(0,180,216,0.3);   } .tc-censys h4 { color:var(--accent2); }
+    .tc-vt     { border-color:rgba(0,229,160,0.3);   } .tc-vt     h4 { color:var(--accent); }
+    .tc-hibp   { border-color:rgba(244,114,182,0.3); } .tc-hibp   h4 { color:var(--accent3); }
+
+    /* Source evaluation criteria */
+    .eval-list { display:flex; flex-direction:column; gap:0.4rem; margin:0.8rem 0; }
+    .eval-item { display:flex; align-items:flex-start; gap:0.8rem; background:var(--bg-deep); border:1px solid var(--border); border-radius:6px; padding:0.55rem 0.9rem; }
+    .eval-item .ei-label { font-family:var(--font-display); font-size:0.72rem; font-weight:700; min-width:160px; }
+    .eval-item .ei-desc  { font-size:0.7rem; color:var(--text-dim); flex:1; line-height:1.5; }
+    .ei-src   .ei-label { color:var(--accent); }   .ei-src   { border-left:3px solid var(--accent); }
+    .ei-evi   .ei-label { color:var(--accent2); }  .ei-evi   { border-left:3px solid var(--accent2); }
+    .ei-obj   .ei-label { color:var(--accent4); }  .ei-obj   { border-left:3px solid var(--accent4); }
+    .ei-cor   .ei-label { color:var(--accent3); }  .ei-cor   { border-left:3px solid var(--accent3); }
+
+    /* Doc sources */
+    .doc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.7rem; margin:1rem 0; }
+    @media(max-width:600px){ .doc-grid { grid-template-columns:1fr; } }
+    .doc-card { background:var(--bg-deep); border-radius:8px; padding:0.8rem; border:1px solid var(--border); text-align:center; }
+    .doc-card .icon { font-size:1.3rem; margin-bottom:0.3rem; }
+    .doc-card h4 { font-family:var(--font-display); font-size:0.75rem; margin-bottom:0.2rem; color:var(--accent2); }
+    .doc-card p { font-size:0.68rem; color:var(--text-dim); margin:0; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Cyber Security 101</div>
+      <h1>Search Skills</h1>
+      <p>Evaluate sources, master search operators, use specialized engines (Shodan, Censys, VirusTotal), and read technical documentation.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Cyber Security 101</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 2 — EVALUATION -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Evaluation of Search Results</div>
+      <h2>Not All Information Is Equal</h2>
+      <p>Everyone can publish on the internet — blog posts, articles, social media, wiki edits. This means anyone can voice unfounded claims. As a security professional, you must evaluate information critically before trusting it.</p>
+
+      <div class="eval-list">
+        <div class="eval-item ei-src">
+          <div class="ei-label">Source</div>
+          <div class="ei-desc">Identify the author or organisation publishing the information. Are they reputable and authoritative on the subject? A blog post does not make someone an authority.</div>
+        </div>
+        <div class="eval-item ei-evi">
+          <div class="ei-label">Evidence & Reasoning</div>
+          <div class="ei-desc">Are the claims backed by credible evidence and logical reasoning? Seek hard facts and solid arguments, not opinion or speculation.</div>
+        </div>
+        <div class="eval-item ei-obj">
+          <div class="ei-label">Objectivity & Bias</div>
+          <div class="ei-desc">Is the information presented impartially and rationally? Watch for hidden agendas — promoting a product, attacking a rival, or pushing an ideology.</div>
+        </div>
+        <div class="eval-item ei-cor">
+          <div class="ei-label">Corroboration & Consistency</div>
+          <div class="ei-desc">Validate by checking multiple independent, reputable sources. Do they all agree on the central claims? Consistency across sources increases credibility.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>In cybersecurity, acting on bad intelligence can be dangerous. Always apply the <strong>4-point check</strong>: Source → Evidence → Objectivity → Corroboration. Never trust a single source for a critical claim.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — SEARCH ENGINES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Search Engine Operators</div>
+      <h2>Harnessing the Full Power of Google</h2>
+      <p>Most people use search engines passively. Security professionals use <strong>advanced operators</strong> to search with surgical precision — filtering by site, file type, exact phrase, or excluding unwanted results.</p>
+
+      <div class="op-grid">
+        <div class="op-card op-q">
+          <div class="op-syntax">"exact phrase"</div>
+          <div class="op-example">"passive reconnaissance"</div>
+          <p>Double quotes force the search engine to return only pages containing that exact word or phrase in that exact order.</p>
+        </div>
+        <div class="op-card op-s">
+          <div class="op-syntax">site:</div>
+          <div class="op-example">site:tryhackme.com success stories</div>
+          <p>Limits results to a specific domain. Useful for searching within a known trusted source or scoping recon to one target.</p>
+        </div>
+        <div class="op-card op-m">
+          <div class="op-syntax">-keyword</div>
+          <div class="op-example">pyramids -tourism</div>
+          <p>The minus sign excludes results containing that word. Filters out irrelevant noise when a topic has multiple meanings.</p>
+        </div>
+        <div class="op-card op-f">
+          <div class="op-syntax">filetype:</div>
+          <div class="op-example">filetype:pdf cyber warfare report</div>
+          <p>Finds specific file types — PDF, DOC, XLS, PPT. Essential for finding official reports, whitepapers, and leaked documents.</p>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Combining operators is powerful: <code>site:gov filetype:pdf "incident response"</code> returns only government PDF documents about incident response. This is the foundation of <strong>Google Dorking</strong> — using search engines as an OSINT tool.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — SPECIALIZED ENGINES -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Specialized Search Engines</div>
+      <h2>OSINT Tools Beyond Google</h2>
+      <p>Standard search engines index web pages. Specialized engines index <strong>internet-connected devices, certificates, files, malware, and breached data</strong> — resources that Google doesn't surface.</p>
+
+      <div class="tool-grid">
+        <div class="tool-card tc-shodan">
+          <h4>🔴 Shodan</h4>
+          <div class="tool-url">shodan.io</div>
+          <p>Search engine for <strong>internet-connected devices</strong> — servers, routers, webcams, industrial control systems, IoT. Find specific software versions, open ports, and exposed services worldwide. Example: search <code>apache 2.4.1</code> to find all servers running that version.</p>
+        </div>
+        <div class="tool-card tc-censys">
+          <h4>🔵 Censys</h4>
+          <div class="tool-url">censys.io</div>
+          <p>Similar to Shodan but focuses on <strong>internet-connected hosts, websites, and certificates</strong>. Good for enumerating domains in use, auditing open ports, and discovering misconfigurations in a network.</p>
+        </div>
+        <div class="tool-card tc-vt">
+          <h4>🟢 VirusTotal</h4>
+          <div class="tool-url">virustotal.com</div>
+          <p>Online <strong>malware scanner</strong> that checks files or URLs against 60+ antivirus engines simultaneously. Input file hashes to check previously uploaded files. Community comments provide deeper context when AV flags are ambiguous.</p>
+        </div>
+        <div class="tool-card tc-hibp">
+          <h4>🩷 Have I Been Pwned</h4>
+          <div class="tool-url">haveibeenpwned.com</div>
+          <p>Tells you if an <strong>email address appeared in a known data breach</strong>. Leaked credentials often include usernames, passwords, and account details. Passwords in breaches are often encrypted but many can be recovered — reuse is dangerous.</p>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>These tools are essential for OSINT and recon. <strong>Shodan/Censys</strong> expose attack surface. <strong>VirusTotal</strong> validates suspicious files. <strong>HIBP</strong> checks credential exposure. All are used by both attackers and defenders — know them from both sides.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — CVE -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Vulnerabilities & Exploits</div>
+      <h2>CVE + Exploit Database</h2>
+      <p>The <strong>CVE (Common Vulnerabilities and Exposures)</strong> program is a dictionary of known vulnerabilities. Every vulnerability gets a unique <strong>CVE ID</strong> in the format <code>CVE-YEAR-NUMBER</code> (e.g. <code>CVE-2014-0160</code> = Heartbleed). This ensures all security researchers, vendors, and tools refer to the same vulnerability using the same identifier.</p>
+      <ul>
+        <li><strong>MITRE</strong> maintains the CVE system → <a href="https://cve.mitre.org" style="color:var(--accent2);">cve.mitre.org</a></li>
+        <li><strong>NVD (National Vulnerability Database)</strong> → enriched CVE data with CVSS scores → <a href="https://nvd.nist.gov" style="color:var(--accent2);">nvd.nist.gov</a></li>
+        <li><strong>Exploit Database</strong> → <a href="https://exploit-db.com" style="color:var(--accent2);">exploit-db.com</a> — lists verified exploit code for known CVEs</li>
+        <li><strong>GitHub</strong> → search any CVE ID to find PoC (Proof of Concept) code and tools contributed by the community</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>When you hear about a vulnerability, look it up by CVE ID. NVD gives the severity (CVSS score). Exploit-DB shows whether public exploit code exists. GitHub shows PoC tools. This workflow is used daily by both defenders (patching decisions) and pentesters (exploit selection).</p>
+      </div>
+    </div>
+
+    <!-- TASK 6 — TECHNICAL DOCS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">05 — Technical Documentation</div>
+      <h2>Reading Official Docs</h2>
+      <p>Official documentation is always the most accurate and up-to-date source for how a product or command works. Get comfortable finding and reading it.</p>
+
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="icon">🐧</div>
+          <h4>Linux man pages</h4>
+          <p>Run <code>man &lt;command&gt;</code> in terminal. Also searchable online: type "man ip" in Google to find the web version.</p>
+        </div>
+        <div class="doc-card">
+          <div class="icon">🪟</div>
+          <h4>Microsoft Docs</h4>
+          <p>Official documentation for all Windows commands and products at <code>learn.microsoft.com</code>.</p>
+        </div>
+        <div class="doc-card">
+          <div class="icon">📦</div>
+          <h4>Product Docs</h4>
+          <p>Every major product has official docs: Apache, PHP, Node.js, Snort, etc. Always prefer these over blog posts.</p>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>When in doubt, <strong>RTFM</strong> (Read The Fine Manual). Official documentation is authoritative, free, and always more accurate than Stack Overflow or blog posts. Build the habit: unknown command → <code>man &lt;command&gt;</code> first.</p>
+      </div>
+    </div>
+
+    <!-- TASK 7 — SOCIAL MEDIA -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">06 — Social Media & News</div>
+      <h2>Social Media as an OSINT Tool</h2>
+      <p>Social media platforms (LinkedIn, Twitter/X, Facebook) are powerful for OSINT — both for <strong>staying updated</strong> on cybersecurity trends and for <strong>gathering information about targets</strong>.</p>
+
+      <h3>For Defenders — Threat Intelligence</h3>
+      <ul>
+        <li>Follow security researchers, vendors, and CERTs for real-time threat updates</li>
+        <li>LinkedIn reveals employee roles, tech stack, and infrastructure clues</li>
+        <li>Twitter/X surfaces breaking CVEs and PoC disclosures within hours</li>
+      </ul>
+
+      <h3>For Red Teamers — OSINT on Targets</h3>
+      <ul>
+        <li>LinkedIn profiles reveal an employee's technical background — which tools, languages, and systems they use</li>
+        <li>Social media can expose answers to <strong>secret questions</strong> (school name, pet name, mother's maiden name) — used in account takeover attacks</li>
+        <li>People often overshare information that helps attackers build a spear-phishing profile</li>
+      </ul>
+
+      <h3>Operational Security (OPSEC) Warning</h3>
+      <p>If you need to explore a platform for research, use a <strong>temporary account with a throwaway email</strong> — not your real identity. Don't link reconnaissance activity back to your primary persona.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Social media is a double-edged OSINT sword. As a defender: follow security channels to stay current. As a red teamer: LinkedIn reveals the technical profile of employees. Overshared personal details = secret question answers = account takeover vector.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>OSINT</strong> — Open Source Intelligence. Gathering information from publicly available sources.</li>
+        <li><strong>Search Operator</strong> — A special syntax added to a search query to refine results (e.g. <code>site:</code>, <code>filetype:</code>, <code>"quotes"</code>, <code>-exclude</code>).</li>
+        <li><strong>Google Dorking</strong> — Using advanced Google search operators to find sensitive information exposed on the web.</li>
+        <li><strong>Shodan</strong> — Search engine for internet-connected devices. Reveals open ports, running services, and software versions.</li>
+        <li><strong>Censys</strong> — Similar to Shodan; focuses on internet-connected hosts, websites, and SSL/TLS certificates.</li>
+        <li><strong>VirusTotal</strong> — Online service that scans files and URLs against 60+ antivirus engines. Accepts file hashes.</li>
+        <li><strong>Have I Been Pwned (HIBP)</strong> — Service that checks whether an email address appeared in a known data breach.</li>
+        <li><strong>CVE (Common Vulnerabilities and Exposures)</strong> — A standardised dictionary of known security vulnerabilities. Format: CVE-YEAR-NUMBER.</li>
+        <li><strong>CVE ID</strong> — The unique identifier for a specific vulnerability. Ensures consistent reference across all vendors and researchers.</li>
+        <li><strong>NVD (National Vulnerability Database)</strong> — NIST's enriched CVE database with CVSS severity scores.</li>
+        <li><strong>CVSS Score</strong> — Common Vulnerability Scoring System. A 0–10 score indicating a vulnerability's severity.</li>
+        <li><strong>Exploit Database</strong> — Public archive of verified exploit code for known CVEs. Used by pentesters and red teamers.</li>
+        <li><strong>PoC (Proof of Concept)</strong> — Code that demonstrates a vulnerability is exploitable, without necessarily being a full weaponised exploit.</li>
+        <li><strong>man page</strong> — The manual page for a Linux command. Access with <code>man &lt;command&gt;</code>.</li>
+        <li><strong>OPSEC (Operational Security)</strong> — Protecting information about your own activities from adversaries or unintended exposure.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What are the 4 criteria for evaluating information sources?</div>
+        <div class="a hidden">Source (reputable?), Evidence & Reasoning (backed by facts?), Objectivity & Bias (impartial?), Corroboration & Consistency (confirmed by multiple sources?).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What Google operator limits results to a specific website?</div>
+        <div class="a hidden">site: — Example: site:tryhackme.com success stories</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you search for PDF files containing "cyber warfare report" on Google?</div>
+        <div class="a hidden">filetype:pdf cyber warfare report</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the minus operator do in a Google search?</div>
+        <div class="a hidden">Excludes results containing that word. Example: pyramids -tourism returns pyramid results without tourism content.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Shodan? How is it different from Google?</div>
+        <div class="a hidden">Shodan is a search engine for internet-connected devices — servers, IoT, industrial systems. Google indexes web pages. Shodan indexes exposed services, open ports, and software versions on IP addresses.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is VirusTotal used for?</div>
+        <div class="a hidden">Scanning files or URLs against 60+ antivirus engines simultaneously. You can also input a file hash to check previously uploaded results without re-uploading the file.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does Have I Been Pwned tell you?</div>
+        <div class="a hidden">Whether an email address has appeared in a known data breach — indicating that account credentials (and potentially a password) were exposed.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a CVE? What format does its ID follow?</div>
+        <div class="a hidden">A standardised identifier for a known vulnerability. Format: CVE-YEAR-NUMBER. Example: CVE-2014-0160 (Heartbleed).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the Exploit Database?</div>
+        <div class="a hidden">A public archive at exploit-db.com listing verified exploit code for known CVEs. Maintained by Offensive Security, used by pentesters to find working exploit code.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you read the manual for a Linux command?</div>
+        <div class="a hidden">man &lt;command&gt; in the terminal. Example: man ip. Also searchable online by typing "man ip" in Google.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is LinkedIn useful for OSINT on a target company?</div>
+        <div class="a hidden">It reveals employees' technical backgrounds — which tools, languages, and systems they use. This helps map the organisation's tech stack and identify potential attack vectors.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What social media attack vector can overshared personal info enable?</div>
+        <div class="a hidden">Secret question answers (school name, pet name, etc.) used in account takeover — resetting passwords by correctly answering security questions derived from public social media posts.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is OPSEC? Why is it relevant when doing security research on social media?</div>
+        <div class="a hidden">Operational Security — protecting your own activities from unintended exposure. When researching on social platforms, use temporary accounts with throwaway emails so your real identity is not linked to your recon activities.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between Shodan and Censys?</div>
+        <div class="a hidden">Both index internet-connected devices. Shodan focuses on IoT and industrial systems, showing open ports and banners. Censys focuses more on hosts, certificates (SSL/TLS), and web assets — better for certificate transparency and web recon.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Google Dorking?</div>
+        <div class="a hidden">Using advanced Google search operators to find sensitive information accidentally exposed on the web — login pages, config files, leaked documents, exposed admin panels.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
