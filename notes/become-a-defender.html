@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a Defender — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* City analogy table */
+    .city-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .city-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 0.9rem; border-bottom:1px solid var(--border); text-align:left; background:rgba(0,180,216,0.08); color:var(--accent2); }
+    .city-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.7rem; }
+    .city-table td:first-child { color:var(--text); font-weight:500; }
+    .city-table td:nth-child(2) { color:var(--accent4); }
+    .city-table td:nth-child(3) { color:var(--accent2); font-family:var(--font-display); font-size:0.68rem; }
+    .city-table tr:last-child td { border-bottom:none; }
+    .city-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* 5 defensive concepts */
+    .def-flow { display:flex; flex-direction:column; gap:0.4rem; margin:0.8rem 0; }
+    .def-step { display:flex; align-items:center; gap:0.8rem; border-radius:6px; padding:0.55rem 0.9rem; font-size:0.7rem; border:1px solid var(--border); }
+    .def-icon { font-size:1.1rem; min-width:1.5rem; text-align:center; }
+    .def-name { font-family:var(--font-display); font-size:0.72rem; font-weight:700; min-width:110px; }
+    .def-desc { color:var(--text-dim); flex:1; }
+    .ds-prev .def-name { color:var(--accent); }  .ds-prev { border-left:3px solid var(--accent); }
+    .ds-det  .def-name { color:var(--accent4); } .ds-det  { border-left:3px solid var(--accent4); }
+    .ds-mit  .def-name { color:#ffa657; }        .ds-mit  { border-left:3px solid #ffa657; }
+    .ds-ana  .def-name { color:var(--accent2); } .ds-ana  { border-left:3px solid var(--accent2); }
+    .ds-res  .def-name { color:var(--accent3); } .ds-res  { border-left:3px solid var(--accent3); }
+
+    /* Infrastructure defense table */
+    .infra-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.71rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .infra-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 0.9rem; border-bottom:1px solid var(--border); text-align:left; background:rgba(0,229,160,0.07); color:var(--accent); }
+    .infra-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.7rem; vertical-align:top; }
+    .infra-table td:first-child { color:var(--text); font-weight:500; font-family:var(--font-display); font-size:0.68rem; min-width:120px; }
+    .infra-table td:nth-child(2) { color:#f85149; }
+    .infra-table td:nth-child(3) { color:var(--accent); font-size:0.68rem; }
+    .infra-table tr:last-child td { border-bottom:none; }
+    .infra-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* Defender mindset cards */
+    .mindset-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.7rem; margin:1rem 0; }
+    @media(max-width:600px){ .mindset-grid { grid-template-columns:1fr; } }
+    .mindset-card { background:var(--bg-deep); border-left:3px solid var(--accent2); border-radius:0 8px 8px 0; padding:0.7rem 1rem; }
+    .mindset-card h4 { font-family:var(--font-display); font-size:0.75rem; color:var(--accent2); margin-bottom:0.25rem; }
+    .mindset-card p { font-size:0.7rem; color:var(--text-dim); margin:0; line-height:1.5; }
+
+    /* Career cards */
+    .career-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:650px){ .career-grid { grid-template-columns:1fr; } }
+    .career-card { background:var(--bg-deep); border-radius:8px; padding:0.9rem; border:1px solid var(--border); text-align:center; }
+    .career-card .icon { font-size:1.4rem; margin-bottom:0.4rem; }
+    .career-card h4 { font-family:var(--font-display); font-size:0.75rem; margin-bottom:0.3rem; }
+    .career-card p { font-size:0.68rem; color:var(--text-dim); margin:0; }
+    .cc-soc  { border-color:rgba(0,229,160,0.3);   } .cc-soc  h4 { color:var(--accent); }
+    .cc-ti   { border-color:rgba(251,191,36,0.3);   } .cc-ti   h4 { color:var(--accent4); }
+    .cc-dfir { border-color:rgba(0,180,216,0.3);    } .cc-dfir h4 { color:var(--accent2); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Attacks and Defenses</div>
+      <h1>Become a Defender</h1>
+      <p>Defensive security mindset, understanding and mapping client infrastructure, and applying layered defences.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Blue Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Attacks & Defenses</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — WHAT IS DEFENSIVE SECURITY -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — What Is Defensive Security?</div>
+      <h2>The Blue Team Perspective</h2>
+      <p><strong>Defensive Security</strong> focuses on understanding what needs to be protected and implementing security measures to <strong>prevent, detect, and mitigate</strong> the impact of potential attacks. The goal is to be prepared for incidents and respond when they occur.</p>
+      <p>Defenders — often called the <strong>Blue Team</strong> — need to understand how attackers think, what they target, and how attacks typically unfold. By identifying critical infrastructure, understanding attackers' goals, and applying defences, defenders help protect their clients' systems.</p>
+      <p>Defensive security aligns directly with the <strong>CIA Triad</strong>: defenders work to ensure systems remain available and protected, maintaining confidentiality, integrity, and availability.</p>
+
+      <h3>The 5 Core Defensive Concepts</h3>
+      <div class="def-flow">
+        <div class="def-step ds-prev">
+          <div class="def-icon">🛡️</div>
+          <div class="def-name">Prevention</div>
+          <div class="def-desc">Putting security controls in place to stop attacks before they happen — firewalls, antivirus, patching, access controls.</div>
+        </div>
+        <div class="def-step ds-det">
+          <div class="def-icon">👁️</div>
+          <div class="def-name">Detection</div>
+          <div class="def-desc">Monitoring systems and networks to identify suspicious or malicious activity through logs, alerts, and security tools.</div>
+        </div>
+        <div class="def-step ds-mit">
+          <div class="def-icon">🚨</div>
+          <div class="def-name">Mitigation</div>
+          <div class="def-desc">Taking action during an incident to limit damage — blocking traffic, isolating affected systems, disabling compromised accounts.</div>
+        </div>
+        <div class="def-step ds-ana">
+          <div class="def-icon">🔬</div>
+          <div class="def-name">Analysis</div>
+          <div class="def-desc">Investigating what happened and how systems were affected — reviewing logs, evidence, and other artefacts.</div>
+        </div>
+        <div class="def-step ds-res">
+          <div class="def-icon">🔄</div>
+          <div class="def-name">Response & Improvement</div>
+          <div class="def-desc">Recovering from the incident and improving defences to reduce the risk of similar attacks in the future.</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Defensive security is not just about stopping attacks — it's about <strong>visibility, preparedness, and continuous improvement</strong>. You can't defend what you can't see, and you can't improve without analysing what went wrong.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — UNDERSTANDING YOUR ENVIRONMENT -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Understanding Your Environment</div>
+      <h2>The City Analogy</h2>
+      <p>Think of your client's infrastructure as a <strong>bustling city</strong>. Like city guards, you need to know the layout, watch for trouble, and know how to respond to keep it safe.</p>
+
+      <h3>Defensive Questions → Security Equivalents</h3>
+      <table class="city-table">
+        <thead><tr><th>Defensive Question</th><th>City Analogy</th><th>Security Equivalent</th></tr></thead>
+        <tbody>
+          <tr><td>What are you protecting?</td><td>Homes, buildings, people</td><td>Client servers, data, workstations, users</td></tr>
+          <tr><td>Can you see what you are protecting?</td><td>Cameras, reports, patrols</td><td>Logs, network traffic, alerts</td></tr>
+          <tr><td>What classifies suspicious behaviour?</td><td>Locked door attempts, circling cars</td><td>Repeated logins, unusual IP addresses</td></tr>
+          <tr><td>How do you stop a threat?</td><td>Police, blocked roads, curfews</td><td>Firewall rules, IP address blocking</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Client Infrastructure Components</h3>
+      <table class="city-table">
+        <thead><tr><th>System / Component</th><th>Purpose</th><th>City Analogy</th></tr></thead>
+        <tbody>
+          <tr><td>Employee Devices</td><td>Where users work and access company resources</td><td>Homes</td></tr>
+          <tr><td>Web Server</td><td>Hosts websites or applications accessed by users</td><td>Shop / Public buildings</td></tr>
+          <tr><td>Mail Server</td><td>Sends and receives email for the organisation</td><td>Post office</td></tr>
+          <tr><td>Firewall</td><td>Controls what traffic is allowed in or out</td><td>City gate</td></tr>
+          <tr><td>Internet</td><td>External networks not controlled by the organisation</td><td>Everything outside the city walls</td></tr>
+        </tbody>
+      </table>
+
+      <p>Before you can defend anything, you must <strong>understand what exists, what it does, and how it fits into the overall environment</strong>. Defenders are not responsible for protecting everything on the internet — only what belongs to their organisation or client.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Visibility first.</strong> You cannot defend what you cannot see. Map your client's infrastructure before applying any controls. Know every asset, its purpose, and its exposure. The city analogy: a guard who doesn't know the city layout cannot protect it.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — DEFENDING YOUR ENVIRONMENT -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Defending Your Environment</div>
+      <h2>The Defender Mindset</h2>
+      <p>Your success as a defender relies on more than just knowing your environment. You must understand the attackers who want to break into your systems. Attackers rarely target a single system — they <strong>compromise one asset and pivot</strong> to the next, building toward their goal.</p>
+      <p>Example attack chain: malicious email → compromised employee workstation → stolen credentials → access to mail server → sensitive data on database server. Each step is an opportunity to apply a security control.</p>
+
+      <h3>Key Defender Principles</h3>
+      <div class="mindset-grid">
+        <div class="mindset-card">
+          <h4>Threat Anticipation</h4>
+          <p>Review the systems you protect and ask "What if?" Imagine realistic paths an attacker may take to achieve their goal.</p>
+        </div>
+        <div class="mindset-card">
+          <h4>Attack Awareness</h4>
+          <p>Attacks typically follow recognisable stages. Studying common attack chains and frameworks (e.g. MITRE ATT&CK) is incredibly useful for defenders.</p>
+        </div>
+        <div class="mindset-card">
+          <h4>Risk Prioritisation</h4>
+          <p>Not every part of your system carries equal risk. Identify high-value systems and targets — protect the crown jewels first.</p>
+        </div>
+        <div class="mindset-card">
+          <h4>Continuous Adaptation</h4>
+          <p>Defence is not a one-time setup. Threats evolve, techniques change, and new vulnerabilities emerge. Defenders must keep up.</p>
+        </div>
+      </div>
+
+      <h3>Infrastructure → Threats → Defences</h3>
+      <table class="infra-table">
+        <thead><tr><th>Component</th><th>What Could Go Wrong</th><th>Defences</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Employee Devices</td>
+            <td>Someone clicks a bad link or downloads unsafe software</td>
+            <td>Antivirus to detect bad programs · Regular software updates</td>
+          </tr>
+          <tr>
+            <td>Web Server</td>
+            <td>Attackers try to break into the website</td>
+            <td>Only allow safe traffic · Use secure communication (HTTPS)</td>
+          </tr>
+          <tr>
+            <td>Mail Server</td>
+            <td>Malicious or deceptive emails (phishing)</td>
+            <td>Spam filters · Scan attachments</td>
+          </tr>
+          <tr>
+            <td>Firewall</td>
+            <td>Strangers from the internet try to break in</td>
+            <td>Firewall rules that control access · Block known troublemakers</td>
+          </tr>
+          <tr>
+            <td>The Outside Internet</td>
+            <td>External threats come from here</td>
+            <td>Restrict inbound traffic · Monitor for suspicious activity</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>No single tool stops every bad attempt. Using a <strong>layered set of defences</strong> makes it much harder for attackers to succeed — this is called <strong>defence in depth</strong>.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>Defence in depth</strong>: no single control is sufficient. Layer protections across every component. Think like an attacker to anticipate their path, then place controls at each step. The goal: make each stage of an attack chain costly and detectable.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Defensive Security</strong> — Understanding what needs to be protected and implementing measures to prevent, detect, and mitigate the impact of attacks.</li>
+        <li><strong>Blue Team</strong> — A group of cyber security defenders tasked with protecting systems and responding to threats.</li>
+        <li><strong>Client Infrastructure</strong> — The networks, servers, devices, and applications belonging to an organisation that need protection.</li>
+        <li><strong>Visibility</strong> — The ability to see and monitor activity across systems to spot potential issues. "You can't defend what you can't see."</li>
+        <li><strong>Threat</strong> — A potential danger, such as a hacker or malware, that could harm systems or data.</li>
+        <li><strong>Risk</strong> — The likelihood and potential impact of a threat successfully harming an organisation.</li>
+        <li><strong>Prevention</strong> — Stopping threats before they can cause harm by blocking, restricting, or reducing opportunities for attack.</li>
+        <li><strong>Detection</strong> — The process of identifying threats or suspicious activity in networks and systems.</li>
+        <li><strong>Mitigation</strong> — Actions taken to reduce or stop the impact of a threat once it has been identified.</li>
+        <li><strong>Analysis</strong> — Investigating what happened, how systems were affected, and what was impacted — by reviewing logs and evidence.</li>
+        <li><strong>Defence in Depth</strong> — A layered security approach where multiple overlapping controls make it harder for attackers to succeed even if one control fails.</li>
+        <li><strong>Threat Anticipation</strong> — Proactively imagining realistic attack paths to apply controls before an incident occurs.</li>
+        <li><strong>Attack Chain / Pivot</strong> — Attackers rarely stop at one system — they compromise one asset and pivot to the next, building toward a final goal.</li>
+        <li><strong>SOC (Security Operations Centre)</strong> — A team that monitors networks and systems to detect and investigate suspicious activity.</li>
+        <li><strong>Threat Intelligence</strong> — Research into current threats, attackers, and trends to help organisations prepare defences.</li>
+        <li><strong>DFIR (Digital Forensics & Incident Response)</strong> — Investigating security incidents to understand how an attack happened and contain the threat.</li>
+      </ul>
+    </div>
+
+    <!-- CAREERS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Career Paths</div>
+      <h2>Blue Team Career Opportunities</h2>
+      <div class="career-grid">
+        <div class="career-card cc-soc">
+          <div class="icon">🖥️</div>
+          <h4>SOC Analyst</h4>
+          <p>Monitors networks and systems to detect and investigate suspicious activity or security alerts in real time.</p>
+        </div>
+        <div class="career-card cc-ti">
+          <div class="icon">🔭</div>
+          <h4>Threat Intelligence</h4>
+          <p>Researches current threats, attacker groups, and trends to help organisations prepare and defend against potential attacks.</p>
+        </div>
+        <div class="career-card cc-dfir">
+          <div class="icon">🔬</div>
+          <h4>DFIR Analyst</h4>
+          <p>Investigates security incidents to understand how an attack happened, contains the threat, and restores affected systems.</p>
+        </div>
+      </div>
+      <h3>Recommended Next Steps</h3>
+      <ul>
+        <li><strong>SOC Level 1</strong> — Deep dive into blue team operations, alert triaging, and incident detection.</li>
+        <li><strong>Cyber Security 101</strong> — Broader security foundations across all domains.</li>
+        <li><strong>Jr Penetration Tester</strong> — Offensive path to complement your defensive knowledge.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is defensive security? What is the Blue Team?</div>
+        <div class="a hidden">Defensive security focuses on understanding what to protect and implementing measures to prevent, detect, and mitigate attacks. The Blue Team is the group of defenders tasked with protecting systems and responding to threats.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 core defensive concepts in order.</div>
+        <div class="a hidden">Prevention → Detection → Mitigation → Analysis → Response & Improvement.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the goal when a defender puts security controls in place to stop threats before damage occurs?</div>
+        <div class="a hidden">Prevention.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What process involves reviewing logs and evidence to understand how an incident happened?</div>
+        <div class="a hidden">Analysis.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is visibility in defensive security? Why does it matter?</div>
+        <div class="a hidden">The ability to see and monitor activity across systems to spot potential issues. "You can't defend what you can't see." Without visibility, defenders have no way to detect or respond to threats.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">In the city analogy, what does a Firewall represent?</div>
+        <div class="a hidden">The city gate — it controls what traffic is allowed in or out of the network, just like a gate controls who enters or exits a city.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does "the Internet" represent in the city analogy?</div>
+        <div class="a hidden">Everything outside the city walls — external networks not controlled by the organisation, where most threats originate.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What should a defender do to Employee Devices to protect against malware downloads?</div>
+        <div class="a hidden">Install antivirus to detect bad programs and apply regular software updates to patch known vulnerabilities.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What defender principle focuses on identifying the most critical systems to guide security efforts?</div>
+        <div class="a hidden">Risk Prioritisation — not every part of a system carries equal risk. Defenders should identify and prioritise high-value systems and targets.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is defence in depth?</div>
+        <div class="a hidden">A layered security approach where multiple overlapping controls are applied. If one control fails, others are still in place — making it much harder for an attacker to fully succeed.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why do attackers rarely stop at the first system they compromise?</div>
+        <div class="a hidden">They use it as a stepping stone to pivot to other systems, escalating access toward their goal (e.g. employee device → mail server → database with sensitive data).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Threat Anticipation? How does it differ from Detection?</div>
+        <div class="a hidden">Threat Anticipation is proactively imagining attack paths before an incident occurs. Detection is identifying suspicious activity while it is happening (or has happened).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does a SOC do?</div>
+        <div class="a hidden">A Security Operations Centre monitors networks and systems to detect and investigate suspicious activity or security alerts in real time.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is DFIR?</div>
+        <div class="a hidden">Digital Forensics & Incident Response — investigating security incidents to understand how an attack happened, containing the threat, and restoring affected systems.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is Threat Intelligence?</div>
+        <div class="a hidden">Research into current threats, attacker groups, techniques, and trends to help organisations prepare and defend against potential attacks before they happen.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

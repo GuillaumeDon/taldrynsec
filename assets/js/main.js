@@ -274,6 +274,15 @@ const NOTES = [
   topic: "red-team",
   date: "Apr 21, 2026"
 },
+{
+  slug: "become-a-defender",
+  title: "Become a Defender",
+  desc: "Defensive security mindset, client infrastructure mapping, defence in depth, and the city analogy.",
+  tag: "Attacks and Defenses",
+  source: "tryhackme",
+  topic: "blue-team",
+  date: "Apr 21, 2026"
+},
 
   // {
   //   slug: "filename-without-html",
