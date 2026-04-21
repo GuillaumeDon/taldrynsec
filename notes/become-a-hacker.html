@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a Hacker — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Term cards */
+    .term-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.7rem; margin:1rem 0; }
+    @media(max-width:600px){ .term-grid { grid-template-columns:1fr; } }
+    .term-card { background:var(--bg-deep); border-radius:8px; padding:0.8rem 1rem; border:1px solid var(--border); }
+    .term-card .term { font-family:var(--font-display); font-size:0.78rem; font-weight:700; margin-bottom:0.25rem; }
+    .term-card p { font-size:0.7rem; color:var(--text-dim); margin:0; line-height:1.5; }
+    .tc-red  { border-color:rgba(248,81,73,0.3);  } .tc-red  .term { color:#f85149; }
+    .tc-oran { border-color:rgba(255,166,87,0.3);  } .tc-oran .term { color:#ffa657; }
+    .tc-yel  { border-color:rgba(251,191,36,0.3);  } .tc-yel  .term { color:var(--accent4); }
+    .tc-grn  { border-color:rgba(0,229,160,0.3);   } .tc-grn  .term { color:var(--accent); }
+    .tc-blu  { border-color:rgba(0,180,216,0.3);   } .tc-blu  .term { color:var(--accent2); }
+    .tc-pur  { border-color:rgba(210,168,255,0.3); } .tc-pur  .term { color:#d2a8ff; }
+
+    /* Command blocks */
+    .cmd-block { background:#0d1117; border:1px solid var(--border); border-radius:8px; padding:0.9rem 1.2rem; margin:0.7rem 0; font-family:var(--font-display); font-size:0.72rem; line-height:1.8; overflow-x:auto; }
+    .cmd-block .prompt { color:#3fb950; }
+    .cmd-block .tool   { color:#d2a8ff; font-weight:700; }
+    .cmd-block .flag   { color:#79c0ff; }
+    .cmd-block .val    { color:#a5d6ff; }
+    .cmd-block .cmt    { color:#6e7681; font-style:italic; }
+
+    /* Attack chain flow */
+    .chain-flow { display:flex; flex-direction:column; gap:0.4rem; margin:0.8rem 0; }
+    .chain-step { display:flex; align-items:center; gap:0.8rem; background:var(--bg-deep); border:1px solid var(--border); border-radius:6px; padding:0.5rem 0.9rem; font-size:0.7rem; }
+    .chain-num { font-family:var(--font-display); font-weight:700; min-width:1.4rem; font-size:0.68rem; }
+    .chain-text { color:var(--text-muted); }
+    .chain-text strong { color:var(--text); }
+    .cs-recon  .chain-num { color:var(--accent); }
+    .cs-enum   .chain-num { color:var(--accent4); }
+    .cs-vuln   .chain-num { color:#ffa657; }
+    .cs-exploit .chain-num { color:var(--accent3); }
+    .cs-impact  .chain-num { color:#f85149; }
+
+    /* Hacker mindset cards */
+    .mindset-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.7rem; margin:1rem 0; }
+    @media(max-width:600px){ .mindset-grid { grid-template-columns:1fr; } }
+    .mindset-card { background:var(--bg-deep); border-left:3px solid var(--accent3); border-radius:0 8px 8px 0; padding:0.7rem 1rem; }
+    .mindset-card h4 { font-family:var(--font-display); font-size:0.75rem; color:var(--accent3); margin-bottom:0.25rem; }
+    .mindset-card p { font-size:0.7rem; color:var(--text-dim); margin:0; line-height:1.5; }
+
+    /* Tool anatomy */
+    .tool-anatomy { background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:1rem; margin:0.8rem 0; }
+    .tool-anatomy h4 { font-family:var(--font-display); font-size:0.75rem; color:var(--accent2); margin-bottom:0.6rem; }
+    .ta-row { display:flex; gap:0.6rem; align-items:baseline; margin-bottom:0.4rem; font-size:0.7rem; }
+    .ta-flag { font-family:var(--font-display); color:#79c0ff; font-weight:700; min-width:120px; white-space:nowrap; }
+    .ta-desc { color:var(--text-dim); }
+
+    /* Career cards */
+    .career-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:650px){ .career-grid { grid-template-columns:1fr; } }
+    .career-card { background:var(--bg-deep); border-radius:8px; padding:0.9rem; border:1px solid var(--border); text-align:center; }
+    .career-card .icon { font-size:1.4rem; margin-bottom:0.4rem; }
+    .career-card h4 { font-family:var(--font-display); font-size:0.75rem; margin-bottom:0.3rem; }
+    .career-card p { font-size:0.68rem; color:var(--text-dim); margin:0; }
+    .cc-pt { border-color:rgba(244,114,182,0.3); } .cc-pt h4 { color:var(--accent3); }
+    .cc-vr { border-color:rgba(255,166,87,0.3);  } .cc-vr h4 { color:#ffa657; }
+    .cc-rt { border-color:rgba(248,81,73,0.3);   } .cc-rt h4 { color:#f85149; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Attacks and Defenses</div>
+      <h1>Become a Hacker</h1>
+      <p>Offensive security mindset, core terminology, GoBuster directory enumeration, and Hydra password attacks.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Red Team</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:var(--accent3);">Attacks & Defenses</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 1 — OFFENSIVE SECURITY -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — What Is Offensive Security?</div>
+      <h2>The Attacker's Perspective</h2>
+      <p><strong>Offensive Security</strong> proactively tests systems by attempting to break into them — with the goal of finding weaknesses <em>before</em> real attackers do. Rather than waiting for attackers to strike, offensive security professionals test systems to find and fix weaknesses first.</p>
+      <p>In this room, <strong>"hacking"</strong> refers to <strong>penetration testing</strong>: an ethical, legal, and structured method for identifying weaknesses within a defined scope so they can be addressed.</p>
+      <p>A hacker starts with three questions:</p>
+      <ul>
+        <li><em>What is exposed?</em></li>
+        <li><em>What can be accessed?</em></li>
+        <li><em>What assumptions does the system make?</em></li>
+      </ul>
+      <p>These are applied methodically, observing how systems respond to unexpected input.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Offensive security = <strong>find it before the attacker does</strong>. Ethical hackers are explicitly authorised to test systems in a controlled, legal manner. The purpose is to improve security, not to cause damage.</p>
+      </div>
+    </div>
+
+    <!-- TASK 2 — FINDING WEAKNESSES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Finding Weaknesses</div>
+      <h2>Core Offensive Security Terms</h2>
+
+      <div class="term-grid">
+        <div class="term-card tc-red">
+          <div class="term">Red Teaming</div>
+          <p>A structured attack methodology simulating a real adversary to test the effectiveness of defences and find vulnerabilities within a defined scope.</p>
+        </div>
+        <div class="term-card tc-oran">
+          <div class="term">Penetration Test</div>
+          <p>A structured security assessment where an authorised tester attempts to identify and exploit vulnerabilities within a defined scope to understand real-world risk.</p>
+        </div>
+        <div class="term-card tc-yel">
+          <div class="term">Vulnerability</div>
+          <p>A weakness or flaw in a system, application, or configuration that an attacker could abuse.</p>
+        </div>
+        <div class="term-card tc-grn">
+          <div class="term">Exploit</div>
+          <p>A technique or method used to take advantage of a vulnerability — e.g. accessing restricted functionality or data.</p>
+        </div>
+        <div class="term-card tc-blu">
+          <div class="term">Enumeration</div>
+          <p>Collecting details about a system, users, and services to find weak points. The core recon activity before exploiting anything.</p>
+        </div>
+        <div class="term-card tc-pur">
+          <div class="term">Scope</div>
+          <p>The boundaries of what is allowed to be tested during an engagement. Defines which systems, applications, and actions are permitted — and what is off-limits.</p>
+        </div>
+      </div>
+
+      <h3>Hands-On: GoBuster — Directory Enumeration</h3>
+      <p>Before exploiting anything, you need to <strong>map the target</strong>. Hidden pages (not linked from the main site) can expose admin panels, backup files, or test pages. GoBuster automates this by trying thousands of common directory and file names from a wordlist.</p>
+
+      <h4 style="font-family:var(--font-display);font-size:0.78rem;color:var(--accent2);margin:0.8rem 0 0.4rem;">Manual first — check sitemap</h4>
+      <p>Always start by checking <code>http://target.com/sitemap</code> manually. Then use automation for the rest.</p>
+
+      <h4 style="font-family:var(--font-display);font-size:0.78rem;color:var(--accent2);margin:0.8rem 0 0.4rem;">GoBuster command</h4>
+      <div class="cmd-block"><span class="prompt">user@thm:~$</span> <span class="tool">gobuster</span> <span class="flag">dir</span> <span class="flag">--url</span> <span class="val">http://www.onlineshop.thm/</span> <span class="flag">-w</span> <span class="val">/usr/share/wordlists/dirbuster/directory-list.txt</span></div>
+
+      <div class="tool-anatomy">
+        <h4>Command breakdown</h4>
+        <div class="ta-row"><span class="ta-flag">gobuster</span><span class="ta-desc">The CLI tool for web content discovery</span></div>
+        <div class="ta-row"><span class="ta-flag">dir</span><span class="ta-desc">Specifies directory and file enumeration mode</span></div>
+        <div class="ta-row"><span class="ta-flag">--url &lt;target&gt;</span><span class="ta-desc">Sets the target website GoBuster will scan</span></div>
+        <div class="ta-row"><span class="ta-flag">-w &lt;wordlist&gt;</span><span class="ta-desc">The wordlist GoBuster uses to guess directory and file names</span></div>
+      </div>
+
+      <p>GoBuster tries each word in the list as a URL path. If the server returns anything other than <strong>404</strong>, the page exists. A <strong>200 OK</strong> means it's accessible. This reveals hidden pages the developers never linked publicly.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Enumeration comes before exploitation. GoBuster is a <strong>directory brute-forcer</strong> — it systematically tries wordlist entries as URL paths to find hidden pages. A page existing without being linked is not "hidden" — it's just undiscovered until someone looks.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — EXPLOITING -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Exploiting Weaknesses</div>
+      <h2>Chaining Weaknesses + The Hacker Mindset</h2>
+      <p>A single weakness may not seem critical on its own — but weaknesses <strong>chain together</strong>. Think of dominos: one falling on its own doesn't cause much damage. But when they're placed close together, knocking over just one can trigger a reaction that brings them all down.</p>
+      <p>Example from this room: a hidden <code>/login</code> page (discovered via GoBuster) combines with weak passwords to give full admin access to the application.</p>
+
+      <h3>Think Like a Hacker</h3>
+      <div class="mindset-grid">
+        <div class="mindset-card">
+          <h4>Ask questions</h4>
+          <p>Don't assume a feature works as intended. Ask "What if it doesn't?"</p>
+        </div>
+        <div class="mindset-card">
+          <h4>Test the unexpected</h4>
+          <p>Try actions and inputs that the developers didn't consider.</p>
+        </div>
+        <div class="mindset-card">
+          <h4>Chain small weaknesses</h4>
+          <p>A tiny flaw may be harmless alone, but could be the first domino of a bigger impact.</p>
+        </div>
+        <div class="mindset-card">
+          <h4>Think like an adversary</h4>
+          <p>Ask: "How would a malicious actor approach this target?"</p>
+        </div>
+      </div>
+
+      <h3>A Valuable Target: What Attackers Want</h3>
+      <p>Once access is gained to a private area of an application, attackers can reach:</p>
+      <ul>
+        <li><strong>Sensitive functionality</strong> — Actions like modifying data, triggering processes only available to authorised users.</li>
+        <li><strong>User data</strong> — Names, emails, account details, personal info.</li>
+        <li><strong>Administrative features</strong> — Manage users, change settings, gain full control.</li>
+        <li><strong>Further attack opportunities</strong> — Pivot to other systems, escalate privileges.</li>
+      </ul>
+
+      <h3>Hands-On: Hydra — Dictionary Attack</h3>
+      <p>After finding a hidden <code>/login</code> page, the next step is testing whether weak credentials exist. <strong>Hydra</strong> automates login attempts using a wordlist — this is a <strong>dictionary attack</strong>.</p>
+
+      <div class="cmd-block"><span class="prompt">user@thm:~$</span> <span class="tool">hydra</span> <span class="flag">-l</span> <span class="val">admin</span> <span class="flag">-P</span> <span class="val">passlist.txt</span> <span class="val">www.onlineshop.thm</span> <span class="flag">http-post-form</span> <span class="val">"/login:username=^USER^&password=^PASS^:F=incorrect"</span> <span class="flag">-V</span></div>
+
+      <div class="tool-anatomy">
+        <h4>Command breakdown</h4>
+        <div class="ta-row"><span class="ta-flag">hydra</span><span class="ta-desc">Password cracking / login brute-force tool</span></div>
+        <div class="ta-row"><span class="ta-flag">-l admin</span><span class="ta-desc">Set the username to try: admin</span></div>
+        <div class="ta-row"><span class="ta-flag">-P passlist.txt</span><span class="ta-desc">Wordlist of passwords to try</span></div>
+        <div class="ta-row"><span class="ta-flag">www.onlineshop.thm</span><span class="ta-desc">Target website</span></div>
+        <div class="ta-row"><span class="ta-flag">http-post-form</span><span class="ta-desc">Indicates this is an HTTP POST login form</span></div>
+        <div class="ta-row"><span class="ta-flag">"/login:...:F=incorrect"</span><span class="ta-desc">How the login request is built and how Hydra detects failure (response contains "incorrect")</span></div>
+        <div class="ta-row"><span class="ta-flag">-V</span><span class="ta-desc">Verbose — shows each attempt in real time</span></div>
+      </div>
+
+      <h3>The Attack Chain — Dominos in Action</h3>
+      <div class="chain-flow">
+        <div class="chain-step cs-recon"><span class="chain-num">1</span><span class="chain-text"><strong>Recon:</strong> Navigate to the target website, check sitemap manually</span></div>
+        <div class="chain-step cs-enum"><span class="chain-num">2</span><span class="chain-text"><strong>Enumeration:</strong> Run GoBuster to discover hidden pages → finds <code>/login</code></span></div>
+        <div class="chain-step cs-vuln"><span class="chain-num">3</span><span class="chain-text"><strong>Vulnerability:</strong> Hidden login page + weak password policy</span></div>
+        <div class="chain-step cs-exploit"><span class="chain-num">4</span><span class="chain-text"><strong>Exploit:</strong> Run Hydra dictionary attack → cracks admin password</span></div>
+        <div class="chain-step cs-impact"><span class="chain-num">5</span><span class="chain-text"><strong>Impact:</strong> Full admin access to the web application</span></div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Hydra = <strong>automated login brute-forcer</strong>. Dictionary attack = trying a known list of passwords. One hidden page + one weak password = full compromise. This is why defence-in-depth matters — no single control should be the only barrier.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — CAREERS -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Where to Go From Here</div>
+      <h2>Offensive Security Career Paths</h2>
+
+      <div class="career-grid">
+        <div class="career-card cc-pt">
+          <div class="icon">🎯</div>
+          <h4>Penetration Tester / Ethical Hacker</h4>
+          <p>Safely explores vulnerabilities within a defined scope. Writes reports for client remediation.</p>
+        </div>
+        <div class="career-card cc-vr">
+          <div class="icon">🔎</div>
+          <h4>Vulnerability Researcher</h4>
+          <p>Identifies and validates undiscovered vulnerabilities in software and hardware. May publish CVEs.</p>
+        </div>
+        <div class="career-card cc-rt">
+          <div class="icon">🔴</div>
+          <h4>Red Team Operator</h4>
+          <p>Simulates real-world adversaries to test an organisation's detection, response, and defensive capabilities.</p>
+        </div>
+      </div>
+
+      <h3>Recommended Next Steps</h3>
+      <ul>
+        <li><strong>Become a Defender</strong> — Defensive techniques to secure infrastructure. Complement your offensive knowledge.</li>
+        <li><strong>Jr Penetration Tester</strong> — Structured path into professional pentesting.</li>
+        <li><strong>SOC Level 1</strong> — Blue team operations, alert triaging, incident detection.</li>
+        <li><strong>Cyber Security 101</strong> — Broader security foundations if you want to explore all areas first.</li>
+      </ul>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Offensive Security</strong> — Proactively testing systems by attempting to break into them to find weaknesses before real attackers do.</li>
+        <li><strong>Penetration Testing</strong> — An ethical, legal, authorised security assessment where a tester attempts to identify and exploit vulnerabilities within a defined scope.</li>
+        <li><strong>Red Teaming</strong> — A structured attack simulation mimicking real adversaries to test an organisation's defences end-to-end.</li>
+        <li><strong>Vulnerability</strong> — A weakness or flaw in a system, application, or configuration that an attacker could exploit.</li>
+        <li><strong>Exploit</strong> — A method or technique used to take advantage of a vulnerability to achieve an unintended outcome.</li>
+        <li><strong>Enumeration</strong> — Systematically collecting information about a target (directories, users, services, ports) to identify attack surface.</li>
+        <li><strong>Scope</strong> — The defined boundaries of what is allowed during a security engagement. Going outside scope = unauthorised access.</li>
+        <li><strong>Credentials</strong> — Login details — a username and password combination that unlocks access.</li>
+        <li><strong>Authentication</strong> — The process of verifying identity when logging in.</li>
+        <li><strong>Dictionary Attack</strong> — Trying a predefined wordlist of likely passwords against a login form until one succeeds.</li>
+        <li><strong>Brute-Force Attack</strong> — Trying all possible combinations systematically. Dictionary attacks are a focused form of brute-force.</li>
+        <li><strong>GoBuster</strong> — A CLI tool for directory and file enumeration on web servers using a wordlist.</li>
+        <li><strong>Hydra</strong> — A fast, flexible password cracking tool that automates login attempts against many protocols and form types.</li>
+        <li><strong>Wordlist</strong> — A file containing a list of common passwords, usernames, or directory names used by enumeration and brute-force tools.</li>
+        <li><strong>Domino Effect (chaining)</strong> — The principle that small individual weaknesses, when combined, can lead to a significant security breach.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is offensive security? What is its goal?</div>
+        <div class="a hidden">Proactively testing systems by attempting to break into them, with the goal of finding weaknesses before real attackers can exploit them.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does "hacking" mean in the context of this room?</div>
+        <div class="a hidden">Penetration testing — an ethical, legal, and structured method for identifying vulnerabilities within a defined scope, with authorisation.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a vulnerability?</div>
+        <div class="a hidden">A weakness or flaw in a system, application, or configuration that an attacker could abuse.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between a vulnerability and an exploit?</div>
+        <div class="a hidden">A vulnerability is the weakness. An exploit is the technique used to take advantage of that weakness.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is enumeration?</div>
+        <div class="a hidden">Systematically collecting details about a target (directories, services, users) to identify weak points before attempting to exploit anything.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is scope in a penetration test?</div>
+        <div class="a hidden">The exact systems and actions allowed during the engagement. Defines what is permitted and what is off-limits. Going outside scope is unauthorised access.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does GoBuster do? What is its main use?</div>
+        <div class="a hidden">It discovers hidden directories and files on web servers by trying words from a wordlist as URL paths. Used during enumeration to find pages not linked from the main site.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the -w flag mean in a GoBuster command?</div>
+        <div class="a hidden">It specifies the wordlist file GoBuster uses to guess directory and file names.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What HTTP status code indicates a page was successfully found by GoBuster?</div>
+        <div class="a hidden">200 OK — the page exists and is accessible. GoBuster flags any response that is not 404 (Not Found).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a dictionary attack?</div>
+        <div class="a hidden">Trying a predefined wordlist of common passwords against a login system until one succeeds. Faster than full brute-force because it focuses on likely passwords.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does Hydra do? What does the -l flag mean?</div>
+        <div class="a hidden">Hydra automates login attempts (dictionary / brute-force attack). The -l flag sets a single username to test (lowercase = single, uppercase -L = usernames from a file).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does F=incorrect mean in a Hydra http-post-form command?</div>
+        <div class="a hidden">It tells Hydra how to detect a failed login — if the response contains the word "incorrect", that attempt failed. When this string is absent, Hydra knows the login succeeded.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Why is chaining weaknesses dangerous?</div>
+        <div class="a hidden">A single weakness may be low-risk alone. But combined with other weaknesses, it creates a chain reaction — like dominos. A hidden page + a weak password = full admin compromise.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name the 5 steps of the attack chain demonstrated in this room.</div>
+        <div class="a hidden">1) Recon (browse the site) → 2) Enumeration (GoBuster finds /login) → 3) Vulnerability identified (weak password) → 4) Exploit (Hydra dictionary attack) → 5) Impact (admin access gained).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Name three career roles in offensive security.</div>
+        <div class="a hidden">Penetration Tester / Ethical Hacker, Vulnerability Researcher, Red Team Operator.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

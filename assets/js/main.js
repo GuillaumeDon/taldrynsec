@@ -265,6 +265,15 @@ const NOTES = [
   topic: "crypto",
   date: "Apr 20, 2026"
 },
+{
+  slug: "become-a-hacker",
+  title: "Become a Hacker",
+  desc: "Offensive security mindset, core terminology, GoBuster directory enumeration, and Hydra dictionary attacks.",
+  tag: "Attacks and Defenses",
+  source: "tryhackme",
+  topic: "red-team",
+  date: "Apr 21, 2026"
+},
 
   // {
   //   slug: "filename-without-html",
