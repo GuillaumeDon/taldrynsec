@@ -301,6 +301,15 @@ const NOTES = [
   topic: "linux",
   date: "Apr 21, 2026"
 },
+{
+  slug: "linux-fundamentals-2",
+  title: "Linux Fundamentals Part 2",
+  desc: "SSH login, flags & switches, touch/mkdir/cp/mv/rm/file, permissions (rwx/numeric), su, and key directories (/etc, /var, /root, /tmp).",
+  tag: "Linux Fundamentals",
+  source: "tryhackme",
+  topic: "linux",
+  date: "Apr 21, 2026"
+},
 
   // {
   //   slug: "filename-without-html",

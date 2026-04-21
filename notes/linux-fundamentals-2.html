@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux Fundamentals Part 2 — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Terminal */
+    .terminal { background:#0d1117; border:1px solid #30363d; border-radius:8px; margin:0.8rem 0; overflow:hidden; }
+    .terminal-bar { background:#161b22; padding:0.4rem 0.8rem; display:flex; gap:6px; align-items:center; }
+    .terminal-bar span { font-family:var(--font-display); font-size:0.6rem; color:#8b949e; margin-left:auto; }
+    .t-dot { width:10px; height:10px; border-radius:50%; }
+    .terminal-body { padding:0.8rem 1rem; font-family:var(--font-display); font-size:0.7rem; line-height:1.9; }
+    .tb-prompt { color:#3fb950; }
+    .tb-cmd    { color:#e6edf3; }
+    .tb-out    { color:#8b949e; }
+    .tb-path   { color:#79c0ff; }
+    .tb-flag   { color:#ffa657; }
+    .tb-perm   { color:#d2a8ff; }
+
+    /* Command table */
+    .cmd-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .cmd-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 0.9rem; border-bottom:1px solid var(--border); text-align:left; background:rgba(0,229,160,0.07); color:var(--accent); }
+    .cmd-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.7rem; }
+    .cmd-table td:first-child { font-family:var(--font-display); font-weight:700; color:var(--accent2); font-size:0.72rem; min-width:100px; }
+    .cmd-table td:nth-child(2) { color:var(--text-dim); min-width:120px; }
+    .cmd-table td:nth-child(3) { color:var(--text-muted); }
+    .cmd-table tr:last-child td { border-bottom:none; }
+    .cmd-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* Permissions grid */
+    .perm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .perm-grid { grid-template-columns:1fr; } }
+    .perm-card { background:var(--bg-deep); border-radius:8px; padding:0.9rem; border:1px solid var(--border); text-align:center; }
+    .perm-card .perm-group { font-family:var(--font-display); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem; color:var(--text-dim); }
+    .perm-card .perm-val { font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:0.2rem; }
+    .perm-card p { font-size:0.68rem; color:var(--text-dim); margin:0; }
+    .pc-owner { border-color:rgba(0,229,160,0.3);  } .pc-owner .perm-val { color:var(--accent); }
+    .pc-group { border-color:rgba(0,180,216,0.3);  } .pc-group .perm-val { color:var(--accent2); }
+    .pc-other { border-color:rgba(244,114,182,0.3); } .pc-other .perm-val { color:var(--accent3); }
+
+    /* Permissions numeric table */
+    .perm-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .perm-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 0.9rem; border-bottom:1px solid var(--border); text-align:left; background:rgba(210,168,255,0.07); color:#d2a8ff; }
+    .perm-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-family:var(--font-display); font-size:0.7rem; }
+    .perm-table td:first-child { color:#d2a8ff; font-weight:700; font-size:0.82rem; text-align:center; min-width:60px; }
+    .perm-table td:nth-child(2) { color:var(--accent4); }
+    .perm-table td:nth-child(3) { color:var(--text-muted); }
+    .perm-table tr:last-child td { border-bottom:none; }
+
+    /* Common directories */
+    .dir-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin:1rem 0; }
+    @media(max-width:600px){ .dir-grid { grid-template-columns:1fr; } }
+    .dir-card { background:var(--bg-deep); border-radius:8px; padding:0.9rem 1rem; border:1px solid var(--border); }
+    .dir-card .dir-path { font-family:var(--font-display); font-size:0.82rem; font-weight:700; margin-bottom:0.3rem; }
+    .dir-card p { font-size:0.7rem; color:var(--text-dim); margin:0 0 0.3rem; line-height:1.5; }
+    .dir-card .dir-contents { font-family:var(--font-display); font-size:0.65rem; color:var(--accent4); }
+    .dc-etc  { border-color:rgba(248,81,73,0.3);   } .dc-etc  .dir-path { color:#f85149; }
+    .dc-var  { border-color:rgba(255,166,87,0.3);  } .dc-var  .dir-path { color:#ffa657; }
+    .dc-root { border-color:rgba(251,191,36,0.3);  } .dc-root .dir-path { color:var(--accent4); }
+    .dc-tmp  { border-color:rgba(0,229,160,0.3);   } .dc-tmp  .dir-path { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Linux Fundamentals</div>
+      <h1>Linux Fundamentals Part 2</h1>
+      <p>SSH login, flags & switches, file management (touch/mkdir/cp/mv/rm), permissions 101, and key Linux directories.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Linux</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Cyber Security 101</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 2 — SSH -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Accessing Linux via SSH</div>
+      <h2>What Is SSH?</h2>
+      <p><strong>SSH (Secure Shell)</strong> is a protocol that allows you to remotely log in to and control the terminal of another machine over a network. Any data sent is encrypted in transit — making it safe to use over the internet.</p>
+      <p>SSH is the standard way to administer Linux servers, connect to CTF machines, and interact with cloud instances. It requires two things:</p>
+      <ul>
+        <li>The <strong>IP address</strong> of the remote machine</li>
+        <li><strong>Valid credentials</strong> — username and password (or a key)</li>
+      </ul>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>SSH syntax</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">user@local:~$</span> <span class="tb-cmd">ssh <span class="tb-flag">tryhackme</span>@<span class="tb-path">MACHINE_IP</span></span></div>
+          <div><span class="tb-out">The authenticity of host can't be established. Are you sure you want to continue? yes</span></div>
+          <div><span class="tb-out">tryhackme@MACHINE_IP's password: (type password — no text shown)</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-out">← now on the remote machine</span></div>
+        </div>
+      </div>
+
+      <p><strong>Note:</strong> when typing a password in SSH, no text or symbols appear — this is normal. Just type the password and press Enter.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>SSH syntax: <code>ssh username@IP_ADDRESS</code>. All commands you run after connecting execute on the <strong>remote machine</strong>, not your local one. SSH is used in virtually every real-world Linux administration and pentesting scenario.</p>
+      </div>
+    </div>
+
+    <!-- TASK 3 — FLAGS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Flags & Switches</div>
+      <h2>Extending Command Behaviour</h2>
+      <p>Most Linux commands allow arguments called <strong>flags</strong> or <strong>switches</strong> — identified by a hyphen and a keyword. They modify how a command behaves without changing what it does fundamentally.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>ls flags</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">ls</span></div>
+          <div><span class="tb-out">folder1</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">ls <span class="tb-flag">-a</span></span></div>
+          <div><span class="tb-out">.hiddenFolder &nbsp; folder1</span></div>
+        </div>
+      </div>
+
+      <p>The <code>-a</code> flag (short for <code>--all</code>) reveals hidden files and folders — those starting with a dot (<code>.</code>). Without it, <code>ls</code> ignores them by default.</p>
+
+      <h3>Getting Help — --help and man</h3>
+      <p>Commands that accept flags usually have a <code>--help</code> option listing all available flags with brief descriptions. For deeper documentation, use the <strong>man page</strong>:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>help & man</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">ls <span class="tb-flag">--help</span></span></div>
+          <div><span class="tb-out">Usage: ls [OPTION]... [FILE]...</span></div>
+          <div><span class="tb-out">  -a, --all    do not ignore entries starting with .</span></div>
+          <div><span class="tb-out">  -h, --human-readable    print sizes in human readable format</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">man ls</span></div>
+          <div><span class="tb-out">LS(1)    User Commands    LS(1)</span></div>
+          <div><span class="tb-out">NAME: ls — list directory contents</span></div>
+          <div><span class="tb-out">(press q to quit)</span></div>
+        </div>
+      </div>
+
+      <p>Navigate man pages with the <strong>arrow keys</strong>. Press <code>q</code> to quit. The flag <code>--human-readable</code> (<code>-h</code>) displays file sizes in KB/MB/GB format instead of raw bytes.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>When stuck: <code>command --help</code> for a quick list, <code>man command</code> for full documentation. <code>ls -a</code> shows hidden files. Hidden files start with a dot — critical in CTFs and security audits where config files are often hidden.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — FILESYSTEM CONTINUED -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Filesystem Interaction Continued</div>
+      <h2>Creating, Moving, Copying, Removing</h2>
+
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Full Name</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>touch</td><td>touch</td><td>Create a new empty file</td></tr>
+          <tr><td>mkdir</td><td>make directory</td><td>Create a new folder</td></tr>
+          <tr><td>cp</td><td>copy</td><td>Copy a file or folder</td></tr>
+          <tr><td>mv</td><td>move</td><td>Move or rename a file or folder</td></tr>
+          <tr><td>rm</td><td>remove</td><td>Delete a file or folder</td></tr>
+          <tr><td>file</td><td>file</td><td>Determine the type of a file</td></tr>
+        </tbody>
+      </table>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>File management</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">touch note</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">mkdir mydirectory</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">cp note note2</span></div>
+          <div><span class="tb-out">folder1 note note2</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">mv note2 note3</span></div>
+          <div><span class="tb-out">folder1 note note3</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">rm note</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">rm <span class="tb-flag">-R</span> mydirectory</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">file note3</span></div>
+          <div><span class="tb-out">note3: ASCII text</span></div>
+        </div>
+      </div>
+
+      <ul>
+        <li><code>rm -R &lt;directory&gt;</code> — the <code>-R</code> flag is required to remove a directory (recursive delete)</li>
+        <li><code>mv</code> can <strong>rename</strong> a file: <code>mv oldname newname</code> (same directory = rename)</li>
+        <li><code>file</code> determines file type from its contents — not its extension. Useful when extensions have been changed or stripped</li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><code>touch</code> creates, <code>mkdir</code> makes folders, <code>cp</code> copies, <code>mv</code> moves/renames, <code>rm</code> deletes (<code>rm -R</code> for directories), <code>file</code> identifies type. These 6 commands handle all file operations in Linux.</p>
+      </div>
+    </div>
+
+    <!-- TASK 5 — PERMISSIONS -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Permissions 101</div>
+      <h2>Who Can Read, Write, Execute?</h2>
+      <p>Linux is multi-user. Every file and directory has a set of permissions that controls what each user can do with it. Run <code>ls -l</code> to see permissions.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>ls -l permissions output</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">ls <span class="tb-flag">-l</span></span></div>
+          <div><span class="tb-perm">-rwxr-xr--</span> <span class="tb-out">1 cmnatic cmnatic 0 Feb 19 10:37 file1</span></div>
+          <div><span class="tb-perm">-rw-r--r--</span> <span class="tb-out">1 cmnatic cmnatic 0 Feb 19 10:37 file2</span></div>
+        </div>
+      </div>
+
+      <h3>Permissions Are Split Into 3 Groups</h3>
+      <div class="perm-grid">
+        <div class="perm-card pc-owner">
+          <div class="perm-group">First 3 bits</div>
+          <div class="perm-val">rwx</div>
+          <p>Owner — the user who owns the file. Has the most control.</p>
+        </div>
+        <div class="perm-card pc-group">
+          <div class="perm-group">Next 3 bits</div>
+          <div class="perm-val">r-x</div>
+          <p>Group — users in the assigned group. Shared access.</p>
+        </div>
+        <div class="perm-card pc-other">
+          <div class="perm-group">Last 3 bits</div>
+          <div class="perm-val">r--</div>
+          <p>Others — everyone else on the system.</p>
+        </div>
+      </div>
+
+      <p>Each group has 3 bits: <strong>r</strong> (read=4), <strong>w</strong> (write=2), <strong>x</strong> (execute=1). A dash <code>-</code> means that permission is not granted.</p>
+
+      <h3>Numeric (Octal) Permissions</h3>
+      <p>Permissions are often written as numbers. Add the values of granted permissions per group:</p>
+
+      <table class="perm-table">
+        <thead><tr><th>Symbol</th><th>Numeric</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>rwx</td><td>7</td><td>Read (4) + Write (2) + Execute (1) — full control</td></tr>
+          <tr><td>rw-</td><td>6</td><td>Read (4) + Write (2) — read and edit, no execute</td></tr>
+          <tr><td>r-x</td><td>5</td><td>Read (4) + Execute (1) — read and run, no write</td></tr>
+          <tr><td>r--</td><td>4</td><td>Read only</td></tr>
+          <tr><td>---</td><td>0</td><td>No permissions at all</td></tr>
+        </tbody>
+      </table>
+
+      <p>Example: <code>rwxr-xr--</code> = Owner:7, Group:5, Others:4 → <strong>754</strong></p>
+      <p>Common patterns: <code>777</code> (everyone can do everything — dangerous), <code>755</code> (owner full, others read+execute), <code>644</code> (owner read+write, others read only).</p>
+
+      <h3>Switching Users — su</h3>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>su — switch user</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">su <span class="tb-flag">user2</span></span></div>
+          <div><span class="tb-out">Password: ****</span></div>
+          <div><span class="tb-prompt">user2@linux2:/home/tryhackme$</span></div>
+          <div><span class="tb-prompt">tryhackme@linux2:~$</span> <span class="tb-cmd">su <span class="tb-flag">-l</span> user2</span></div>
+          <div><span class="tb-prompt">user2@linux2:~$</span> <span class="tb-out">← -l inherits user2's home and environment</span></div>
+        </div>
+      </div>
+
+      <p>The <code>-l</code> switch makes the shell behave as if the user logged in directly — inheriting their environment variables and landing in their home directory.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Permissions = <strong>rwx for Owner / Group / Others</strong>. Read=4, Write=2, Execute=1. Add them: rwx=7, rw-=6, r-x=5, r--=4. <code>ls -l</code> shows permissions. <code>su username</code> switches user. <code>su -l username</code> fully inherits their session. Understanding permissions is essential for privilege escalation in CTFs.</p>
+      </div>
+    </div>
+
+    <!-- TASK 6 — COMMON DIRECTORIES -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">05 — Common Directories</div>
+      <h2>Key Linux Filesystem Locations</h2>
+      <p>Linux has a standardised directory structure. These 4 directories are the most important for security professionals to know.</p>
+
+      <div class="dir-grid">
+        <div class="dir-card dc-etc">
+          <div class="dir-path">/etc</div>
+          <p>Stores system-wide <strong>configuration files</strong>. One of the most important directories on the system. Contains the <code>passwd</code> and <code>shadow</code> files — which store user accounts and hashed passwords.</p>
+          <div class="dir-contents">shadow · passwd · sudoers · sudoers.d</div>
+        </div>
+        <div class="dir-card dc-var">
+          <div class="dir-path">/var</div>
+          <p>Short for <strong>variable data</strong>. Stores data that is frequently written by services and applications — especially <strong>log files</strong> in <code>/var/log</code>. Also contains databases and other non-user-specific data.</p>
+          <div class="dir-contents">backups · log · opt · tmp</div>
+        </div>
+        <div class="dir-card dc-root">
+          <div class="dir-path">/root</div>
+          <p>The home directory of the <strong>root (administrator) user</strong>. Unlike other users whose home is at <code>/home/username</code>, root's home is at <code>/root</code>. Often contains sensitive files in CTFs.</p>
+          <div class="dir-contents">myfile · myfile2 · passwords.xlsx</div>
+        </div>
+        <div class="dir-card dc-tmp">
+          <div class="dir-path">/tmp</div>
+          <p>Short for <strong>temporary</strong>. Volatile — contents are cleared on reboot. <strong>Any user can write here by default</strong>. Pentesters use it to store enumeration scripts and dropped files during an engagement.</p>
+          <div class="dir-contents">todolist · trash.txt · rubbish.bin</div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>/etc</strong> = configs + credentials. <strong>/var/log</strong> = logs. <strong>/root</strong> = root's home. <strong>/tmp</strong> = writable by everyone, cleared on reboot (attacker's staging area). In CTFs and pentests, these 4 directories are always the first places to investigate.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms & Commands</h2>
+      <ul>
+        <li><strong>SSH (Secure Shell)</strong> — Protocol for securely connecting to a remote machine's terminal over a network. Default port: 22.</li>
+        <li><strong>Flag / Switch</strong> — An argument added to a command (e.g. <code>-a</code>, <code>--help</code>) that modifies its behaviour.</li>
+        <li><strong>ls -a</strong> — List all files including hidden ones (files starting with <code>.</code>).</li>
+        <li><strong>ls -l</strong> — Long listing — shows permissions, owner, size, and modification date.</li>
+        <li><strong>man</strong> — Manual pages. <code>man ls</code> opens full documentation for the ls command. Navigate with arrow keys, quit with <code>q</code>.</li>
+        <li><strong>touch</strong> — Create a new empty file.</li>
+        <li><strong>mkdir</strong> — Create a new directory.</li>
+        <li><strong>cp</strong> — Copy a file. <code>cp source destination</code></li>
+        <li><strong>mv</strong> — Move or rename a file. <code>mv oldname newname</code></li>
+        <li><strong>rm</strong> — Remove a file. <code>rm -R directory</code> removes a directory recursively.</li>
+        <li><strong>file</strong> — Determine the type of a file from its contents (not extension).</li>
+        <li><strong>su</strong> — Switch User. <code>su username</code> logs in as another user. <code>su -l username</code> fully inherits their environment.</li>
+        <li><strong>Permissions (rwx)</strong> — r=read(4), w=write(2), x=execute(1). Applied to Owner, Group, and Others separately.</li>
+        <li><strong>chmod</strong> — Change permissions. <code>chmod 755 file</code></li>
+        <li><strong>/etc</strong> — System configuration files. Contains passwd and shadow (password hashes).</li>
+        <li><strong>/var/log</strong> — Log files from services and applications.</li>
+        <li><strong>/root</strong> — Home directory of the root user.</li>
+        <li><strong>/tmp</strong> — Temporary files. World-writable. Cleared on reboot.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What is the SSH command syntax to connect to a remote machine?</div>
+        <div class="a hidden">ssh username@IP_ADDRESS — Example: ssh tryhackme@10.10.243.83</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is a flag/switch in Linux commands?</div>
+        <div class="a hidden">An argument starting with a hyphen (e.g. -a, --help) that modifies a command's behaviour without changing what it fundamentally does.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What flag makes ls show hidden files?</div>
+        <div class="a hidden">ls -a (short for --all). Hidden files start with a dot (.) and are invisible without this flag.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you open the manual page for a command? How do you exit it?</div>
+        <div class="a hidden">man &lt;command&gt; — Example: man ls. Navigate with arrow keys. Press q to quit.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command creates a new empty file?</div>
+        <div class="a hidden">touch filename — Example: touch note.txt</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you remove a directory in Linux?</div>
+        <div class="a hidden">rm -R directoryname — the -R flag is required for recursive deletion of directories and their contents.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between cp and mv?</div>
+        <div class="a hidden">cp copies the file (original stays). mv moves or renames it (original is gone from the source location).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the file command do?</div>
+        <div class="a hidden">Determines the type of a file based on its contents — not its extension. Useful when extensions are missing, changed, or misleading.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What do the rwx letters mean in Linux permissions?</div>
+        <div class="a hidden">r = read (4), w = write (2), x = execute (1). A dash (-) means that permission is not granted.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Permissions -rwxr-xr-- — what are the numeric values for each group?</div>
+        <div class="a hidden">Owner: rwx = 7 (4+2+1). Group: r-x = 5 (4+0+1). Others: r-- = 4 (4+0+0). Numeric: 754.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does chmod 777 mean? Why is it dangerous?</div>
+        <div class="a hidden">Everyone (owner, group, others) has full read+write+execute permissions. Dangerous because any user on the system can modify or execute the file.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between su user2 and su -l user2?</div>
+        <div class="a hidden">su user2 switches to user2 but keeps the current environment. su -l user2 fully inherits user2's environment, variables, and home directory — as if they just logged in.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is stored in /etc? Why is it important for security?</div>
+        <div class="a hidden">System configuration files. It contains passwd (user accounts) and shadow (hashed passwords) — critical targets during privilege escalation and credential harvesting.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is /tmp and why do attackers use it?</div>
+        <div class="a hidden">The temporary directory — writable by any user by default, cleared on reboot. Attackers use it to upload and stage scripts, exploits, and tools without needing elevated permissions.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">Where are log files stored on a Linux system?</div>
+        <div class="a hidden">/var/log — the variable data directory. Log files from services, applications, and the OS are written here. Essential for incident response and forensics.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
