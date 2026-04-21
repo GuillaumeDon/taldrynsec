@@ -292,6 +292,15 @@ const NOTES = [
   topic: "blue-team",
   date: "Apr 21, 2026"
 },
+{
+  slug: "linux-fundamentals-1",
+  title: "Linux Fundamentals Part 1",
+  desc: "First Linux commands (echo, whoami, ls, cd, cat, pwd), find, grep, and shell operators (&, &&, >, >>).",
+  tag: "Linux Fundamentals",
+  source: "tryhackme",
+  topic: "linux",
+  date: "Apr 21, 2026"
+},
 
   // {
   //   slug: "filename-without-html",

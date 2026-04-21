@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux Fundamentals Part 1 — TaldrynSec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* Command reference table */
+    .cmd-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .cmd-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 0.9rem; border-bottom:1px solid var(--border); text-align:left; background:rgba(0,229,160,0.07); color:var(--accent); }
+    .cmd-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.7rem; }
+    .cmd-table td:first-child { font-family:var(--font-display); font-weight:700; color:var(--accent2); font-size:0.72rem; min-width:120px; }
+    .cmd-table td:nth-child(2) { color:var(--text-muted); }
+    .cmd-table td:nth-child(3) { color:var(--accent4); font-family:var(--font-display); font-size:0.68rem; }
+    .cmd-table tr:last-child td { border-bottom:none; }
+    .cmd-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* Terminal blocks */
+    .terminal { background:#0d1117; border:1px solid #30363d; border-radius:8px; margin:0.8rem 0; overflow:hidden; }
+    .terminal-bar { background:#161b22; padding:0.4rem 0.8rem; display:flex; gap:6px; align-items:center; }
+    .terminal-bar span { font-family:var(--font-display); font-size:0.6rem; color:#8b949e; margin-left:auto; }
+    .t-dot { width:10px; height:10px; border-radius:50%; }
+    .terminal-body { padding:0.8rem 1rem; font-family:var(--font-display); font-size:0.7rem; line-height:1.9; }
+    .tb-prompt { color:#3fb950; }
+    .tb-cmd    { color:#e6edf3; }
+    .tb-out    { color:#8b949e; }
+    .tb-path   { color:#79c0ff; }
+    .tb-flag   { color:#ffa657; }
+
+    /* Shell operators table */
+    .op-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.72rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .op-table th { font-family:var(--font-display); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 0.9rem; border-bottom:1px solid var(--border); background:rgba(244,114,182,0.07); color:var(--accent3); text-align:left; }
+    .op-table td { padding:0.45rem 0.9rem; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.7rem; }
+    .op-table td:first-child { font-family:var(--font-display); font-weight:700; color:var(--accent3); font-size:0.82rem; min-width:60px; text-align:center; }
+    .op-table td:nth-child(2) { color:var(--text-muted); }
+    .op-table td:nth-child(3) { font-family:var(--font-display); color:var(--accent4); font-size:0.68rem; }
+    .op-table tr:last-child td { border-bottom:none; }
+    .op-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+    /* Linux distro cards */
+    .distro-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.7rem; margin:1rem 0; }
+    @media(max-width:600px){ .distro-grid { grid-template-columns:1fr; } }
+    .distro-card { background:var(--bg-deep); border-radius:8px; padding:0.8rem; border:1px solid var(--border); text-align:center; }
+    .distro-card h4 { font-family:var(--font-display); font-size:0.78rem; margin-bottom:0.25rem; color:var(--accent); }
+    .distro-card p { font-size:0.68rem; color:var(--text-dim); margin:0; }
+  </style>
+</head>
+<body>
+  <nav class="nav"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div style="font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Linux Fundamentals</div>
+      <h1>Linux Fundamentals Part 1</h1>
+      <p>First Linux commands, filesystem navigation, file search with find & grep, and shell operators.</p>
+      <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Linux</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:var(--accent4);">Cyber Security 101</span>
+        <span style="font-family:var(--font-display);font-size:0.55rem;letter-spacing:0.05em;padding:0.2rem 0.5rem;border-radius:20px;text-transform:uppercase;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent);">Beginner</span>
+      </div>
+    </div>
+
+    <!-- TASK 2 — BACKGROUND -->
+    <div class="fiche-section green">
+      <div class="fiche-num">01 — Background on Linux</div>
+      <h2>Where Is Linux Used?</h2>
+      <p>Linux is considerably more lightweight than Windows and powers a huge range of systems you interact with every day — often without knowing it:</p>
+      <ul>
+        <li>Websites you visit (most web servers run Linux)</li>
+        <li>Car entertainment and control panels</li>
+        <li>Point of Sale (PoS) systems — checkout tills and registers</li>
+        <li>Critical infrastructure — traffic light controllers, industrial sensors</li>
+        <li>Supercomputers, Android devices, smart appliances</li>
+      </ul>
+
+      <h3>Flavours of Linux</h3>
+      <p>Linux is an umbrella term for multiple operating systems based on <strong>UNIX</strong>. Thanks to Linux being open-source, variants come in all shapes and sizes — called <strong>distributions</strong> (distros).</p>
+
+      <div class="distro-grid">
+        <div class="distro-card">
+          <h4>Ubuntu</h4>
+          <p>Most popular desktop/server distro. Extensible — runs as a server or full desktop. Only 512MB RAM needed for Ubuntu Server.</p>
+        </div>
+        <div class="distro-card">
+          <h4>Debian</h4>
+          <p>Stable, widely used base for many other distros including Ubuntu. Known for reliability in server environments.</p>
+        </div>
+        <div class="distro-card">
+          <h4>Kali Linux</h4>
+          <p>Penetration testing focused distro. Comes pre-loaded with security tools. Used in this course for offensive security tasks.</p>
+        </div>
+      </div>
+
+      <p>Linux was first released in <strong>1991</strong> by Linus Torvalds.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p>Linux is everywhere. As a security professional, you will encounter Linux systems constantly — on servers, in CTFs, in cloud environments, and on attack boxes. Being comfortable with Linux is non-negotiable.</p>
+      </div>
+    </div>
+
+    <!-- TASK 4 — FIRST COMMANDS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">02 — Running Your First Commands</div>
+      <h2>The Terminal</h2>
+      <p>Linux is often used without a GUI — interaction happens through the <strong>terminal</strong>. It is purely text-based and intimidating at first, but once you know the commands you become very efficient.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>Terminal</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">enter commands here</span></div>
+        </div>
+      </div>
+
+      <h3>First Two Commands</h3>
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>echo</td><td>Output any text to the terminal</td><td>echo "Hello Friend!"</td></tr>
+          <tr><td>whoami</td><td>Display the username you are currently logged in as</td><td>whoami → tryhackme</td></tr>
+        </tbody>
+      </table>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>echo & whoami</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">echo Hello</span></div>
+          <div><span class="tb-out">Hello</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">echo "Hello Friend!"</span></div>
+          <div><span class="tb-out">Hello Friend!</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">whoami</span></div>
+          <div><span class="tb-out">tryhackme</span></div>
+        </div>
+      </div>
+
+      <p>Use double quotes when the string contains spaces. Single words don't need quotes.</p>
+    </div>
+
+    <!-- TASK 5 — FILESYSTEM -->
+    <div class="fiche-section pink">
+      <div class="fiche-num">03 — Interacting With the Filesystem</div>
+      <h2>Navigation Commands</h2>
+      <p>Navigating the filesystem without a GUI is the core Linux skill. These 4 commands cover everything you need to move around and read files.</p>
+
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Full Name</th><th>What It Does</th></tr></thead>
+        <tbody>
+          <tr><td>ls</td><td>listing</td><td>List files and folders in the current directory</td></tr>
+          <tr><td>cd</td><td>change directory</td><td>Navigate into a directory</td></tr>
+          <tr><td>cat</td><td>concatenate</td><td>Output the contents of a file</td></tr>
+          <tr><td>pwd</td><td>print working directory</td><td>Show your current full path location</td></tr>
+        </tbody>
+      </table>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>Filesystem navigation</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">ls</span></div>
+          <div><span class="tb-out">Important Files &nbsp; My Documents &nbsp; Notes &nbsp; Pictures</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">cd Pictures</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~/Pictures$</span> <span class="tb-cmd">ls</span></div>
+          <div><span class="tb-out">dog_picture1.jpg &nbsp; dog_picture2.jpg &nbsp; dog_picture3.jpg</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~/Pictures$</span> <span class="tb-cmd">pwd</span></div>
+          <div><span class="tb-path">/home/ubuntu/Pictures</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~/Documents$</span> <span class="tb-cmd">cat todo.txt</span></div>
+          <div><span class="tb-out">Here's something important for me to do later!</span></div>
+        </div>
+      </div>
+
+      <h3>Key Tips</h3>
+      <ul>
+        <li><code>ls Pictures</code> — list contents of a directory without navigating into it first</li>
+        <li><code>cat /home/ubuntu/Documents/todo.txt</code> — use a full path to read a file from anywhere</li>
+        <li>Configuration files (usernames, passwords, configs) are often stored within <code>/etc</code></li>
+      </ul>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><strong>ls → cd → cat → pwd</strong>. These four commands are the building blocks of all Linux navigation. You will use them in every CTF, pentest, and sysadmin task. Memorise them completely.</p>
+      </div>
+    </div>
+
+    <!-- TASK 6 — SEARCHING -->
+    <div class="fiche-section green">
+      <div class="fiche-num">04 — Searching for Files</div>
+      <h2>find & grep</h2>
+      <p>As you work with Linux systems, manually browsing every directory to find files or data becomes impractical. <code>find</code> and <code>grep</code> automate this.</p>
+
+      <h3>find — Locate Files by Name</h3>
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>find -name</td><td>Find a file by exact name</td><td>find -name passwords.txt</td></tr>
+          <tr><td>find -name *.ext</td><td>Find all files with a given extension</td><td>find -name *.txt</td></tr>
+        </tbody>
+      </table>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>Using find</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">find <span class="tb-flag">-name</span> passwords.txt</span></div>
+          <div><span class="tb-path">./folder1/passwords.txt</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">find <span class="tb-flag">-name</span> *.txt</span></div>
+          <div><span class="tb-path">./folder1/passwords.txt</span></div>
+          <div><span class="tb-path">./Documents/todo.txt</span></div>
+        </div>
+      </div>
+
+      <h3>grep — Search Inside File Contents</h3>
+      <p><code>grep</code> searches the contents of files for specific values — much more efficient than reading an entire file manually.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>Using grep</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">wc <span class="tb-flag">-l</span> access.log</span></div>
+          <div><span class="tb-out">244 access.log</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">grep <span class="tb-flag">"81.143.211.90"</span> access.log</span></div>
+          <div><span class="tb-out">81.143.211.90 — [25/Mar/2021:11:17 +0000] "GET /HTTP/1.1" 200 417 "—" "Mozilla/5.0 ..."</span></div>
+        </div>
+      </div>
+
+      <h3>Searching Recursively with grep -r</h3>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>grep recursive</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">grep <span class="tb-flag">-r</span> <span class="tb-flag">"PRETTY_NAME"</span> /etc/</span></div>
+          <div><span class="tb-path">/etc/os-release</span><span class="tb-out">:PRETTY_NAME="Ubuntu"</span></div>
+        </div>
+      </div>
+
+      <p>The <code>-r</code> flag makes grep search through all files and subdirectories recursively. The output shows the file path before the matching line — making it easy to locate the result.</p>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><code>find -name "*.txt"</code> locates files. <code>grep "keyword" file</code> searches inside files. <code>grep -r "keyword" /path/</code> searches across all files recursively. These three patterns cover 90% of real-world file searching tasks.</p>
+      </div>
+    </div>
+
+    <!-- TASK 7 — SHELL OPERATORS -->
+    <div class="fiche-section blue">
+      <div class="fiche-num">05 — Shell Operators</div>
+      <h2>Powering Up Commands</h2>
+      <p>Shell operators let you chain commands, redirect output, and run tasks in the background — turning simple commands into powerful workflows.</p>
+
+      <table class="op-table">
+        <thead><tr><th>Operator</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>&amp;</td>
+            <td>Run a command in the <strong>background</strong>. Frees the terminal while the command executes.</td>
+            <td>cp large_file.zip /backup &amp;</td>
+          </tr>
+          <tr>
+            <td>&amp;&amp;</td>
+            <td>Run a second command only if the <strong>first succeeds</strong>. Chain dependent commands.</td>
+            <td>command1 &amp;&amp; command2</td>
+          </tr>
+          <tr>
+            <td>&gt;</td>
+            <td><strong>Redirect output</strong> to a file. <strong>Overwrites</strong> existing content.</td>
+            <td>echo hey &gt; welcome</td>
+          </tr>
+          <tr>
+            <td>&gt;&gt;</td>
+            <td><strong>Append output</strong> to a file. Does not overwrite — adds to the end.</td>
+            <td>echo hello &gt;&gt; welcome</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57;"></div>
+          <div class="t-dot" style="background:#febc2e;"></div>
+          <div class="t-dot" style="background:#28c840;"></div>
+          <span>Shell operators in action</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">echo hey <span class="tb-flag">&gt;</span> welcome</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">cat welcome</span></div>
+          <div><span class="tb-out">hey</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">echo hello <span class="tb-flag">&gt;&gt;</span> welcome</span></div>
+          <div><span class="tb-prompt">tryhackme@linux1:~$</span> <span class="tb-cmd">cat welcome</span></div>
+          <div><span class="tb-out">hey</span></div>
+          <div><span class="tb-out">hello</span></div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="lbl">Key Takeaway</div>
+        <p><code>&gt;</code> overwrites, <code>&gt;&gt;</code> appends. <code>&amp;&amp;</code> chains commands conditionally (second only runs if first succeeds). <code>&amp;</code> backgrounds a process. These operators are fundamental to shell scripting and automation.</p>
+      </div>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="fiche-section green">
+      <div class="fiche-num">Vocabulary</div>
+      <h2>Key Terms & Commands</h2>
+      <ul>
+        <li><strong>Terminal</strong> — The text-based interface for interacting with a Linux system. Also called shell, command line, or CLI.</li>
+        <li><strong>Distribution (distro)</strong> — A variant of Linux. Examples: Ubuntu, Debian, Kali, Arch, CentOS.</li>
+        <li><strong>echo</strong> — Output text to the terminal. <code>echo "Hello"</code></li>
+        <li><strong>whoami</strong> — Display the current logged-in username.</li>
+        <li><strong>ls</strong> — List files and directories in the current location.</li>
+        <li><strong>cd</strong> — Change directory. <code>cd Documents</code> / <code>cd ..</code> (go up one level)</li>
+        <li><strong>cat</strong> — Output the contents of a file to the terminal. <code>cat file.txt</code></li>
+        <li><strong>pwd</strong> — Print Working Directory — shows your current full path.</li>
+        <li><strong>find</strong> — Locate files by name or extension. <code>find -name "*.txt"</code></li>
+        <li><strong>grep</strong> — Search inside file contents for a string. <code>grep "keyword" file.txt</code></li>
+        <li><strong>grep -r</strong> — Recursive grep — searches all files and subdirectories.</li>
+        <li><strong>wc -l</strong> — Word count lines — counts the number of lines in a file.</li>
+        <li><strong>&amp;</strong> — Background operator. Run command without blocking the terminal.</li>
+        <li><strong>&amp;&amp;</strong> — AND operator. Run second command only if first succeeded.</li>
+        <li><strong>&gt;</strong> — Output redirect (overwrite). Sends command output to a file.</li>
+        <li><strong>&gt;&gt;</strong> — Output redirect (append). Adds output to end of existing file.</li>
+        <li><strong>/etc</strong> — Linux directory containing configuration files, often including passwords and system settings.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-section">
+      <h2>Self-Check</h2>
+      <p style="font-size:0.68rem;color:var(--text-muted);margin-bottom:1rem;">Click on an answer to reveal it. Try to answer from memory first!</p>
+
+      <div class="quiz-item">
+        <div class="q">What year was Linux first released?</div>
+        <div class="a hidden">1991, by Linus Torvalds.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command outputs text to the terminal? What command shows the current user?</div>
+        <div class="a hidden">echo "text" outputs text. whoami shows the current logged-in username.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command lists files in the current directory?</div>
+        <div class="a hidden">ls (listing). You can also use ls &lt;directory&gt; to list a specific directory without navigating into it.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What command changes your current directory?</div>
+        <div class="a hidden">cd (change directory). Example: cd Documents. Use cd .. to go up one level.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does cat do? What does pwd do?</div>
+        <div class="a hidden">cat outputs the contents of a file to the terminal. pwd (print working directory) shows your current full path.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you find a file named "passwords.txt" anywhere on the system?</div>
+        <div class="a hidden">find -name passwords.txt — searches from the current directory downward for a file with that exact name.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">How do you find all .txt files on the system?</div>
+        <div class="a hidden">find -name "*.txt" — the asterisk (*) is a wildcard that matches any filename with a .txt extension.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does grep do? Give an example.</div>
+        <div class="a hidden">grep searches inside file contents for a specific string. Example: grep "81.143.211.90" access.log returns only lines containing that IP address.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does grep -r do?</div>
+        <div class="a hidden">Searches recursively — checks every file in the current directory and all subdirectories for the search string. Example: grep -r "PRETTY_NAME" /etc/</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What is the difference between > and >> operators?</div>
+        <div class="a hidden">> redirects output to a file and OVERWRITES existing content. >> redirects output and APPENDS to the end of the file without overwriting.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the && operator do?</div>
+        <div class="a hidden">Chains two commands — the second command only runs if the first succeeds. Example: command1 && command2</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What does the & operator do?</div>
+        <div class="a hidden">Runs a command in the background, freeing the terminal for other commands while the task continues executing.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">If you want to output "TryHackMe" to the terminal, what is the command?</div>
+        <div class="a hidden">echo TryHackMe (no quotes needed for a single word with no spaces).</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">If you want to replace the contents of a file named "passwords" with "password123", what is the command?</div>
+        <div class="a hidden">echo password123 > passwords — the > operator overwrites the file with the new content.</div>
+      </div>
+      <div class="quiz-item">
+        <div class="q">What Linux directory often contains configuration files and system settings?</div>
+        <div class="a hidden">/etc — it stores system-wide configuration files. Often targeted during enumeration for credentials and config details.</div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="site-footer"></footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
